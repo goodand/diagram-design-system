@@ -1,0 +1,34 @@
+{
+ "expected": {
+  "relation_types": [
+   "execution_flow"
+  ],
+  "note": "두 갈래, HTML 요청.",
+  "judge_note": "판정은 JUDGE_CRITERIA.md(독립 설계, DEC-105)를 쓴다. 이 expected는 참고용. Main 개수 상한은 skill 내부 규칙이라 판정에 쓰지 않는다(R1)"
+ },
+ "required_human_decisions": [
+  {
+   "id": "information_amount",
+   "rule": "Agent가 줄이거나 묶거나 나누면 그림을 그린 뒤 Human에게 묻는다(사후 검토, DEC-095·143): 그 구조는 실선으로 그리고 최종 보고에 Agent 결정·검토 대기를 글로 알린다(DEC-133)"
+  }
+ ],
+ "answers_by_topic": {
+  "l0_or_render_feedback": "좋습니다. 진행해 주세요",
+  "output_format": "판단에 맡깁니다",
+  "information_amount": "한 장으로 두고, 두 갈래가 서로 구분되어 보이게 해 주세요",
+  "grouping": "판단에 맡깁니다",
+  "split": "나누지 말고 한 장으로 해 주세요",
+  "exception_branch": "요청에 적은 흐름만 그려 주세요",
+  "entity_insertion": "판단에 맡깁니다",
+  "label_wording": "요청 문구 그대로 써 주세요",
+  "layout": "판단에 맡깁니다",
+  "abstraction_level": "먼저 가장 간단한 것을 보여 주세요",
+  "certainty": "모두 확정된 흐름입니다",
+  "fallback": "판단에 맡깁니다"
+ },
+ "case_id": "GC-4",
+ "frozen_at": "2026-10-04 (before any run)",
+ "answer_author": "Agent as Human proxy (DEC-083), Human may revise",
+ "answer_rule": "Answer only after a question appears; topic chosen by a classifier (LLM fills the slot), answer looked up by rule; if no topic fits use fallback and mark H-PROXY; max 6 turns.",
+ "version": "v2.1 (2026-10-05, 메모·필수 결정 규칙만 DEC-133·141·143에 맞춤, 답 불변)"
+}

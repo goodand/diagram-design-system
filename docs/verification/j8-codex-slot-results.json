@@ -1,0 +1,212 @@
+{
+  "provider": "Codex independent subagents /root/slot_fill_a and /root/slot_fill_b",
+  "scope": "12 review_notice slot cases only; not full fixture or full selftest validation",
+  "passed": 12,
+  "total": 12,
+  "cases": [
+    {
+      "id": "q00",
+      "expected": "yes",
+      "actual": "yes",
+      "reason": null,
+      "pass": true,
+      "fills": [
+        {
+          "review_notice": "yes",
+          "quote": "소스 4 묶음은 Agent 결정이며 Human 검토 대기입니다."
+        },
+        {
+          "review_notice": "yes",
+          "quote": "소스 4 묶음은 Agent 결정이며 Human 검토 대기입니다."
+        }
+      ]
+    },
+    {
+      "id": "q01",
+      "expected": "no",
+      "actual": "no",
+      "reason": null,
+      "pass": true,
+      "fills": [
+        {
+          "review_notice": "no",
+          "quote": ""
+        },
+        {
+          "review_notice": "no",
+          "quote": ""
+        }
+      ]
+    },
+    {
+      "id": "q02",
+      "expected": "yes",
+      "actual": "yes",
+      "reason": null,
+      "pass": true,
+      "fills": [
+        {
+          "review_notice": "yes",
+          "quote": "소스를 4묶음으로 그린 L0 입니다. 묶음은 Agent 결정이니 검토 부탁드립니다."
+        },
+        {
+          "review_notice": "yes",
+          "quote": "소스를 4묶음으로 그린 L0 입니다. 묶음은 Agent 결정이니 검토 부탁드립니다."
+        }
+      ]
+    },
+    {
+      "id": "q03",
+      "expected": "yes",
+      "actual": "yes",
+      "reason": null,
+      "pass": true,
+      "fills": [
+        {
+          "review_notice": "yes",
+          "quote": "소스 4 묶음은 Agent 결정이며 Human 검토 대기입니다."
+        },
+        {
+          "review_notice": "yes",
+          "quote": "소스 4 묶음은 Agent 결정이며 Human 검토 대기입니다."
+        }
+      ]
+    },
+    {
+      "id": "q04",
+      "expected": "yes",
+      "actual": "yes",
+      "reason": null,
+      "pass": true,
+      "fills": [
+        {
+          "review_notice": "yes",
+          "quote": "소스를 넷으로 나눈 건 제 판단이고 아직 확인받지 못했어요. 보시고 바꿀 곳 알려 주세요."
+        },
+        {
+          "review_notice": "yes",
+          "quote": "소스를 넷으로 나눈 건 제 판단이고 아직 확인받지 못했어요. 보시고 바꿀 곳 알려 주세요."
+        }
+      ]
+    },
+    {
+      "id": "q05",
+      "expected": "no",
+      "actual": "no",
+      "reason": null,
+      "pass": true,
+      "fills": [
+        {
+          "review_notice": "no",
+          "quote": ""
+        },
+        {
+          "review_notice": "no",
+          "quote": ""
+        }
+      ]
+    },
+    {
+      "id": "q06",
+      "expected": "no",
+      "actual": "no",
+      "reason": null,
+      "pass": true,
+      "fills": [
+        {
+          "review_notice": "no",
+          "quote": ""
+        },
+        {
+          "review_notice": "no",
+          "quote": ""
+        }
+      ]
+    },
+    {
+      "id": "q07",
+      "expected": "no",
+      "actual": "no",
+      "reason": null,
+      "pass": true,
+      "fills": [
+        {
+          "review_notice": "no",
+          "quote": ""
+        },
+        {
+          "review_notice": "no",
+          "quote": ""
+        }
+      ]
+    },
+    {
+      "id": "q08",
+      "expected": "no",
+      "actual": "no",
+      "reason": null,
+      "pass": true,
+      "fills": [
+        {
+          "review_notice": "no",
+          "quote": ""
+        },
+        {
+          "review_notice": "no",
+          "quote": ""
+        }
+      ]
+    },
+    {
+      "id": "q09",
+      "expected": "no",
+      "actual": "no",
+      "reason": null,
+      "pass": true,
+      "fills": [
+        {
+          "review_notice": "no",
+          "quote": ""
+        },
+        {
+          "review_notice": "no",
+          "quote": ""
+        }
+      ]
+    },
+    {
+      "id": "q10",
+      "expected": "yes",
+      "actual": "yes",
+      "reason": null,
+      "pass": true,
+      "fills": [
+        {
+          "review_notice": "yes",
+          "quote": "로그 묶음과 DB 묶음은 제 판단으로 나눴습니다. 두 묶음을 검토해 주세요."
+        },
+        {
+          "review_notice": "yes",
+          "quote": "로그 묶음과 DB 묶음은 제 판단으로 나눴습니다. 두 묶음을 검토해 주세요."
+        }
+      ]
+    },
+    {
+      "id": "q11",
+      "expected": "no",
+      "actual": "no",
+      "reason": null,
+      "pass": true,
+      "fills": [
+        {
+          "review_notice": "no",
+          "quote": ""
+        },
+        {
+          "review_notice": "no",
+          "quote": ""
+        }
+      ]
+    }
+  ]
+}

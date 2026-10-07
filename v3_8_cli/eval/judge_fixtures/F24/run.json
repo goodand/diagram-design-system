@@ -1,0 +1,20 @@
+{
+ "run_id": "F24",
+ "case": "GC-1",
+ "arm": "fixture",
+ "effort": "-",
+ "model": "-",
+ "rep": 1,
+ "turns": [
+  {
+   "turn": 1,
+   "input": "",
+   "output": "도식을 그렸습니다. /private/tmp/drd-eval/F24/out/F.svg 결제는 실선 테두리 영역으로 묶었습니다.",
+   "cost": 0,
+   "classifier": {
+    "asks_human": false,
+    "topic": null
+   }
+  }
+ ]
+}

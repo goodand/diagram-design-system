@@ -1,0 +1,130 @@
+{
+  "schema": "drd-receipt-v1",
+  "created_at": "2026-10-03T15:43:28.069Z",
+  "ir_source": "/Users/jaehyuntak/Desktop/Project_in_progress/diagram-design-system/v3_8_cli/demo/l0l1/gc3_like.json",
+  "ir_sha256": "585f0dcba28b649ed3b4bfe044203a212a7991560485b5c97570a76631c14bea",
+  "decisions_sha256": null,
+  "options": {
+    "level": 0,
+    "expand": [],
+    "collapse": [],
+    "focus": null
+  },
+  "outputs": {
+    "ir": {
+      "path": "ir.json",
+      "sha256": "585f0dcba28b649ed3b4bfe044203a212a7991560485b5c97570a76631c14bea"
+    },
+    "svg": {
+      "path": "diagram.svg",
+      "sha256": "efcfd5e9c5d68c8a14c7145c924e7324f0002f497ea2e5658e65e039942102bb"
+    },
+    "html": {
+      "path": "diagram.html",
+      "sha256": "d1e88e215a6b137802dbdeefa470dfee4c827d59d7b763756607925974ee71b3"
+    },
+    "png": {
+      "path": "diagram.png",
+      "sha256": "2360a6763dc8aed2d6dbb1bb6f1e36282ab0bb3d5d423cfe879f76b51812e813"
+    }
+  },
+  "png_attempts": [
+    {
+      "tool": "C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe",
+      "ok": false,
+      "err": "ENOENT"
+    },
+    {
+      "tool": "C:/Program Files/Microsoft/Edge/Application/msedge.exe",
+      "ok": false,
+      "err": "ENOENT"
+    },
+    {
+      "tool": "C:/Program Files/Google/Chrome/Application/chrome.exe",
+      "ok": false,
+      "err": "ENOENT"
+    },
+    {
+      "tool": "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+      "ok": true
+    }
+  ],
+  "checks": [
+    {
+      "code": "S2",
+      "state": "CONSISTENT",
+      "evidence": "15 rules checked, no error"
+    },
+    {
+      "code": "S4",
+      "state": "UNKNOWN",
+      "evidence": "4 group(s) pending Human review [g_db,g_log,g_biz,g_api]"
+    },
+    {
+      "code": "S3",
+      "state": "CONSISTENT",
+      "evidence": "Main count within limit"
+    }
+  ],
+  "warnings": [
+    "VB-GROUP-SOURCE"
+  ],
+  "review_pending": [
+    {
+      "group": "g_db",
+      "label": "DB 소스",
+      "members": [
+        "주문 DB",
+        "회원 DB",
+        "재고 DB"
+      ],
+      "candidates": {
+        "A": "candidates/g_db-A.svg",
+        "B": "candidates/g_db-B.svg",
+        "page": "candidates/index.html"
+      }
+    },
+    {
+      "group": "g_log",
+      "label": "로그 소스",
+      "members": [
+        "결제 로그",
+        "배송 로그",
+        "앱 로그",
+        "웹 로그"
+      ],
+      "candidates": {
+        "A": "candidates/g_log-A.svg",
+        "B": "candidates/g_log-B.svg",
+        "page": "candidates/index.html"
+      }
+    },
+    {
+      "group": "g_biz",
+      "label": "업무 시스템",
+      "members": [
+        "CRM",
+        "고객센터 티켓"
+      ],
+      "candidates": {
+        "A": "candidates/g_biz-A.svg",
+        "B": "candidates/g_biz-B.svg",
+        "page": "candidates/index.html"
+      }
+    },
+    {
+      "group": "g_api",
+      "label": "외부 API",
+      "members": [
+        "광고 API",
+        "날씨 API",
+        "환율 API"
+      ],
+      "candidates": {
+        "A": "candidates/g_api-A.svg",
+        "B": "candidates/g_api-B.svg",
+        "page": "candidates/index.html"
+      }
+    }
+  ]
+}

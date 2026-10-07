@@ -1,0 +1,117 @@
+{
+ "w": 1400,
+ "h": 300,
+ "nodes": [
+  {
+   "id": "a",
+   "role": "entity",
+   "label": "주문",
+   "x": 90,
+   "y": 80
+  },
+  {
+   "id": "grp",
+   "role": "process",
+   "label": "결제 묶음",
+   "x": 400,
+   "y": 80,
+   "expandAt": 0,
+   "drawRegion": true,
+   "source": "request"
+  },
+  {
+   "id": "b1",
+   "parent": "grp",
+   "role": "process",
+   "label": "카드 인증",
+   "x": 330,
+   "y": 80
+  },
+  {
+   "id": "b2",
+   "parent": "grp",
+   "role": "process",
+   "label": "승인 요청",
+   "x": 560,
+   "y": 80
+  },
+  {
+   "id": "c",
+   "role": "entity",
+   "label": "영수증",
+   "x": 800,
+   "y": 80
+  },
+  {
+   "id": "grp2",
+   "role": "process",
+   "label": "배송 묶음",
+   "x": 1100,
+   "y": 80,
+   "expandAt": 0,
+   "drawRegion": true,
+   "source": "request"
+  },
+  {
+   "id": "d1",
+   "parent": "grp2",
+   "role": "process",
+   "label": "출고",
+   "x": 1020,
+   "y": 80
+  },
+  {
+   "id": "d2",
+   "parent": "grp2",
+   "role": "process",
+   "label": "배송 추적",
+   "x": 1240,
+   "y": 80
+  },
+  {
+   "id": "e",
+   "role": "entity",
+   "label": "반품",
+   "x": 1240,
+   "y": 220
+  }
+ ],
+ "edges": [
+  {
+   "from": "a",
+   "to": "b1",
+   "meaning": "execution_flow",
+   "certainty": "solid"
+  },
+  {
+   "from": "b1",
+   "to": "b2",
+   "meaning": "execution_flow",
+   "certainty": "solid"
+  },
+  {
+   "from": "b2",
+   "to": "c",
+   "meaning": "execution_flow",
+   "certainty": "solid"
+  },
+  {
+   "from": "c",
+   "to": "d1",
+   "meaning": "execution_flow",
+   "certainty": "solid"
+  },
+  {
+   "from": "d1",
+   "to": "d2",
+   "meaning": "execution_flow",
+   "certainty": "solid"
+  },
+  {
+   "from": "d2",
+   "to": "e",
+   "meaning": "execution_flow",
+   "certainty": "dashed"
+  }
+ ]
+}

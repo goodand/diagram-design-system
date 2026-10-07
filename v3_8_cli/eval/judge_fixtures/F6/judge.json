@@ -1,0 +1,112 @@
+{
+ "run_id": "F6",
+ "verdict": "FAIL",
+ "items": [
+  {
+   "code": "V0",
+   "verdict": "PASS",
+   "evidence": "answers=0, all topics in prereg"
+  },
+  {
+   "code": "J1",
+   "verdict": "PASS",
+   "evidence": "F=out/F (named in final message (turn 1)); extract=F.html; visible text nodes=20"
+  },
+  {
+   "code": "J2",
+   "verdict": "PASS",
+   "evidence": "all 16 required labels visible"
+  },
+  {
+   "code": "J3",
+   "verdict": "PASS",
+   "evidence": "all 15 required edges present, 0 reverse"
+  },
+  {
+   "code": "J4",
+   "verdict": "PASS",
+   "evidence": "15 edges, all with arrowhead"
+  },
+  {
+   "code": "J5",
+   "verdict": "PASS",
+   "evidence": "P shapes=['rect'] E shapes=['rect']"
+  },
+  {
+   "code": "J6",
+   "verdict": "PASS",
+   "evidence": "no node fill, palette ok"
+  },
+  {
+   "code": "J7",
+   "verdict": "PASS",
+   "evidence": "4 region(s), label only (border style recorded in RS)"
+  },
+  {
+   "code": "J8",
+   "verdict": "FAIL",
+   "evidence": "F kind1 'DB 묶음' -> FAIL (no question answered, review pending not stated in text); F kind1 '로그 묶음' -> FAIL (no question answered, review pending not stated in text); F kind1 '업무 시스템 묶음' -> FAIL (no question answered, review pending not stated in text); F kind1 '외부 API 묶음' -> FAIL (no question answered, review pending not stated in text)"
+  },
+  {
+   "code": "J9",
+   "verdict": "PASS",
+   "evidence": "no question was asked"
+  },
+  {
+   "code": "J10",
+   "verdict": "FAIL",
+   "evidence": "no picture was shown to Human before the final turn (1)"
+  },
+  {
+   "code": "J11",
+   "verdict": "PASS",
+   "evidence": "0 claim(s) verified"
+  },
+  {
+   "code": "J12",
+   "verdict": "NA",
+   "evidence": "no picture was approved by Human before F"
+  },
+  {
+   "code": "J13",
+   "verdict": "PASS",
+   "evidence": "no semantic-consistency table in the final message (not a FAIL, DEC-142)",
+   "warnings": [
+    "W-NOSEMTABLE"
+   ]
+  }
+ ],
+ "warnings": [
+  "J13:W-NOSEMTABLE"
+ ],
+ "rs": [
+  {
+   "kind": "region",
+   "label": "DB 묶음",
+   "source": "과제 요청문",
+   "source_undecided": "no",
+   "dash26": false
+  },
+  {
+   "kind": "region",
+   "label": "로그 묶음",
+   "source": "과제 요청문",
+   "source_undecided": "no",
+   "dash26": false
+  },
+  {
+   "kind": "region",
+   "label": "외부 API 묶음",
+   "source": "과제 요청문",
+   "source_undecided": "no",
+   "dash26": false
+  },
+  {
+   "kind": "region",
+   "label": "업무 시스템 묶음",
+   "source": "과제 요청문",
+   "source_undecided": "no",
+   "dash26": false
+  }
+ ]
+}

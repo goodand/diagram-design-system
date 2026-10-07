@@ -1,0 +1,20 @@
+{
+ "run_id": "F34",
+ "case": "GC-3",
+ "arm": "fixture",
+ "effort": "-",
+ "model": "-",
+ "rep": 1,
+ "turns": [
+  {
+   "turn": 1,
+   "input": "",
+   "output": "DB류 묶음은 제가 임의로 정했으니 확인 부탁드립니다. /private/tmp/drd-eval/F34/out/F.html",
+   "cost": 0,
+   "classifier": {
+    "asks_human": false,
+    "topic": null
+   }
+  }
+ ]
+}

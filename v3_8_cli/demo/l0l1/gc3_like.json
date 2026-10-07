@@ -1,0 +1,286 @@
+{
+ "w": 1300,
+ "h": 940,
+ "nodes": [
+  {
+   "id": "g_db",
+   "role": "entity",
+   "label": "DB 소스",
+   "x": 150,
+   "y": 120.0,
+   "expandAt": 1,
+   "drawRegion": true,
+   "source": "agent"
+  },
+  {
+   "id": "g_db_0",
+   "parent": "g_db",
+   "role": "entity",
+   "label": "주문 DB",
+   "x": 150,
+   "y": 60
+  },
+  {
+   "id": "g_db_1",
+   "parent": "g_db",
+   "role": "entity",
+   "label": "회원 DB",
+   "x": 150,
+   "y": 120
+  },
+  {
+   "id": "g_db_2",
+   "parent": "g_db",
+   "role": "entity",
+   "label": "재고 DB",
+   "x": 150,
+   "y": 180
+  },
+  {
+   "id": "g_log",
+   "role": "entity",
+   "label": "로그 소스",
+   "x": 150,
+   "y": 370.0,
+   "expandAt": 1,
+   "drawRegion": true,
+   "source": "agent"
+  },
+  {
+   "id": "g_log_0",
+   "parent": "g_log",
+   "role": "entity",
+   "label": "결제 로그",
+   "x": 150,
+   "y": 280
+  },
+  {
+   "id": "g_log_1",
+   "parent": "g_log",
+   "role": "entity",
+   "label": "배송 로그",
+   "x": 150,
+   "y": 340
+  },
+  {
+   "id": "g_log_2",
+   "parent": "g_log",
+   "role": "entity",
+   "label": "앱 로그",
+   "x": 150,
+   "y": 400
+  },
+  {
+   "id": "g_log_3",
+   "parent": "g_log",
+   "role": "entity",
+   "label": "웹 로그",
+   "x": 150,
+   "y": 460
+  },
+  {
+   "id": "g_biz",
+   "role": "entity",
+   "label": "업무 시스템",
+   "x": 150,
+   "y": 590.0,
+   "expandAt": 1,
+   "drawRegion": true,
+   "source": "agent"
+  },
+  {
+   "id": "g_biz_0",
+   "parent": "g_biz",
+   "role": "entity",
+   "label": "CRM",
+   "x": 150,
+   "y": 560
+  },
+  {
+   "id": "g_biz_1",
+   "parent": "g_biz",
+   "role": "entity",
+   "label": "고객센터 티켓",
+   "x": 150,
+   "y": 620
+  },
+  {
+   "id": "g_api",
+   "role": "entity",
+   "label": "외부 API",
+   "x": 150,
+   "y": 780.0,
+   "expandAt": 1,
+   "drawRegion": true,
+   "source": "agent"
+  },
+  {
+   "id": "g_api_0",
+   "parent": "g_api",
+   "role": "entity",
+   "label": "광고 API",
+   "x": 150,
+   "y": 720
+  },
+  {
+   "id": "g_api_1",
+   "parent": "g_api",
+   "role": "entity",
+   "label": "날씨 API",
+   "x": 150,
+   "y": 780
+  },
+  {
+   "id": "g_api_2",
+   "parent": "g_api",
+   "role": "entity",
+   "label": "환율 API",
+   "x": 150,
+   "y": 840
+  },
+  {
+   "id": "collect",
+   "role": "process",
+   "label": "수집",
+   "x": 460,
+   "y": 450.0
+  },
+  {
+   "id": "clean",
+   "role": "process",
+   "label": "정제",
+   "x": 700,
+   "y": 450.0
+  },
+  {
+   "id": "load",
+   "role": "process",
+   "label": "적재",
+   "x": 940,
+   "y": 450.0
+  },
+  {
+   "id": "dash",
+   "role": "entity",
+   "label": "대시보드",
+   "x": 1180,
+   "y": 450.0
+  }
+ ],
+ "edges": [
+  {
+   "from": "g_db_0",
+   "to": "collect",
+   "meaning": "execution_flow",
+   "certainty": "solid",
+   "route": "hvh",
+   "busX": 330
+  },
+  {
+   "from": "g_db_1",
+   "to": "collect",
+   "meaning": "execution_flow",
+   "certainty": "solid",
+   "route": "hvh",
+   "busX": 330
+  },
+  {
+   "from": "g_db_2",
+   "to": "collect",
+   "meaning": "execution_flow",
+   "certainty": "solid",
+   "route": "hvh",
+   "busX": 330
+  },
+  {
+   "from": "g_log_0",
+   "to": "collect",
+   "meaning": "execution_flow",
+   "certainty": "solid",
+   "route": "hvh",
+   "busX": 330
+  },
+  {
+   "from": "g_log_1",
+   "to": "collect",
+   "meaning": "execution_flow",
+   "certainty": "solid",
+   "route": "hvh",
+   "busX": 330
+  },
+  {
+   "from": "g_log_2",
+   "to": "collect",
+   "meaning": "execution_flow",
+   "certainty": "solid",
+   "route": "hvh",
+   "busX": 330
+  },
+  {
+   "from": "g_log_3",
+   "to": "collect",
+   "meaning": "execution_flow",
+   "certainty": "solid",
+   "route": "hvh",
+   "busX": 330
+  },
+  {
+   "from": "g_biz_0",
+   "to": "collect",
+   "meaning": "execution_flow",
+   "certainty": "solid",
+   "route": "hvh",
+   "busX": 330
+  },
+  {
+   "from": "g_biz_1",
+   "to": "collect",
+   "meaning": "execution_flow",
+   "certainty": "solid",
+   "route": "hvh",
+   "busX": 330
+  },
+  {
+   "from": "g_api_0",
+   "to": "collect",
+   "meaning": "execution_flow",
+   "certainty": "solid",
+   "route": "hvh",
+   "busX": 330
+  },
+  {
+   "from": "g_api_1",
+   "to": "collect",
+   "meaning": "execution_flow",
+   "certainty": "solid",
+   "route": "hvh",
+   "busX": 330
+  },
+  {
+   "from": "g_api_2",
+   "to": "collect",
+   "meaning": "execution_flow",
+   "certainty": "solid",
+   "route": "hvh",
+   "busX": 330
+  },
+  {
+   "from": "collect",
+   "to": "clean",
+   "meaning": "execution_flow",
+   "certainty": "solid"
+  },
+  {
+   "from": "clean",
+   "to": "load",
+   "meaning": "execution_flow",
+   "certainty": "solid"
+  },
+  {
+   "from": "load",
+   "to": "dash",
+   "meaning": "execution_flow",
+   "certainty": "solid"
+  }
+ ]
+}

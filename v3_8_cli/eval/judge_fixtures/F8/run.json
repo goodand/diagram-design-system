@@ -1,0 +1,32 @@
+{
+ "run_id": "F8",
+ "case": "GC-3",
+ "arm": "fixture",
+ "effort": "-",
+ "model": "-",
+ "rep": 1,
+ "turns": [
+  {
+   "turn": 1,
+   "input": "",
+   "output": "소스를 4묶음으로 그린 L0 입니다. /private/tmp/drd-eval/F8/out/S1.html 이대로 진행할까요?",
+   "cost": 0,
+   "classifier": {
+    "asks_human": true,
+    "topic": "l0_or_render_feedback"
+   },
+   "answer": "좋습니다. 진행해 주세요",
+   "answer_topic": "l0_or_render_feedback"
+  },
+  {
+   "turn": 2,
+   "input": "",
+   "output": "최종 도식입니다. /private/tmp/drd-eval/F8/out/F.html",
+   "cost": 0,
+   "classifier": {
+    "asks_human": false,
+    "topic": null
+   }
+  }
+ ]
+}

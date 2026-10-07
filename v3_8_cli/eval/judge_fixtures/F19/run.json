@@ -1,0 +1,20 @@
+{
+ "run_id": "F19",
+ "case": "GC-3",
+ "arm": "fixture",
+ "effort": "-",
+ "model": "-",
+ "rep": 1,
+ "turns": [
+  {
+   "turn": 1,
+   "input": "",
+   "output": "소스 4 묶음은 Agent 결정이며 Human 검토 대기입니다. /private/tmp/drd-eval/F19/out/F.html",
+   "cost": 0,
+   "classifier": {
+    "asks_human": false,
+    "topic": null
+   }
+  }
+ ]
+}

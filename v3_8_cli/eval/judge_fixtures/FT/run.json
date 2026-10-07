@@ -1,0 +1,20 @@
+{
+ "run_id": "FT",
+ "case": "GC-4",
+ "arm": "fixture",
+ "effort": "-",
+ "model": "-",
+ "rep": 1,
+ "turns": [
+  {
+   "turn": 1,
+   "input": "",
+   "output": "노드에 마우스를 올리면 hover 로 나머지 노드가 흐려집니다. /private/tmp/drd-eval/FT/out/F.html",
+   "cost": 0,
+   "classifier": {
+    "asks_human": false,
+    "topic": null
+   }
+  }
+ ]
+}

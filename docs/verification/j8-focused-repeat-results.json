@@ -1,0 +1,1325 @@
+{
+  "scope": "F7/F8/F19 J8 logic with actual transcript text and embedded static SVG; not browser validation or full selftest",
+  "provider": "Six fresh Codex subagents, independent pair per repetition; blinded to expected answers",
+  "limitations": [
+    "Three repeats do not establish universal stability",
+    "Original Haiku nondeterminism cannot be remeasured because Claude is unavailable",
+    "Repeated identical prompts within one fixture replay reuse that repetition's pair"
+  ],
+  "results": [
+    {
+      "repeat": 1,
+      "fixture": "F7",
+      "item": {
+        "code": "J8",
+        "verdict": "PASS",
+        "evidence": "F kind1 'DB 묶음' -> PASS ((c) review_notice yes 2/2 in message of turn 1); F kind1 '로그 묶음' -> PASS ((c) review_notice yes 2/2 in message of turn 1); F kind1 '업무 시스템 묶음' -> PASS ((c) review_notice yes 2/2 in message of turn 1); F kind1 '외부 API 묶음' -> PASS ((c) review_notice yes 2/2 in message of turn 1)"
+      },
+      "expected": "PASS",
+      "slot_call_counts": {
+        "q00": 2,
+        "q01": 2,
+        "q02": 2,
+        "q04": 2,
+        "q03": 2
+      }
+    },
+    {
+      "repeat": 1,
+      "fixture": "F8",
+      "item": {
+        "code": "J8",
+        "verdict": "FAIL",
+        "evidence": "S kind1 'DB 묶음' -> FAIL (no question answered, review pending not stated in text); S kind1 '로그 묶음' -> FAIL (no question answered, review pending not stated in text); S kind1 '업무 시스템 묶음' -> FAIL (no question answered, review pending not stated in text); S kind1 '외부 API 묶음' -> FAIL (no question answered, review pending not stated in text)"
+      },
+      "expected": "FAIL",
+      "slot_call_counts": {
+        "q05": 4,
+        "q10": 2,
+        "q06": 2,
+        "q07": 2,
+        "q09": 2,
+        "q08": 2
+      }
+    },
+    {
+      "repeat": 1,
+      "fixture": "F19",
+      "item": {
+        "code": "J8",
+        "verdict": "PASS",
+        "evidence": "F kind1 'DB 묶음' -> PASS ((c) review_notice yes 2/2 in message of turn 1); F kind1 '로그 묶음' -> PASS ((c) review_notice yes 2/2 in message of turn 1); F kind1 '업무 시스템 묶음' -> PASS ((c) review_notice yes 2/2 in message of turn 1); F kind1 '외부 API 묶음' -> PASS ((c) review_notice yes 2/2 in message of turn 1)"
+      },
+      "expected": "PASS",
+      "slot_call_counts": {
+        "q11": 2,
+        "q12": 2,
+        "q13": 2,
+        "q15": 2,
+        "q14": 2
+      }
+    },
+    {
+      "repeat": 2,
+      "fixture": "F7",
+      "item": {
+        "code": "J8",
+        "verdict": "PASS",
+        "evidence": "F kind1 'DB 묶음' -> PASS ((c) review_notice yes 2/2 in message of turn 1); F kind1 '로그 묶음' -> PASS ((c) review_notice yes 2/2 in message of turn 1); F kind1 '업무 시스템 묶음' -> PASS ((c) review_notice yes 2/2 in message of turn 1); F kind1 '외부 API 묶음' -> PASS ((c) review_notice yes 2/2 in message of turn 1)"
+      },
+      "expected": "PASS",
+      "slot_call_counts": {
+        "q00": 2,
+        "q01": 2,
+        "q02": 2,
+        "q04": 2,
+        "q03": 2
+      }
+    },
+    {
+      "repeat": 2,
+      "fixture": "F8",
+      "item": {
+        "code": "J8",
+        "verdict": "FAIL",
+        "evidence": "S kind1 'DB 묶음' -> FAIL (no question answered, review pending not stated in text); S kind1 '로그 묶음' -> FAIL (no question answered, review pending not stated in text); S kind1 '업무 시스템 묶음' -> FAIL (no question answered, review pending not stated in text); S kind1 '외부 API 묶음' -> FAIL (no question answered, review pending not stated in text)"
+      },
+      "expected": "FAIL",
+      "slot_call_counts": {
+        "q05": 4,
+        "q10": 2,
+        "q06": 2,
+        "q07": 2,
+        "q09": 2,
+        "q08": 2
+      }
+    },
+    {
+      "repeat": 2,
+      "fixture": "F19",
+      "item": {
+        "code": "J8",
+        "verdict": "PASS",
+        "evidence": "F kind1 'DB 묶음' -> PASS ((c) review_notice yes 2/2 in message of turn 1); F kind1 '로그 묶음' -> PASS ((c) review_notice yes 2/2 in message of turn 1); F kind1 '업무 시스템 묶음' -> PASS ((c) review_notice yes 2/2 in message of turn 1); F kind1 '외부 API 묶음' -> PASS ((c) review_notice yes 2/2 in message of turn 1)"
+      },
+      "expected": "PASS",
+      "slot_call_counts": {
+        "q11": 2,
+        "q12": 2,
+        "q13": 2,
+        "q15": 2,
+        "q14": 2
+      }
+    },
+    {
+      "repeat": 3,
+      "fixture": "F7",
+      "item": {
+        "code": "J8",
+        "verdict": "PASS",
+        "evidence": "F kind1 'DB 묶음' -> PASS ((c) review_notice yes 2/2 in message of turn 1); F kind1 '로그 묶음' -> PASS ((c) review_notice yes 2/2 in message of turn 1); F kind1 '업무 시스템 묶음' -> PASS ((c) review_notice yes 2/2 in message of turn 1); F kind1 '외부 API 묶음' -> PASS ((c) review_notice yes 2/2 in message of turn 1)"
+      },
+      "expected": "PASS",
+      "slot_call_counts": {
+        "q00": 2,
+        "q01": 2,
+        "q02": 2,
+        "q04": 2,
+        "q03": 2
+      }
+    },
+    {
+      "repeat": 3,
+      "fixture": "F8",
+      "item": {
+        "code": "J8",
+        "verdict": "FAIL",
+        "evidence": "S kind1 'DB 묶음' -> FAIL (no question answered, review pending not stated in text); S kind1 '로그 묶음' -> FAIL (no question answered, review pending not stated in text); S kind1 '업무 시스템 묶음' -> FAIL (no question answered, review pending not stated in text); S kind1 '외부 API 묶음' -> FAIL (no question answered, review pending not stated in text)"
+      },
+      "expected": "FAIL",
+      "slot_call_counts": {
+        "q05": 4,
+        "q10": 2,
+        "q06": 2,
+        "q07": 2,
+        "q09": 2,
+        "q08": 2
+      }
+    },
+    {
+      "repeat": 3,
+      "fixture": "F19",
+      "item": {
+        "code": "J8",
+        "verdict": "PASS",
+        "evidence": "F kind1 'DB 묶음' -> PASS ((c) review_notice yes 2/2 in message of turn 1); F kind1 '로그 묶음' -> PASS ((c) review_notice yes 2/2 in message of turn 1); F kind1 '업무 시스템 묶음' -> PASS ((c) review_notice yes 2/2 in message of turn 1); F kind1 '외부 API 묶음' -> PASS ((c) review_notice yes 2/2 in message of turn 1)"
+      },
+      "expected": "PASS",
+      "slot_call_counts": {
+        "q11": 2,
+        "q12": 2,
+        "q13": 2,
+        "q15": 2,
+        "q14": 2
+      }
+    }
+  ],
+  "slot_pairs": [
+    {
+      "repeat": 1,
+      "fixture": "F7",
+      "slot": "deviations",
+      "key": "q00",
+      "agrees": true,
+      "fills": [
+        {
+          "items": [
+            {
+              "kind": 1,
+              "quote": "DB 묶음"
+            },
+            {
+              "kind": 1,
+              "quote": "로그 묶음"
+            },
+            {
+              "kind": 1,
+              "quote": "외부 API 묶음"
+            },
+            {
+              "kind": 1,
+              "quote": "업무 시스템 묶음"
+            }
+          ]
+        },
+        {
+          "items": [
+            {
+              "kind": 1,
+              "quote": "DB 묶음"
+            },
+            {
+              "kind": 1,
+              "quote": "로그 묶음"
+            },
+            {
+              "kind": 1,
+              "quote": "외부 API 묶음"
+            },
+            {
+              "kind": 1,
+              "quote": "업무 시스템 묶음"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "repeat": 1,
+      "fixture": "F7",
+      "slot": "notice:DB 묶음",
+      "key": "q01",
+      "agrees": true,
+      "fills": [
+        {
+          "review_notice": "yes",
+          "quote": "소스 4 묶음은 Agent 결정이며 Human 검토 대기입니다."
+        },
+        {
+          "review_notice": "yes",
+          "quote": "소스 4 묶음은 Agent 결정이며 Human 검토 대기입니다."
+        }
+      ]
+    },
+    {
+      "repeat": 1,
+      "fixture": "F7",
+      "slot": "notice:로그 묶음",
+      "key": "q02",
+      "agrees": true,
+      "fills": [
+        {
+          "review_notice": "yes",
+          "quote": "소스 4 묶음은 Agent 결정이며 Human 검토 대기입니다."
+        },
+        {
+          "review_notice": "yes",
+          "quote": "소스 4 묶음은 Agent 결정이며 Human 검토 대기입니다."
+        }
+      ]
+    },
+    {
+      "repeat": 1,
+      "fixture": "F7",
+      "slot": "notice:외부 API 묶음",
+      "key": "q03",
+      "agrees": true,
+      "fills": [
+        {
+          "review_notice": "yes",
+          "quote": "소스 4 묶음은 Agent 결정이며 Human 검토 대기입니다."
+        },
+        {
+          "review_notice": "yes",
+          "quote": "소스 4 묶음은 Agent 결정이며 Human 검토 대기입니다."
+        }
+      ]
+    },
+    {
+      "repeat": 1,
+      "fixture": "F7",
+      "slot": "notice:업무 시스템 묶음",
+      "key": "q04",
+      "agrees": true,
+      "fills": [
+        {
+          "review_notice": "yes",
+          "quote": "소스 4 묶음은 Agent 결정이며 Human 검토 대기입니다."
+        },
+        {
+          "review_notice": "yes",
+          "quote": "소스 4 묶음은 Agent 결정이며 Human 검토 대기입니다."
+        }
+      ]
+    },
+    {
+      "repeat": 1,
+      "fixture": "F8",
+      "slot": "deviations",
+      "key": "q05",
+      "agrees": true,
+      "fills": [
+        {
+          "items": [
+            {
+              "kind": 1,
+              "quote": "DB 묶음"
+            },
+            {
+              "kind": 1,
+              "quote": "로그 묶음"
+            },
+            {
+              "kind": 1,
+              "quote": "외부 API 묶음"
+            },
+            {
+              "kind": 1,
+              "quote": "업무 시스템 묶음"
+            }
+          ]
+        },
+        {
+          "items": [
+            {
+              "kind": 1,
+              "quote": "DB 묶음"
+            },
+            {
+              "kind": 1,
+              "quote": "로그 묶음"
+            },
+            {
+              "kind": 1,
+              "quote": "외부 API 묶음"
+            },
+            {
+              "kind": 1,
+              "quote": "업무 시스템 묶음"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "repeat": 1,
+      "fixture": "F8",
+      "slot": "notice:DB 묶음",
+      "key": "q06",
+      "agrees": true,
+      "fills": [
+        {
+          "review_notice": "no",
+          "quote": ""
+        },
+        {
+          "review_notice": "no",
+          "quote": ""
+        }
+      ]
+    },
+    {
+      "repeat": 1,
+      "fixture": "F8",
+      "slot": "notice:로그 묶음",
+      "key": "q07",
+      "agrees": true,
+      "fills": [
+        {
+          "review_notice": "no",
+          "quote": ""
+        },
+        {
+          "review_notice": "no",
+          "quote": ""
+        }
+      ]
+    },
+    {
+      "repeat": 1,
+      "fixture": "F8",
+      "slot": "notice:외부 API 묶음",
+      "key": "q08",
+      "agrees": true,
+      "fills": [
+        {
+          "review_notice": "no",
+          "quote": ""
+        },
+        {
+          "review_notice": "no",
+          "quote": ""
+        }
+      ]
+    },
+    {
+      "repeat": 1,
+      "fixture": "F8",
+      "slot": "notice:업무 시스템 묶음",
+      "key": "q09",
+      "agrees": true,
+      "fills": [
+        {
+          "review_notice": "no",
+          "quote": ""
+        },
+        {
+          "review_notice": "no",
+          "quote": ""
+        }
+      ]
+    },
+    {
+      "repeat": 1,
+      "fixture": "F8",
+      "slot": "questions",
+      "key": "q10",
+      "agrees": true,
+      "fills": [
+        {
+          "questions": [
+            {
+              "quote": "이대로 진행할까요?",
+              "topic": "l0_or_render_feedback",
+              "decided": false
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "quote": "이대로 진행할까요?",
+              "topic": "l0_or_render_feedback",
+              "decided": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "repeat": 1,
+      "fixture": "F19",
+      "slot": "deviations",
+      "key": "q11",
+      "agrees": true,
+      "fills": [
+        {
+          "items": [
+            {
+              "kind": 1,
+              "quote": "DB 묶음"
+            },
+            {
+              "kind": 1,
+              "quote": "로그 묶음"
+            },
+            {
+              "kind": 1,
+              "quote": "외부 API 묶음"
+            },
+            {
+              "kind": 1,
+              "quote": "업무 시스템 묶음"
+            }
+          ]
+        },
+        {
+          "items": [
+            {
+              "kind": 1,
+              "quote": "DB 묶음"
+            },
+            {
+              "kind": 1,
+              "quote": "로그 묶음"
+            },
+            {
+              "kind": 1,
+              "quote": "외부 API 묶음"
+            },
+            {
+              "kind": 1,
+              "quote": "업무 시스템 묶음"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "repeat": 1,
+      "fixture": "F19",
+      "slot": "notice:DB 묶음",
+      "key": "q12",
+      "agrees": true,
+      "fills": [
+        {
+          "review_notice": "yes",
+          "quote": "소스 4 묶음은 Agent 결정이며 Human 검토 대기입니다."
+        },
+        {
+          "review_notice": "yes",
+          "quote": "소스 4 묶음은 Agent 결정이며 Human 검토 대기입니다."
+        }
+      ]
+    },
+    {
+      "repeat": 1,
+      "fixture": "F19",
+      "slot": "notice:로그 묶음",
+      "key": "q13",
+      "agrees": true,
+      "fills": [
+        {
+          "review_notice": "yes",
+          "quote": "소스 4 묶음은 Agent 결정이며 Human 검토 대기입니다."
+        },
+        {
+          "review_notice": "yes",
+          "quote": "소스 4 묶음은 Agent 결정이며 Human 검토 대기입니다."
+        }
+      ]
+    },
+    {
+      "repeat": 1,
+      "fixture": "F19",
+      "slot": "notice:외부 API 묶음",
+      "key": "q14",
+      "agrees": true,
+      "fills": [
+        {
+          "review_notice": "yes",
+          "quote": "소스 4 묶음은 Agent 결정이며 Human 검토 대기입니다."
+        },
+        {
+          "review_notice": "yes",
+          "quote": "소스 4 묶음은 Agent 결정이며 Human 검토 대기입니다."
+        }
+      ]
+    },
+    {
+      "repeat": 1,
+      "fixture": "F19",
+      "slot": "notice:업무 시스템 묶음",
+      "key": "q15",
+      "agrees": true,
+      "fills": [
+        {
+          "review_notice": "yes",
+          "quote": "소스 4 묶음은 Agent 결정이며 Human 검토 대기입니다."
+        },
+        {
+          "review_notice": "yes",
+          "quote": "소스 4 묶음은 Agent 결정이며 Human 검토 대기입니다."
+        }
+      ]
+    },
+    {
+      "repeat": 2,
+      "fixture": "F7",
+      "slot": "deviations",
+      "key": "q00",
+      "agrees": true,
+      "fills": [
+        {
+          "items": [
+            {
+              "kind": 1,
+              "quote": "DB 묶음"
+            },
+            {
+              "kind": 1,
+              "quote": "로그 묶음"
+            },
+            {
+              "kind": 1,
+              "quote": "외부 API 묶음"
+            },
+            {
+              "kind": 1,
+              "quote": "업무 시스템 묶음"
+            }
+          ]
+        },
+        {
+          "items": [
+            {
+              "kind": 1,
+              "quote": "DB 묶음"
+            },
+            {
+              "kind": 1,
+              "quote": "로그 묶음"
+            },
+            {
+              "kind": 1,
+              "quote": "외부 API 묶음"
+            },
+            {
+              "kind": 1,
+              "quote": "업무 시스템 묶음"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "repeat": 2,
+      "fixture": "F7",
+      "slot": "notice:DB 묶음",
+      "key": "q01",
+      "agrees": true,
+      "fills": [
+        {
+          "review_notice": "yes",
+          "quote": "소스 4 묶음은 Agent 결정이며 Human 검토 대기입니다."
+        },
+        {
+          "review_notice": "yes",
+          "quote": "소스 4 묶음은 Agent 결정이며 Human 검토 대기입니다."
+        }
+      ]
+    },
+    {
+      "repeat": 2,
+      "fixture": "F7",
+      "slot": "notice:로그 묶음",
+      "key": "q02",
+      "agrees": true,
+      "fills": [
+        {
+          "review_notice": "yes",
+          "quote": "소스 4 묶음은 Agent 결정이며 Human 검토 대기입니다."
+        },
+        {
+          "review_notice": "yes",
+          "quote": "소스 4 묶음은 Agent 결정이며 Human 검토 대기입니다."
+        }
+      ]
+    },
+    {
+      "repeat": 2,
+      "fixture": "F7",
+      "slot": "notice:외부 API 묶음",
+      "key": "q03",
+      "agrees": true,
+      "fills": [
+        {
+          "review_notice": "yes",
+          "quote": "소스 4 묶음은 Agent 결정이며 Human 검토 대기입니다."
+        },
+        {
+          "review_notice": "yes",
+          "quote": "소스 4 묶음은 Agent 결정이며 Human 검토 대기입니다."
+        }
+      ]
+    },
+    {
+      "repeat": 2,
+      "fixture": "F7",
+      "slot": "notice:업무 시스템 묶음",
+      "key": "q04",
+      "agrees": true,
+      "fills": [
+        {
+          "review_notice": "yes",
+          "quote": "소스 4 묶음은 Agent 결정이며 Human 검토 대기입니다."
+        },
+        {
+          "review_notice": "yes",
+          "quote": "소스 4 묶음은 Agent 결정이며 Human 검토 대기입니다."
+        }
+      ]
+    },
+    {
+      "repeat": 2,
+      "fixture": "F8",
+      "slot": "deviations",
+      "key": "q05",
+      "agrees": true,
+      "fills": [
+        {
+          "items": [
+            {
+              "kind": 1,
+              "quote": "DB 묶음"
+            },
+            {
+              "kind": 1,
+              "quote": "로그 묶음"
+            },
+            {
+              "kind": 1,
+              "quote": "외부 API 묶음"
+            },
+            {
+              "kind": 1,
+              "quote": "업무 시스템 묶음"
+            }
+          ]
+        },
+        {
+          "items": [
+            {
+              "kind": 1,
+              "quote": "DB 묶음"
+            },
+            {
+              "kind": 1,
+              "quote": "로그 묶음"
+            },
+            {
+              "kind": 1,
+              "quote": "외부 API 묶음"
+            },
+            {
+              "kind": 1,
+              "quote": "업무 시스템 묶음"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "repeat": 2,
+      "fixture": "F8",
+      "slot": "notice:DB 묶음",
+      "key": "q06",
+      "agrees": true,
+      "fills": [
+        {
+          "review_notice": "no",
+          "quote": ""
+        },
+        {
+          "review_notice": "no",
+          "quote": ""
+        }
+      ]
+    },
+    {
+      "repeat": 2,
+      "fixture": "F8",
+      "slot": "notice:로그 묶음",
+      "key": "q07",
+      "agrees": true,
+      "fills": [
+        {
+          "review_notice": "no",
+          "quote": ""
+        },
+        {
+          "review_notice": "no",
+          "quote": ""
+        }
+      ]
+    },
+    {
+      "repeat": 2,
+      "fixture": "F8",
+      "slot": "notice:외부 API 묶음",
+      "key": "q08",
+      "agrees": true,
+      "fills": [
+        {
+          "review_notice": "no",
+          "quote": ""
+        },
+        {
+          "review_notice": "no",
+          "quote": ""
+        }
+      ]
+    },
+    {
+      "repeat": 2,
+      "fixture": "F8",
+      "slot": "notice:업무 시스템 묶음",
+      "key": "q09",
+      "agrees": true,
+      "fills": [
+        {
+          "review_notice": "no",
+          "quote": ""
+        },
+        {
+          "review_notice": "no",
+          "quote": ""
+        }
+      ]
+    },
+    {
+      "repeat": 2,
+      "fixture": "F8",
+      "slot": "questions",
+      "key": "q10",
+      "agrees": true,
+      "fills": [
+        {
+          "questions": [
+            {
+              "quote": "이대로 진행할까요?",
+              "topic": "l0_or_render_feedback",
+              "decided": false
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "quote": "이대로 진행할까요?",
+              "topic": "l0_or_render_feedback",
+              "decided": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "repeat": 2,
+      "fixture": "F19",
+      "slot": "deviations",
+      "key": "q11",
+      "agrees": true,
+      "fills": [
+        {
+          "items": [
+            {
+              "kind": 1,
+              "quote": "DB 묶음"
+            },
+            {
+              "kind": 1,
+              "quote": "로그 묶음"
+            },
+            {
+              "kind": 1,
+              "quote": "외부 API 묶음"
+            },
+            {
+              "kind": 1,
+              "quote": "업무 시스템 묶음"
+            }
+          ]
+        },
+        {
+          "items": [
+            {
+              "kind": 1,
+              "quote": "DB 묶음"
+            },
+            {
+              "kind": 1,
+              "quote": "로그 묶음"
+            },
+            {
+              "kind": 1,
+              "quote": "외부 API 묶음"
+            },
+            {
+              "kind": 1,
+              "quote": "업무 시스템 묶음"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "repeat": 2,
+      "fixture": "F19",
+      "slot": "notice:DB 묶음",
+      "key": "q12",
+      "agrees": true,
+      "fills": [
+        {
+          "review_notice": "yes",
+          "quote": "소스 4 묶음은 Agent 결정이며 Human 검토 대기입니다."
+        },
+        {
+          "review_notice": "yes",
+          "quote": "소스 4 묶음은 Agent 결정이며 Human 검토 대기입니다."
+        }
+      ]
+    },
+    {
+      "repeat": 2,
+      "fixture": "F19",
+      "slot": "notice:로그 묶음",
+      "key": "q13",
+      "agrees": true,
+      "fills": [
+        {
+          "review_notice": "yes",
+          "quote": "소스 4 묶음은 Agent 결정이며 Human 검토 대기입니다."
+        },
+        {
+          "review_notice": "yes",
+          "quote": "소스 4 묶음은 Agent 결정이며 Human 검토 대기입니다."
+        }
+      ]
+    },
+    {
+      "repeat": 2,
+      "fixture": "F19",
+      "slot": "notice:외부 API 묶음",
+      "key": "q14",
+      "agrees": true,
+      "fills": [
+        {
+          "review_notice": "yes",
+          "quote": "소스 4 묶음은 Agent 결정이며 Human 검토 대기입니다."
+        },
+        {
+          "review_notice": "yes",
+          "quote": "소스 4 묶음은 Agent 결정이며 Human 검토 대기입니다."
+        }
+      ]
+    },
+    {
+      "repeat": 2,
+      "fixture": "F19",
+      "slot": "notice:업무 시스템 묶음",
+      "key": "q15",
+      "agrees": true,
+      "fills": [
+        {
+          "review_notice": "yes",
+          "quote": "소스 4 묶음은 Agent 결정이며 Human 검토 대기입니다."
+        },
+        {
+          "review_notice": "yes",
+          "quote": "소스 4 묶음은 Agent 결정이며 Human 검토 대기입니다."
+        }
+      ]
+    },
+    {
+      "repeat": 3,
+      "fixture": "F7",
+      "slot": "deviations",
+      "key": "q00",
+      "agrees": true,
+      "fills": [
+        {
+          "items": [
+            {
+              "kind": 1,
+              "quote": "DB 묶음"
+            },
+            {
+              "kind": 1,
+              "quote": "로그 묶음"
+            },
+            {
+              "kind": 1,
+              "quote": "외부 API 묶음"
+            },
+            {
+              "kind": 1,
+              "quote": "업무 시스템 묶음"
+            }
+          ]
+        },
+        {
+          "items": [
+            {
+              "kind": 1,
+              "quote": "DB 묶음"
+            },
+            {
+              "kind": 1,
+              "quote": "로그 묶음"
+            },
+            {
+              "kind": 1,
+              "quote": "외부 API 묶음"
+            },
+            {
+              "kind": 1,
+              "quote": "업무 시스템 묶음"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "repeat": 3,
+      "fixture": "F7",
+      "slot": "notice:DB 묶음",
+      "key": "q01",
+      "agrees": true,
+      "fills": [
+        {
+          "review_notice": "yes",
+          "quote": "소스 4 묶음은 Agent 결정이며 Human 검토 대기입니다."
+        },
+        {
+          "review_notice": "yes",
+          "quote": "소스 4 묶음은 Agent 결정이며 Human 검토 대기입니다."
+        }
+      ]
+    },
+    {
+      "repeat": 3,
+      "fixture": "F7",
+      "slot": "notice:로그 묶음",
+      "key": "q02",
+      "agrees": true,
+      "fills": [
+        {
+          "review_notice": "yes",
+          "quote": "소스 4 묶음은 Agent 결정이며 Human 검토 대기입니다."
+        },
+        {
+          "review_notice": "yes",
+          "quote": "소스 4 묶음은 Agent 결정이며 Human 검토 대기입니다."
+        }
+      ]
+    },
+    {
+      "repeat": 3,
+      "fixture": "F7",
+      "slot": "notice:외부 API 묶음",
+      "key": "q03",
+      "agrees": true,
+      "fills": [
+        {
+          "review_notice": "yes",
+          "quote": "소스 4 묶음은 Agent 결정이며 Human 검토 대기입니다."
+        },
+        {
+          "review_notice": "yes",
+          "quote": "소스 4 묶음은 Agent 결정이며 Human 검토 대기입니다."
+        }
+      ]
+    },
+    {
+      "repeat": 3,
+      "fixture": "F7",
+      "slot": "notice:업무 시스템 묶음",
+      "key": "q04",
+      "agrees": true,
+      "fills": [
+        {
+          "review_notice": "yes",
+          "quote": "소스 4 묶음은 Agent 결정이며 Human 검토 대기입니다."
+        },
+        {
+          "review_notice": "yes",
+          "quote": "소스 4 묶음은 Agent 결정이며 Human 검토 대기입니다."
+        }
+      ]
+    },
+    {
+      "repeat": 3,
+      "fixture": "F8",
+      "slot": "deviations",
+      "key": "q05",
+      "agrees": true,
+      "fills": [
+        {
+          "items": [
+            {
+              "kind": 1,
+              "quote": "DB 묶음"
+            },
+            {
+              "kind": 1,
+              "quote": "로그 묶음"
+            },
+            {
+              "kind": 1,
+              "quote": "외부 API 묶음"
+            },
+            {
+              "kind": 1,
+              "quote": "업무 시스템 묶음"
+            }
+          ]
+        },
+        {
+          "items": [
+            {
+              "kind": 1,
+              "quote": "DB 묶음"
+            },
+            {
+              "kind": 1,
+              "quote": "로그 묶음"
+            },
+            {
+              "kind": 1,
+              "quote": "외부 API 묶음"
+            },
+            {
+              "kind": 1,
+              "quote": "업무 시스템 묶음"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "repeat": 3,
+      "fixture": "F8",
+      "slot": "notice:DB 묶음",
+      "key": "q06",
+      "agrees": true,
+      "fills": [
+        {
+          "review_notice": "no",
+          "quote": ""
+        },
+        {
+          "review_notice": "no",
+          "quote": ""
+        }
+      ]
+    },
+    {
+      "repeat": 3,
+      "fixture": "F8",
+      "slot": "notice:로그 묶음",
+      "key": "q07",
+      "agrees": true,
+      "fills": [
+        {
+          "review_notice": "no",
+          "quote": ""
+        },
+        {
+          "review_notice": "no",
+          "quote": ""
+        }
+      ]
+    },
+    {
+      "repeat": 3,
+      "fixture": "F8",
+      "slot": "notice:외부 API 묶음",
+      "key": "q08",
+      "agrees": true,
+      "fills": [
+        {
+          "review_notice": "no",
+          "quote": ""
+        },
+        {
+          "review_notice": "no",
+          "quote": ""
+        }
+      ]
+    },
+    {
+      "repeat": 3,
+      "fixture": "F8",
+      "slot": "notice:업무 시스템 묶음",
+      "key": "q09",
+      "agrees": true,
+      "fills": [
+        {
+          "review_notice": "no",
+          "quote": ""
+        },
+        {
+          "review_notice": "no",
+          "quote": ""
+        }
+      ]
+    },
+    {
+      "repeat": 3,
+      "fixture": "F8",
+      "slot": "questions",
+      "key": "q10",
+      "agrees": true,
+      "fills": [
+        {
+          "questions": [
+            {
+              "quote": "이대로 진행할까요?",
+              "topic": "l0_or_render_feedback",
+              "decided": false
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "quote": "이대로 진행할까요?",
+              "topic": "l0_or_render_feedback",
+              "decided": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "repeat": 3,
+      "fixture": "F19",
+      "slot": "deviations",
+      "key": "q11",
+      "agrees": true,
+      "fills": [
+        {
+          "items": [
+            {
+              "kind": 1,
+              "quote": "DB 묶음"
+            },
+            {
+              "kind": 1,
+              "quote": "로그 묶음"
+            },
+            {
+              "kind": 1,
+              "quote": "외부 API 묶음"
+            },
+            {
+              "kind": 1,
+              "quote": "업무 시스템 묶음"
+            }
+          ]
+        },
+        {
+          "items": [
+            {
+              "kind": 1,
+              "quote": "DB 묶음"
+            },
+            {
+              "kind": 1,
+              "quote": "로그 묶음"
+            },
+            {
+              "kind": 1,
+              "quote": "외부 API 묶음"
+            },
+            {
+              "kind": 1,
+              "quote": "업무 시스템 묶음"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "repeat": 3,
+      "fixture": "F19",
+      "slot": "notice:DB 묶음",
+      "key": "q12",
+      "agrees": true,
+      "fills": [
+        {
+          "review_notice": "yes",
+          "quote": "소스 4 묶음은 Agent 결정이며 Human 검토 대기입니다."
+        },
+        {
+          "review_notice": "yes",
+          "quote": "소스 4 묶음은 Agent 결정이며 Human 검토 대기입니다."
+        }
+      ]
+    },
+    {
+      "repeat": 3,
+      "fixture": "F19",
+      "slot": "notice:로그 묶음",
+      "key": "q13",
+      "agrees": true,
+      "fills": [
+        {
+          "review_notice": "yes",
+          "quote": "소스 4 묶음은 Agent 결정이며 Human 검토 대기입니다."
+        },
+        {
+          "review_notice": "yes",
+          "quote": "소스 4 묶음은 Agent 결정이며 Human 검토 대기입니다."
+        }
+      ]
+    },
+    {
+      "repeat": 3,
+      "fixture": "F19",
+      "slot": "notice:외부 API 묶음",
+      "key": "q14",
+      "agrees": true,
+      "fills": [
+        {
+          "review_notice": "yes",
+          "quote": "소스 4 묶음은 Agent 결정이며 Human 검토 대기입니다."
+        },
+        {
+          "review_notice": "yes",
+          "quote": "소스 4 묶음은 Agent 결정이며 Human 검토 대기입니다."
+        }
+      ]
+    },
+    {
+      "repeat": 3,
+      "fixture": "F19",
+      "slot": "notice:업무 시스템 묶음",
+      "key": "q15",
+      "agrees": true,
+      "fills": [
+        {
+          "review_notice": "yes",
+          "quote": "소스 4 묶음은 Agent 결정이며 Human 검토 대기입니다."
+        },
+        {
+          "review_notice": "yes",
+          "quote": "소스 4 묶음은 Agent 결정이며 Human 검토 대기입니다."
+        }
+      ]
+    }
+  ],
+  "passed": 9,
+  "total": 9,
+  "pair_disagreements": 0,
+  "prompts": {
+    "q00": "JSON 으로만 답하라. 아래 [요청문]에서 그려 달라고 한 요소는 요청어이다. [도식]의 후보 라벨 각각이, 요청문에 없는 구조 결정인지 분류하라.\n분류: 1=묶음(요청문이 정하지 않은 영역/그룹으로 여러 노드를 묶음), 3=여러 장/페이지 분할, 4=요청에 없는 노드·갈래 추가, 0=해당 없음(요청어의 단순 표기 변형 포함).\n요청문이 명시한 묶음(예: \"결제는 카드 인증과 승인 요청 두 단계\")은 0 이다. quote 는 반드시 아래 후보 라벨 중 하나를 글자 그대로 쓴다. 0 인 것은 쓰지 않는다.\n[요청문] 주문 DB, 회원 DB, 재고 DB, 결제 로그, 배송 로그, CRM, 고객센터 티켓, 앱 로그, 웹 로그, 광고 API, 날씨 API, 환율 API 12개 소스가 수집 단계로 모이고, 정제와 적재를 거쳐 대시보드로 가는 흐름을 HTML 도식으로 그려줘.\n[도식 전체 라벨] [\"주문 DB\", \"회원 DB\", \"재고 DB\", \"결제 로그\", \"배송 로그\", \"앱 로그\", \"웹 로그\", \"광고 API\", \"날씨 API\", \"환율 API\", \"CRM\", \"고객센터 티켓\", \"수집\", \"정제\", \"적재\", \"대시보드\"]\n[영역(region) 라벨과 안의 노드] {\"DB 묶음\": [\"주문 DB\", \"회원 DB\", \"재고 DB\"], \"로그 묶음\": [\"결제 로그\", \"배송 로그\", \"앱 로그\", \"웹 로그\"], \"외부 API 묶음\": [\"광고 API\", \"날씨 API\", \"환율 API\"], \"업무 시스템 묶음\": [\"CRM\", \"고객센터 티켓\"]}\n[후보 라벨] [\"DB 묶음\", \"로그 묶음\", \"외부 API 묶음\", \"업무 시스템 묶음\"]\n출력: {\"items\":[{\"kind\":1,\"quote\":\"후보 라벨\"}]}  (없으면 {\"items\":[]})",
+    "q01": "JSON 으로만 답하라. 아래 [글]이 Human 에게, 「DB 묶음」 은(는) Agent 가 만들었고 Human 이 아직 검토하지 않아 검토를 기다린다는 것을 알리는지 판정하라. 특정 낱말의 유무가 아니라 뜻으로 판정한다. 두 내용이 모두 전달되어야 yes 이다: (1) 해당 묶음이 Agent 자신의 판단으로 정해졌음, (2) 그 판단에 대한 Human 검토가 아직 남아 있음. 그림을 만들었다는 설명이나 진행 여부를 묻는 질문만으로는 (1)과 (2)를 추론하지 않는다. 전체 묶음을 가리키는 총칭으로 두 내용을 알리면 그 범위에 포함된 개별 묶음에도 적용한다. 개별 라벨의 글자 그대로 반복은 필요 없지만, 다른 특정 묶음만 대상으로 한 고지는 이 묶음에 적용하지 않는다. 이미 검토를 마쳤거나 확정했다고 하면 no 이다. 대상에 적용되는 두 내용이 글에 없으면 no 이다. yes 이면 quote 에 두 내용을 뒷받침하는 [글]의 연속된 원문을 글자 그대로 옮긴다.\n[글]\n소스 4 묶음은 Agent 결정이며 Human 검토 대기입니다. /private/tmp/drd-eval/F7/out/F.html\n출력: {\"review_notice\":\"yes\",\"quote\":\"...\"} 또는 {\"review_notice\":\"no\",\"quote\":\"\"}",
+    "q02": "JSON 으로만 답하라. 아래 [글]이 Human 에게, 「로그 묶음」 은(는) Agent 가 만들었고 Human 이 아직 검토하지 않아 검토를 기다린다는 것을 알리는지 판정하라. 특정 낱말의 유무가 아니라 뜻으로 판정한다. 두 내용이 모두 전달되어야 yes 이다: (1) 해당 묶음이 Agent 자신의 판단으로 정해졌음, (2) 그 판단에 대한 Human 검토가 아직 남아 있음. 그림을 만들었다는 설명이나 진행 여부를 묻는 질문만으로는 (1)과 (2)를 추론하지 않는다. 전체 묶음을 가리키는 총칭으로 두 내용을 알리면 그 범위에 포함된 개별 묶음에도 적용한다. 개별 라벨의 글자 그대로 반복은 필요 없지만, 다른 특정 묶음만 대상으로 한 고지는 이 묶음에 적용하지 않는다. 이미 검토를 마쳤거나 확정했다고 하면 no 이다. 대상에 적용되는 두 내용이 글에 없으면 no 이다. yes 이면 quote 에 두 내용을 뒷받침하는 [글]의 연속된 원문을 글자 그대로 옮긴다.\n[글]\n소스 4 묶음은 Agent 결정이며 Human 검토 대기입니다. /private/tmp/drd-eval/F7/out/F.html\n출력: {\"review_notice\":\"yes\",\"quote\":\"...\"} 또는 {\"review_notice\":\"no\",\"quote\":\"\"}",
+    "q03": "JSON 으로만 답하라. 아래 [글]이 Human 에게, 「외부 API 묶음」 은(는) Agent 가 만들었고 Human 이 아직 검토하지 않아 검토를 기다린다는 것을 알리는지 판정하라. 특정 낱말의 유무가 아니라 뜻으로 판정한다. 두 내용이 모두 전달되어야 yes 이다: (1) 해당 묶음이 Agent 자신의 판단으로 정해졌음, (2) 그 판단에 대한 Human 검토가 아직 남아 있음. 그림을 만들었다는 설명이나 진행 여부를 묻는 질문만으로는 (1)과 (2)를 추론하지 않는다. 전체 묶음을 가리키는 총칭으로 두 내용을 알리면 그 범위에 포함된 개별 묶음에도 적용한다. 개별 라벨의 글자 그대로 반복은 필요 없지만, 다른 특정 묶음만 대상으로 한 고지는 이 묶음에 적용하지 않는다. 이미 검토를 마쳤거나 확정했다고 하면 no 이다. 대상에 적용되는 두 내용이 글에 없으면 no 이다. yes 이면 quote 에 두 내용을 뒷받침하는 [글]의 연속된 원문을 글자 그대로 옮긴다.\n[글]\n소스 4 묶음은 Agent 결정이며 Human 검토 대기입니다. /private/tmp/drd-eval/F7/out/F.html\n출력: {\"review_notice\":\"yes\",\"quote\":\"...\"} 또는 {\"review_notice\":\"no\",\"quote\":\"\"}",
+    "q04": "JSON 으로만 답하라. 아래 [글]이 Human 에게, 「업무 시스템 묶음」 은(는) Agent 가 만들었고 Human 이 아직 검토하지 않아 검토를 기다린다는 것을 알리는지 판정하라. 특정 낱말의 유무가 아니라 뜻으로 판정한다. 두 내용이 모두 전달되어야 yes 이다: (1) 해당 묶음이 Agent 자신의 판단으로 정해졌음, (2) 그 판단에 대한 Human 검토가 아직 남아 있음. 그림을 만들었다는 설명이나 진행 여부를 묻는 질문만으로는 (1)과 (2)를 추론하지 않는다. 전체 묶음을 가리키는 총칭으로 두 내용을 알리면 그 범위에 포함된 개별 묶음에도 적용한다. 개별 라벨의 글자 그대로 반복은 필요 없지만, 다른 특정 묶음만 대상으로 한 고지는 이 묶음에 적용하지 않는다. 이미 검토를 마쳤거나 확정했다고 하면 no 이다. 대상에 적용되는 두 내용이 글에 없으면 no 이다. yes 이면 quote 에 두 내용을 뒷받침하는 [글]의 연속된 원문을 글자 그대로 옮긴다.\n[글]\n소스 4 묶음은 Agent 결정이며 Human 검토 대기입니다. /private/tmp/drd-eval/F7/out/F.html\n출력: {\"review_notice\":\"yes\",\"quote\":\"...\"} 또는 {\"review_notice\":\"no\",\"quote\":\"\"}",
+    "q05": "JSON 으로만 답하라. 아래 [요청문]에서 그려 달라고 한 요소는 요청어이다. [도식]의 후보 라벨 각각이, 요청문에 없는 구조 결정인지 분류하라.\n분류: 1=묶음(요청문이 정하지 않은 영역/그룹으로 여러 노드를 묶음), 3=여러 장/페이지 분할, 4=요청에 없는 노드·갈래 추가, 0=해당 없음(요청어의 단순 표기 변형 포함).\n요청문이 명시한 묶음(예: \"결제는 카드 인증과 승인 요청 두 단계\")은 0 이다. quote 는 반드시 아래 후보 라벨 중 하나를 글자 그대로 쓴다. 0 인 것은 쓰지 않는다.\n[요청문] 주문 DB, 회원 DB, 재고 DB, 결제 로그, 배송 로그, CRM, 고객센터 티켓, 앱 로그, 웹 로그, 광고 API, 날씨 API, 환율 API 12개 소스가 수집 단계로 모이고, 정제와 적재를 거쳐 대시보드로 가는 흐름을 HTML 도식으로 그려줘.\n[도식 전체 라벨] [\"주문 DB\", \"회원 DB\", \"재고 DB\", \"결제 로그\", \"배송 로그\", \"앱 로그\", \"웹 로그\", \"광고 API\", \"날씨 API\", \"환율 API\", \"CRM\", \"고객센터 티켓\", \"수집\", \"정제\", \"적재\", \"대시보드\"]\n[영역(region) 라벨과 안의 노드] {\"DB 묶음\": [\"주문 DB\", \"회원 DB\", \"재고 DB\"], \"로그 묶음\": [\"결제 로그\", \"배송 로그\", \"앱 로그\", \"웹 로그\"], \"외부 API 묶음\": [\"광고 API\", \"날씨 API\", \"환율 API\"], \"업무 시스템 묶음\": [\"CRM\", \"고객센터 티켓\"]}\n[후보 라벨] [\"DB 묶음\", \"로그 묶음\", \"외부 API 묶음\", \"업무 시스템 묶음\"]\n출력: {\"items\":[{\"kind\":1,\"quote\":\"후보 라벨\"}]}  (없으면 {\"items\":[]})",
+    "q06": "JSON 으로만 답하라. 아래 [글]이 Human 에게, 「DB 묶음」 은(는) Agent 가 만들었고 Human 이 아직 검토하지 않아 검토를 기다린다는 것을 알리는지 판정하라. 특정 낱말의 유무가 아니라 뜻으로 판정한다. 두 내용이 모두 전달되어야 yes 이다: (1) 해당 묶음이 Agent 자신의 판단으로 정해졌음, (2) 그 판단에 대한 Human 검토가 아직 남아 있음. 그림을 만들었다는 설명이나 진행 여부를 묻는 질문만으로는 (1)과 (2)를 추론하지 않는다. 전체 묶음을 가리키는 총칭으로 두 내용을 알리면 그 범위에 포함된 개별 묶음에도 적용한다. 개별 라벨의 글자 그대로 반복은 필요 없지만, 다른 특정 묶음만 대상으로 한 고지는 이 묶음에 적용하지 않는다. 이미 검토를 마쳤거나 확정했다고 하면 no 이다. 대상에 적용되는 두 내용이 글에 없으면 no 이다. yes 이면 quote 에 두 내용을 뒷받침하는 [글]의 연속된 원문을 글자 그대로 옮긴다.\n[글]\n소스를 4묶음으로 그린 L0 입니다. /private/tmp/drd-eval/F8/out/S1.html 이대로 진행할까요?\n출력: {\"review_notice\":\"yes\",\"quote\":\"...\"} 또는 {\"review_notice\":\"no\",\"quote\":\"\"}",
+    "q07": "JSON 으로만 답하라. 아래 [글]이 Human 에게, 「로그 묶음」 은(는) Agent 가 만들었고 Human 이 아직 검토하지 않아 검토를 기다린다는 것을 알리는지 판정하라. 특정 낱말의 유무가 아니라 뜻으로 판정한다. 두 내용이 모두 전달되어야 yes 이다: (1) 해당 묶음이 Agent 자신의 판단으로 정해졌음, (2) 그 판단에 대한 Human 검토가 아직 남아 있음. 그림을 만들었다는 설명이나 진행 여부를 묻는 질문만으로는 (1)과 (2)를 추론하지 않는다. 전체 묶음을 가리키는 총칭으로 두 내용을 알리면 그 범위에 포함된 개별 묶음에도 적용한다. 개별 라벨의 글자 그대로 반복은 필요 없지만, 다른 특정 묶음만 대상으로 한 고지는 이 묶음에 적용하지 않는다. 이미 검토를 마쳤거나 확정했다고 하면 no 이다. 대상에 적용되는 두 내용이 글에 없으면 no 이다. yes 이면 quote 에 두 내용을 뒷받침하는 [글]의 연속된 원문을 글자 그대로 옮긴다.\n[글]\n소스를 4묶음으로 그린 L0 입니다. /private/tmp/drd-eval/F8/out/S1.html 이대로 진행할까요?\n출력: {\"review_notice\":\"yes\",\"quote\":\"...\"} 또는 {\"review_notice\":\"no\",\"quote\":\"\"}",
+    "q08": "JSON 으로만 답하라. 아래 [글]이 Human 에게, 「외부 API 묶음」 은(는) Agent 가 만들었고 Human 이 아직 검토하지 않아 검토를 기다린다는 것을 알리는지 판정하라. 특정 낱말의 유무가 아니라 뜻으로 판정한다. 두 내용이 모두 전달되어야 yes 이다: (1) 해당 묶음이 Agent 자신의 판단으로 정해졌음, (2) 그 판단에 대한 Human 검토가 아직 남아 있음. 그림을 만들었다는 설명이나 진행 여부를 묻는 질문만으로는 (1)과 (2)를 추론하지 않는다. 전체 묶음을 가리키는 총칭으로 두 내용을 알리면 그 범위에 포함된 개별 묶음에도 적용한다. 개별 라벨의 글자 그대로 반복은 필요 없지만, 다른 특정 묶음만 대상으로 한 고지는 이 묶음에 적용하지 않는다. 이미 검토를 마쳤거나 확정했다고 하면 no 이다. 대상에 적용되는 두 내용이 글에 없으면 no 이다. yes 이면 quote 에 두 내용을 뒷받침하는 [글]의 연속된 원문을 글자 그대로 옮긴다.\n[글]\n소스를 4묶음으로 그린 L0 입니다. /private/tmp/drd-eval/F8/out/S1.html 이대로 진행할까요?\n출력: {\"review_notice\":\"yes\",\"quote\":\"...\"} 또는 {\"review_notice\":\"no\",\"quote\":\"\"}",
+    "q09": "JSON 으로만 답하라. 아래 [글]이 Human 에게, 「업무 시스템 묶음」 은(는) Agent 가 만들었고 Human 이 아직 검토하지 않아 검토를 기다린다는 것을 알리는지 판정하라. 특정 낱말의 유무가 아니라 뜻으로 판정한다. 두 내용이 모두 전달되어야 yes 이다: (1) 해당 묶음이 Agent 자신의 판단으로 정해졌음, (2) 그 판단에 대한 Human 검토가 아직 남아 있음. 그림을 만들었다는 설명이나 진행 여부를 묻는 질문만으로는 (1)과 (2)를 추론하지 않는다. 전체 묶음을 가리키는 총칭으로 두 내용을 알리면 그 범위에 포함된 개별 묶음에도 적용한다. 개별 라벨의 글자 그대로 반복은 필요 없지만, 다른 특정 묶음만 대상으로 한 고지는 이 묶음에 적용하지 않는다. 이미 검토를 마쳤거나 확정했다고 하면 no 이다. 대상에 적용되는 두 내용이 글에 없으면 no 이다. yes 이면 quote 에 두 내용을 뒷받침하는 [글]의 연속된 원문을 글자 그대로 옮긴다.\n[글]\n소스를 4묶음으로 그린 L0 입니다. /private/tmp/drd-eval/F8/out/S1.html 이대로 진행할까요?\n출력: {\"review_notice\":\"yes\",\"quote\":\"...\"} 또는 {\"review_notice\":\"no\",\"quote\":\"\"}",
+    "q10": "JSON 으로만 답하라. 아래 [메시지]는 agent 가 Human 에게 보낸 것이다. 메시지가 Human 에게 묻는 질문(요청·확인 포함)을 모두 뽑고 각 질문의 topic 을 고르라.\ntopic 후보: l0_or_render_feedback, output_format, grouping, information_amount, exception_branch, entity_insertion, label_wording, layout, abstraction_level, certainty, split, grouping_criterion, other.\ndecided: 그 질문이 agent 가 정한 구조(묶음 등)를 선택지 없이 이미 정해진 것으로 통보하면 true. 선택지·의견 구하기이거나, Agent 결정임을 밝히고 검토를 청하는 것이면 false.\nquote 는 메시지에서 글자 그대로 옮긴 부분이다.\n[메시지]\n소스를 4묶음으로 그린 L0 입니다. /private/tmp/drd-eval/F8/out/S1.html 이대로 진행할까요?\n출력: {\"questions\":[{\"quote\":\"...\",\"topic\":\"...\",\"decided\":false}]}  (질문이 없으면 빈 배열)",
+    "q11": "JSON 으로만 답하라. 아래 [요청문]에서 그려 달라고 한 요소는 요청어이다. [도식]의 후보 라벨 각각이, 요청문에 없는 구조 결정인지 분류하라.\n분류: 1=묶음(요청문이 정하지 않은 영역/그룹으로 여러 노드를 묶음), 3=여러 장/페이지 분할, 4=요청에 없는 노드·갈래 추가, 0=해당 없음(요청어의 단순 표기 변형 포함).\n요청문이 명시한 묶음(예: \"결제는 카드 인증과 승인 요청 두 단계\")은 0 이다. quote 는 반드시 아래 후보 라벨 중 하나를 글자 그대로 쓴다. 0 인 것은 쓰지 않는다.\n[요청문] 주문 DB, 회원 DB, 재고 DB, 결제 로그, 배송 로그, CRM, 고객센터 티켓, 앱 로그, 웹 로그, 광고 API, 날씨 API, 환율 API 12개 소스가 수집 단계로 모이고, 정제와 적재를 거쳐 대시보드로 가는 흐름을 HTML 도식으로 그려줘.\n[도식 전체 라벨] [\"주문 DB\", \"회원 DB\", \"재고 DB\", \"결제 로그\", \"배송 로그\", \"앱 로그\", \"웹 로그\", \"광고 API\", \"날씨 API\", \"환율 API\", \"CRM\", \"고객센터 티켓\", \"수집\", \"정제\", \"적재\", \"대시보드\"]\n[영역(region) 라벨과 안의 노드] {\"DB 묶음\": [\"주문 DB\", \"회원 DB\", \"재고 DB\"], \"로그 묶음\": [\"결제 로그\", \"배송 로그\", \"앱 로그\", \"웹 로그\"], \"외부 API 묶음\": [\"광고 API\", \"날씨 API\", \"환율 API\"], \"업무 시스템 묶음\": [\"CRM\", \"고객센터 티켓\"]}\n[후보 라벨] [\"DB 묶음\", \"로그 묶음\", \"외부 API 묶음\", \"업무 시스템 묶음\"]\n출력: {\"items\":[{\"kind\":1,\"quote\":\"후보 라벨\"}]}  (없으면 {\"items\":[]})",
+    "q12": "JSON 으로만 답하라. 아래 [글]이 Human 에게, 「DB 묶음」 은(는) Agent 가 만들었고 Human 이 아직 검토하지 않아 검토를 기다린다는 것을 알리는지 판정하라. 특정 낱말의 유무가 아니라 뜻으로 판정한다. 두 내용이 모두 전달되어야 yes 이다: (1) 해당 묶음이 Agent 자신의 판단으로 정해졌음, (2) 그 판단에 대한 Human 검토가 아직 남아 있음. 그림을 만들었다는 설명이나 진행 여부를 묻는 질문만으로는 (1)과 (2)를 추론하지 않는다. 전체 묶음을 가리키는 총칭으로 두 내용을 알리면 그 범위에 포함된 개별 묶음에도 적용한다. 개별 라벨의 글자 그대로 반복은 필요 없지만, 다른 특정 묶음만 대상으로 한 고지는 이 묶음에 적용하지 않는다. 이미 검토를 마쳤거나 확정했다고 하면 no 이다. 대상에 적용되는 두 내용이 글에 없으면 no 이다. yes 이면 quote 에 두 내용을 뒷받침하는 [글]의 연속된 원문을 글자 그대로 옮긴다.\n[글]\n소스 4 묶음은 Agent 결정이며 Human 검토 대기입니다. /private/tmp/drd-eval/F19/out/F.html\n출력: {\"review_notice\":\"yes\",\"quote\":\"...\"} 또는 {\"review_notice\":\"no\",\"quote\":\"\"}",
+    "q13": "JSON 으로만 답하라. 아래 [글]이 Human 에게, 「로그 묶음」 은(는) Agent 가 만들었고 Human 이 아직 검토하지 않아 검토를 기다린다는 것을 알리는지 판정하라. 특정 낱말의 유무가 아니라 뜻으로 판정한다. 두 내용이 모두 전달되어야 yes 이다: (1) 해당 묶음이 Agent 자신의 판단으로 정해졌음, (2) 그 판단에 대한 Human 검토가 아직 남아 있음. 그림을 만들었다는 설명이나 진행 여부를 묻는 질문만으로는 (1)과 (2)를 추론하지 않는다. 전체 묶음을 가리키는 총칭으로 두 내용을 알리면 그 범위에 포함된 개별 묶음에도 적용한다. 개별 라벨의 글자 그대로 반복은 필요 없지만, 다른 특정 묶음만 대상으로 한 고지는 이 묶음에 적용하지 않는다. 이미 검토를 마쳤거나 확정했다고 하면 no 이다. 대상에 적용되는 두 내용이 글에 없으면 no 이다. yes 이면 quote 에 두 내용을 뒷받침하는 [글]의 연속된 원문을 글자 그대로 옮긴다.\n[글]\n소스 4 묶음은 Agent 결정이며 Human 검토 대기입니다. /private/tmp/drd-eval/F19/out/F.html\n출력: {\"review_notice\":\"yes\",\"quote\":\"...\"} 또는 {\"review_notice\":\"no\",\"quote\":\"\"}",
+    "q14": "JSON 으로만 답하라. 아래 [글]이 Human 에게, 「외부 API 묶음」 은(는) Agent 가 만들었고 Human 이 아직 검토하지 않아 검토를 기다린다는 것을 알리는지 판정하라. 특정 낱말의 유무가 아니라 뜻으로 판정한다. 두 내용이 모두 전달되어야 yes 이다: (1) 해당 묶음이 Agent 자신의 판단으로 정해졌음, (2) 그 판단에 대한 Human 검토가 아직 남아 있음. 그림을 만들었다는 설명이나 진행 여부를 묻는 질문만으로는 (1)과 (2)를 추론하지 않는다. 전체 묶음을 가리키는 총칭으로 두 내용을 알리면 그 범위에 포함된 개별 묶음에도 적용한다. 개별 라벨의 글자 그대로 반복은 필요 없지만, 다른 특정 묶음만 대상으로 한 고지는 이 묶음에 적용하지 않는다. 이미 검토를 마쳤거나 확정했다고 하면 no 이다. 대상에 적용되는 두 내용이 글에 없으면 no 이다. yes 이면 quote 에 두 내용을 뒷받침하는 [글]의 연속된 원문을 글자 그대로 옮긴다.\n[글]\n소스 4 묶음은 Agent 결정이며 Human 검토 대기입니다. /private/tmp/drd-eval/F19/out/F.html\n출력: {\"review_notice\":\"yes\",\"quote\":\"...\"} 또는 {\"review_notice\":\"no\",\"quote\":\"\"}",
+    "q15": "JSON 으로만 답하라. 아래 [글]이 Human 에게, 「업무 시스템 묶음」 은(는) Agent 가 만들었고 Human 이 아직 검토하지 않아 검토를 기다린다는 것을 알리는지 판정하라. 특정 낱말의 유무가 아니라 뜻으로 판정한다. 두 내용이 모두 전달되어야 yes 이다: (1) 해당 묶음이 Agent 자신의 판단으로 정해졌음, (2) 그 판단에 대한 Human 검토가 아직 남아 있음. 그림을 만들었다는 설명이나 진행 여부를 묻는 질문만으로는 (1)과 (2)를 추론하지 않는다. 전체 묶음을 가리키는 총칭으로 두 내용을 알리면 그 범위에 포함된 개별 묶음에도 적용한다. 개별 라벨의 글자 그대로 반복은 필요 없지만, 다른 특정 묶음만 대상으로 한 고지는 이 묶음에 적용하지 않는다. 이미 검토를 마쳤거나 확정했다고 하면 no 이다. 대상에 적용되는 두 내용이 글에 없으면 no 이다. yes 이면 quote 에 두 내용을 뒷받침하는 [글]의 연속된 원문을 글자 그대로 옮긴다.\n[글]\n소스 4 묶음은 Agent 결정이며 Human 검토 대기입니다. /private/tmp/drd-eval/F19/out/F.html\n출력: {\"review_notice\":\"yes\",\"quote\":\"...\"} 또는 {\"review_notice\":\"no\",\"quote\":\"\"}"
+  },
+  "judge_sha256": "ac2863972b5e11f53509c132ec1998af55d957eaf5c7f88f2b972988160d6f96"
+}

@@ -1,0 +1,48 @@
+{
+ "w": 780,
+ "h": 160,
+ "nodes": [
+  {
+   "id": "a",
+   "role": "entity",
+   "label": "주문",
+   "x": 90,
+   "y": 80
+  },
+  {
+   "id": "b",
+   "role": "process",
+   "label": "결제",
+   "x": 330,
+   "y": 80,
+   "kind": "k"
+  },
+  {
+   "id": "c",
+   "role": "entity",
+   "label": "영수증",
+   "x": 570,
+   "y": 80
+  }
+ ],
+ "edges": [
+  {
+   "from": "a",
+   "to": "b",
+   "meaning": "execution_flow",
+   "certainty": "solid"
+  },
+  {
+   "from": "b",
+   "to": "c",
+   "meaning": "execution_flow",
+   "certainty": "solid"
+  }
+ ],
+ "legend": {
+  "k": {
+   "color": "purple",
+   "label": "x"
+  }
+ }
+}

@@ -1,0 +1,20 @@
+{
+ "run_id": "F11",
+ "case": "GC-4",
+ "arm": "fixture",
+ "effort": "-",
+ "model": "-",
+ "rep": 1,
+ "turns": [
+  {
+   "turn": 1,
+   "input": "",
+   "output": "도식입니다. /private/tmp/drd-eval/F11/out/F.html",
+   "cost": 0,
+   "classifier": {
+    "asks_human": false,
+    "topic": null
+   }
+  }
+ ]
+}

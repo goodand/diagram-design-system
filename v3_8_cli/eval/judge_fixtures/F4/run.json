@@ -1,0 +1,32 @@
+{
+ "run_id": "F4",
+ "case": "GC-1",
+ "arm": "fixture",
+ "effort": "-",
+ "model": "-",
+ "rep": 1,
+ "turns": [
+  {
+   "turn": 1,
+   "input": "",
+   "output": "가장 간단한 L0 입니다. /private/tmp/drd-eval/F4/out/L0.svg 고칠 부분이 있나요? 이대로 진행할까요?",
+   "cost": 0,
+   "classifier": {
+    "asks_human": true,
+    "topic": "l0_or_render_feedback"
+   },
+   "answer": "좋습니다. 진행해 주세요",
+   "answer_topic": "l0_or_render_feedback"
+  },
+  {
+   "turn": 2,
+   "input": "",
+   "output": "도식을 그렸습니다. /private/tmp/drd-eval/F4/out/F.svg",
+   "cost": 0,
+   "classifier": {
+    "asks_human": false,
+    "topic": null
+   }
+  }
+ ]
+}

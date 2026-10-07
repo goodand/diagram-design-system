@@ -1,0 +1,20 @@
+{
+ "run_id": "F21",
+ "case": "GC-3",
+ "arm": "fixture",
+ "effort": "-",
+ "model": "-",
+ "rep": 1,
+ "turns": [
+  {
+   "turn": 1,
+   "input": "",
+   "output": "'외부 API' 묶음의 소속은 아직 정해지지 않음(내용 미정). /private/tmp/drd-eval/F21/out/F.html",
+   "cost": 0,
+   "classifier": {
+    "asks_human": false,
+    "topic": null
+   }
+  }
+ ]
+}

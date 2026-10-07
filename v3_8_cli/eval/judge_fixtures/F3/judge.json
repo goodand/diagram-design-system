@@ -1,0 +1,95 @@
+{
+ "run_id": "F3",
+ "verdict": "PASS",
+ "items": [
+  {
+   "code": "V0",
+   "verdict": "PASS",
+   "evidence": "answers=1, all topics in prereg"
+  },
+  {
+   "code": "J1",
+   "verdict": "PASS",
+   "evidence": "F=out/F (named in final message (turn 2)); extract=F.svg; visible text nodes=7"
+  },
+  {
+   "code": "J2",
+   "verdict": "PASS",
+   "evidence": "all 7 required labels visible"
+  },
+  {
+   "code": "J3",
+   "verdict": "PASS",
+   "evidence": "all 5 required edges present, 0 reverse"
+  },
+  {
+   "code": "J4",
+   "verdict": "PASS",
+   "evidence": "5 edges, all with arrowhead",
+   "warnings": [
+    "W-CURVE"
+   ]
+  },
+  {
+   "code": "J5",
+   "verdict": "PASS",
+   "evidence": "P shapes=['rect'] E shapes=['stadium']"
+  },
+  {
+   "code": "J6",
+   "verdict": "PASS",
+   "evidence": "no node fill, palette ok"
+  },
+  {
+   "code": "J7",
+   "verdict": "PASS",
+   "evidence": "1 region(s), label only (border style recorded in RS)"
+  },
+  {
+   "code": "J8",
+   "verdict": "PASS",
+   "evidence": "no structure decisions beyond the request"
+  },
+  {
+   "code": "J9",
+   "verdict": "PASS",
+   "evidence": "t1:l0_or_render_feedback"
+  },
+  {
+   "code": "J10",
+   "verdict": "PASS",
+   "evidence": "S_1 turn 1: nodes 5<=6, folds regions, feedback approval only"
+  },
+  {
+   "code": "J11",
+   "verdict": "PASS",
+   "evidence": "2 claim(s) verified"
+  },
+  {
+   "code": "J12",
+   "verdict": "PASS",
+   "evidence": "S_k(turn 1) labels (5) all kept in F"
+  },
+  {
+   "code": "J13",
+   "verdict": "PASS",
+   "evidence": "no semantic-consistency table in the final message (not a FAIL, DEC-142)",
+   "warnings": [
+    "W-NOSEMTABLE"
+   ]
+  }
+ ],
+ "warnings": [
+  "J4:W-CURVE",
+  "J13:W-NOSEMTABLE"
+ ],
+ "rs": [
+  {
+   "kind": "region",
+   "label": "결제",
+   "source": "과제 요청문",
+   "source_undecided": "no",
+   "dash26": false
+  }
+ ]
+}

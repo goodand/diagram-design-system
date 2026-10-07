@@ -1,0 +1,545 @@
+<!-- 정본. 발행은 이 파일을 같은 url 로 재발행한다. 규칙 정본은 docs/diagrams/README_node_system.md.
+     이 페이지는 그 규칙을 **적용해 보이는** 판이다 — 선 Core 4 · 면 Core 4 · 색 3 만으로 그렸다. -->
+<title>선과 면</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --paper:#f3f6f7; --panel:#fbfbf9; --ink:#16202a; --muted:#5d6b74; --rule:#d2dade;
+  --accent:#0a6b66; --accent-soft:#0a6b6618;
+  --datum:#f6efdf; --datum-s:#a8781f; --task:#e6f1e8; --task-s:#3f7a52; --cert:#e5ebf5; --cert-s:#3f5f8f;
+  --gray:#8b93a0; --red:#b3261e; --impl:#3f5f8f;
+  --goal:#efe7f3; --goal-s:#6b4e8a; --task-lt:#f2f8f3; --concept-lt:#5d6b74;
+  --sans:"IBM Plex Sans KR","Apple SD Gothic Neo",system-ui,sans-serif; --mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#111a20; --panel:#18232b; --ink:#dfe7ea; --muted:#93a3ac; --rule:#2a3841; --accent:#4fd0c4; --accent-soft:#4fd0c422;
+  --datum:#3a3020; --datum-s:#c99b3f; --task:#1e3327; --task-s:#69a882; --cert:#1d2b3f; --cert-s:#7fa3d4; --gray:#6d7681; --red:#e0655c; --impl:#7fa3d4;
+  --goal:#2b2136; --goal-s:#b39ddb; --task-lt:#182a20; --concept-lt:#93a3ac;
+}}
+:root[data-theme="dark"]{
+  --paper:#111a20; --panel:#18232b; --ink:#dfe7ea; --muted:#93a3ac; --rule:#2a3841; --accent:#4fd0c4; --accent-soft:#4fd0c422;
+  --datum:#3a3020; --datum-s:#c99b3f; --task:#1e3327; --task-s:#69a882; --cert:#1d2b3f; --cert-s:#7fa3d4; --gray:#6d7681; --red:#e0655c; --impl:#7fa3d4;
+  --goal:#2b2136; --goal-s:#b39ddb; --task-lt:#182a20; --concept-lt:#93a3ac;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.7;margin:0}
+main{max-width:940px;margin:0 auto;padding:52px 24px 90px;display:flex;flex-direction:column;gap:40px}
+header{border-bottom:1px solid var(--rule);padding-bottom:28px;display:flex;flex-direction:column;gap:12px}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent)}
+h1{font-size:34px;line-height:1.2;margin:0;font-weight:600;letter-spacing:-.01em}
+.lede{color:var(--muted);max-width:66ch;margin:0}
+section{display:flex;flex-direction:column;gap:12px}
+h2{font-size:20px;margin:0;font-weight:600}
+p{margin:0;max-width:68ch}
+figure{margin:4px 0 0;padding:18px 18px 12px;background:var(--panel);border:1px solid var(--rule);border-radius:6px;display:flex;flex-direction:column;gap:10px;overflow-x:auto}
+figure svg{display:block;width:100%;min-width:620px;height:auto;color:var(--ink)}
+figcaption{font-size:14px;color:var(--muted);max-width:76ch}
+code{font-family:var(--mono);font-size:.88em;background:var(--accent-soft);padding:1px 5px;border-radius:3px}
+.limits{border-left:2px solid var(--accent);background:var(--accent-soft);border-radius:0 4px 4px 0;padding:12px 16px}
+.limits h3{margin:0 0 6px;font-size:15px}.limits ul{margin:0;padding-left:18px}.limits li{font-size:14.5px;color:var(--muted);margin:3px 0}
+footer{border-top:1px solid var(--rule);padding-top:18px;font-size:13.5px;color:var(--muted)}
+footer a{color:var(--accent)}
+/* ── 면 Core: 모양(원형 rx / 직사각) × 테두리(실선 / 점선) ── */
+svg .n-datum{fill:var(--datum);stroke:var(--datum-s);stroke-width:1.4}                 /* N1 원형·실선  */
+svg .n-task{fill:none;stroke:var(--task-s);stroke-width:1.4}                             /* 과업: 직사각·투명(추상) */
+svg .n-cert{fill:none;stroke:var(--cert-s);stroke-width:1.4}
+svg .n-impl{fill:var(--task);stroke:var(--task-s);stroke-width:1.4}                     /* 구현: 직사각·채움(구체 코드) */
+svg .n-cand{fill:var(--datum);stroke:var(--datum-s);stroke-width:1.4;stroke-dasharray:6 4;opacity:.8} /* 후보: 자료 채움 + 점선 표지 */
+svg .n-concept{fill:none;stroke:currentColor;stroke-width:1.3}                          /* 개념: 원형·투명(추상) */
+svg .n-absent{fill:none;stroke:var(--gray);stroke-width:1.4;stroke-dasharray:6 4}       /* 부재 = 빈 칸  */
+/* Main 후보(확인 대기): 채움 농도 = 구체화 깊이 — 전체는 진하게, 부분은 연하게. 목적 노드는 고유색(자두). */
+svg .n-goal{fill:none;stroke:var(--goal-s);stroke-width:1.6}                               /* 목적: 투명 + 고유색 테두리 */
+svg .n-goal.lt{stroke-width:1.1;opacity:.7}
+svg .n-task.part{stroke-width:1.1;opacity:.65}                                          /* 부분 = 테두리 연함 */
+svg .n-impl.part{fill:var(--task-lt);stroke-width:1.1;opacity:.85}
+svg .n-concept.part{stroke:var(--concept-lt);stroke-width:1.1}
+svg .n-concept.part2{stroke:var(--concept-lt);stroke-width:1;opacity:.7}
+/* ── 선 Core: 촉(없 / 단) × 선(실 / 점). 색 = 판정 ── */
+svg .e{fill:none;stroke:currentColor;stroke-width:1.4}
+svg .e.dot{stroke-dasharray:6 4}
+svg .e.fine{stroke-dasharray:2 3;stroke-width:1.2;opacity:.7}
+svg .e.gray{stroke:var(--gray);stroke-dasharray:3 3}
+svg .e.red{stroke:var(--red);stroke-width:1.6}
+svg .head{fill:currentColor;stroke:none} svg .head-red{fill:var(--red);stroke:none}
+svg .head-o{fill:var(--panel);stroke:currentColor;stroke-width:1.2}   /* 빈 삼각 · 빈 마름모 */
+svg .head-f{fill:currentColor;stroke:currentColor;stroke-width:1}    /* 채운 마름모 */
+svg text{fill:currentColor;font-family:var(--sans);font-size:12.5px}
+svg text.s{font-size:11px;fill:var(--muted)} svg text.m{font-family:var(--mono);font-size:11px;fill:var(--impl)}
+svg text.b{font-weight:600} svg text.lab{font-family:var(--mono);font-size:11px;fill:var(--muted)}
+svg text.red{fill:var(--red)} svg text.gray{fill:var(--gray)}
+svg .grid{fill:none;stroke:var(--rule);stroke-width:1}
+svg .part-a{stroke:var(--accent);stroke-width:2.4;fill:none}
+svg .part-b-bar{fill:var(--accent);opacity:.85}
+svg .part-b-stem{stroke:var(--accent);stroke-width:1.3;fill:none}
+svg .part-c-group{fill:none;stroke:var(--accent);stroke-width:1.2;stroke-dasharray:4 3;opacity:.75}
+svg .part-c-tick{stroke:var(--accent);stroke-width:2.4;fill:none}
+svg .cand-panel{fill:var(--paper);stroke:var(--rule);stroke-width:1.2}
+svg .cand-badge{fill:var(--paper);stroke:var(--ink);stroke-width:1.2}
+</style>
+
+<main>
+<header>
+  <div class="eyebrow">ConceptGate · 도식 design system · 적용판 · 2026-09-07</div>
+  <h1>선과 면</h1>
+  <p class="lede">여러 가지로 표현될 수 있는 것을 <b>식별력과 가독성이 높아지는 쪽으로 하나로 정하는 것</b> — 그것이
+  design system 을 세우는 일이다. 이 페이지는 그 결정을 <b>적용해서</b> 보인다: 면(노드)은 Core 4, 선(관계)은
+  Core 4, 색은 판정 3값. 아래 모든 그림은 그 열한 가지만으로 그렸다. 면의 둘째 축은 <b>채움</b>이다(2026-09-07 확정 — 테두리 실/점보다 채움/투명이 훨씬 잘 갈렸다); 목적 노드는 고유색(자두) 테두리, 부분은 전체보다 연하게. <b>「의미의 Core 4」는 확정</b>됐다(2026-09-07) — 선은 실행흐름·전체/부분·목적/수단·is_a, 면은 사상 × 대비 쌍.</p>
+</header>
+
+<section>
+  <h2>면 — Core 4: 모양 × 채움</h2>
+  <p>두 축은 남은 두 구조 부류다(사용자, 2026-09-07). <b>사상</b> — 이 노드가 무엇을 지시하나: 원형은 <b>있는 것</b>, 직사각은 <b>하는 것</b>. <b>대비 쌍</b> — 있음/없음을 <b>채움</b>으로: 채움은 <b>구체</b>(값이 있는 자료 · 코드가 있는 구현), 투명은 <b>추상</b>(개념 · 과업), 빈 칸은 부재. 네 칸 전부 뜻이 있다. 점선 테두리는 축이 아니라 「후보·비확정」 <b>표지</b>다.</p>
+  <figure>
+    <svg viewBox="0 0 880 250" role="img" aria-label="면 Core 4 격자. 가로축 모양 원형과 직사각, 세로축 채움과 투명. N1 원형 채움은 자료, N4 원형 투명은 개념, N3 직사각 채움은 구현, N2 직사각 투명은 과업. 점선 테두리는 후보 표지.">
+      <text class="lab" x="230" y="26" text-anchor="middle">원형 — 있는 것</text>
+      <text class="lab" x="610" y="26" text-anchor="middle">직사각 — 하는 것</text>
+      <text class="lab" x="60" y="84" text-anchor="end">채움</text>
+      <text class="lab" x="60" y="98" text-anchor="end">구체 · 값/코드</text>
+      <text class="lab" x="60" y="190" text-anchor="end">투명</text>
+      <text class="lab" x="60" y="204" text-anchor="end">추상</text>
+      <path class="grid" d="M80,36 L860,36 M80,140 L860,140 M420,36 L420,244"/>
+
+      <rect class="n-datum" x="140" y="62" width="180" height="46" rx="23"/>
+      <text class="b" x="230" y="82" text-anchor="middle">N1 자료</text>
+      <text class="s" x="230" y="98" text-anchor="middle">「개는 갯과이다」 · revision 1 — 값이 있다</text>
+
+      <rect class="n-impl" x="520" y="60" width="180" height="50" rx="0"/>
+      <text class="m" x="610" y="78" text-anchor="middle">cg_signing.verify</text>
+      <text class="b" x="610" y="94" text-anchor="middle">N3 구현</text>
+      <text class="s" x="610" y="106" text-anchor="middle">함수 · 규칙표 · 모듈 — 코드가 있다</text>
+
+      <rect class="n-concept" x="140" y="166" width="180" height="46" rx="23"/>
+      <text class="b" x="230" y="186" text-anchor="middle">N4 개념</text>
+      <text class="s" x="230" y="202" text-anchor="middle">개 · 갯과 — 값이 아니라 뜻</text>
+
+      <rect class="n-task" x="520" y="164" width="180" height="50" rx="0"/>
+      <text class="s" x="610" y="181" text-anchor="middle">입력</text>
+      <text class="b" x="610" y="196" text-anchor="middle">N2 과업</text>
+      <text class="s" x="610" y="209" text-anchor="middle">출력 — 변환, 값이 아니다</text>
+    </svg>
+    <figcaption><b>채워진 것은 손에 잡히는 것.</b> 자료(값)와 구현(코드)이 채워지고, 개념(뜻)과 과업(변환)은 비어 있다 — 앞 판(테두리 축)에서 한 칸이던 자료와 개념이
+    갈린다. 후보(규칙 판정 전 자료)는 채움에 점선 테두리 표지, 부재는 투명 + 글자 없음 + 회색. 사용자 확정(2026-09-07): 원형 칸의 채움/투명 대조가 상자의 실선/점선보다 훨씬 잘 읽혔다.</figcaption>
+  </figure>
+</section>
+
+<section>
+  <h2>선 — Core 4: 촉 × 선</h2>
+  <p>촉 있음은 <b>화살표가 방향을 나른다</b>(수평), 촉 없음은 <b>배치가 방향을 나른다</b>(수직). 실선은 <b>존재(구조) 관계</b>, 점선은
+  <b>행위(의도·시간) 관계</b>. 두 줄 다 한 줄(사슬)로도 tree 로도 그린다. 이 넷이 직선 계열 전부이고, 곡선 넷(자료가 움직일 때)은 그 바깥 층이다.</p>
+  <figure>
+    <svg viewBox="0 0 880 250" role="img" aria-label="선 Core 4 격자. 가로축 촉 단방향(수평)과 없음(수직), 세로축 실선(존재)과 점선(행위). C1 단방향 실선은 is_a, C2 단방향 점선은 실행흐름, C4 촉 없음 실선은 전체와 부분(구체화), C3 촉 없음 점선은 목적과 수단.">
+      <defs>
+        <marker id="ds-h1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="head" d="M0,0 L10,5 L0,10 z"/></marker>
+      </defs>
+      <text class="lab" x="230" y="26" text-anchor="middle">촉 단방향 — 화살표가 방향을</text>
+      <text class="lab" x="610" y="26" text-anchor="middle">촉 없음 — 배치가 방향을, 또는 무방향</text>
+      <text class="lab" x="60" y="84" text-anchor="end">실선</text>
+      <text class="lab" x="60" y="98" text-anchor="end">존재 · 구조</text>
+      <text class="lab" x="60" y="190" text-anchor="end">점선</text>
+      <text class="lab" x="60" y="204" text-anchor="end">행위 · 의도</text>
+      <path class="grid" d="M80,36 L860,36 M80,140 L860,140 M420,36 L420,244"/>
+
+      <rect class="n-concept" x="120" y="72" width="70" height="30" rx="15"/><text x="155" y="92" text-anchor="middle">개</text>
+      <path class="e" d="M190,87 L262,87" marker-end="url(#ds-h1)"/>
+      <rect class="n-concept" x="270" y="72" width="70" height="30" rx="15"/><text x="305" y="92" text-anchor="middle">갯과</text>
+      <text class="s" x="230" y="122" text-anchor="middle">C1 분류 is_a — 수평 · 존재</text>
+
+      <rect class="n-task" x="575" y="52" width="70" height="26"/><text x="610" y="70" text-anchor="middle">전체</text>
+      <path class="e" d="M610,78 L610,92 L565,92 L565,102 M610,92 L655,92 L655,102" style="stroke-width:1.2;opacity:.75"/>
+      <rect class="n-task part" x="530" y="102" width="70" height="24"/><text class="s" x="565" y="118" text-anchor="middle">부분</text>
+      <rect class="n-task part" x="620" y="102" width="70" height="24"/><text class="s" x="655" y="118" text-anchor="middle">부분</text>
+      <text class="s" x="610" y="136" text-anchor="middle">C4 전체/부분 = 구체화 — 수직 · 존재 · 실선(변경)</text>
+
+      <rect class="n-task" x="120" y="166" width="70" height="30"/><text x="155" y="186" text-anchor="middle">과업</text>
+      <path class="e dot" d="M190,181 L262,181" marker-end="url(#ds-h1)"/>
+      <rect class="n-task" x="270" y="166" width="70" height="30"/><text x="305" y="186" text-anchor="middle">과업</text>
+      <text class="s" x="230" y="216" text-anchor="middle">C2 실행흐름 — 수평 · 행위 (tree 로 갈라져도 된다)</text>
+
+      <rect class="n-goal" x="575" y="150" width="70" height="26"/><text x="610" y="168" text-anchor="middle">목적</text>
+      <path class="e fine" d="M610,176 L610,190 L565,190 L565,200 M610,190 L655,190 L655,200"/>
+      <rect class="n-task" x="530" y="200" width="70" height="26"/><text class="s" x="565" y="217" text-anchor="middle">수단</text>
+      <rect class="n-task" x="620" y="200" width="70" height="26"/><text class="s" x="655" y="217" text-anchor="middle">수단</text>
+      <text class="s" x="610" y="242" text-anchor="middle">C3 목적/수단 — 수직 · 행위 · 점선 (위가 목적, tree 허용)</text>
+    </svg>
+    <figcaption>수직 둘(C3·C4)에 촉이 없는 것은 방향이 없어서가 아니다 — 위 = 전체/목적이라는 <b>배치</b>가 방향을 나른다.
+    구체화는 전체/부분 하나로 고정된 존재 관계라 실선이고, 목적/수단은 의도의 관계라 점선이다. 두 줄 다 tree 로 갈라질 수 있다.</figcaption>
+  </figure>
+</section>
+
+<section id="meaning-core">
+  <h2>의미의 Core 4 — 의미를 분류하고 표현을 매핑하는 의사결정 <span style="color:var(--accent)">(확정 · 2026-09-07)</span></h2>
+  <p>사용자의 정식화(2026-09-07): <i>「이것은 의미를 분류하고 그 의미에 어떤 표현을 매핑할 것인지 결정하는 의사결정이며 의사소통이다.」</i>
+  그리고 제약: <b>(1) 실행흐름 · (2) 전체/부분 · (3) 목적/수단은 꼭 포함</b>. 1판의 후보(종속·이행·동등·교환)는 (2)와 (3)을 한 칸에
+  뭉갰으므로 탈락. 2판은 연속성을 「한 줄기/갈라짐」으로 읽어 사슬(실행흐름)과 나무(전체/부분)를 같은 줄에 두었다 — 사용자 권고
+  <i>「구조 부류로 치면 순서·사슬과 순서·tree/DAG 를 결정하는 것을 권장한다」</i>로 3판(실선 = 나무 / 점선 = 사슬)을 놓았고, 사용자가 넷을 확정하며
+  <i>「한 줄뿐 아니라 tree 로 표현할 수 있어야 한다」</i>고 고쳤다 — 흐름과 목적도 갈라진다. 그래서 확정판의 연속성은 구조가 아니라 <b>관계의 종류</b>다:
+  <b>실선 = 존재(구조) 관계</b>(is_a · 전체/부분) / <b>점선 = 행위(의도·시간) 관계</b>(실행흐름 · 목적/수단). 방향성 = <b>수평</b>(화살표) / <b>수직</b>(배치).
+  두 줄 다 사슬로도 tree 로도 그린다. 이것은 면의 모양 축(있는 것/하는 것)과 같은 결이다.</p>
+  <figure>
+    <svg viewBox="0 0 880 300" role="img" aria-label="의미의 Core 4 격자 2판. 가로축 방향성 수평과 수직, 세로축 연속성 한 줄기와 단계. 수평 한 줄기는 분류 is_a, 수직 한 줄기는 목적과 수단, 수평 단계는 실행흐름, 수직 갈라짐은 전체와 부분. 각 칸에 정체성과 식별성 한 줄씩과 대응하는 표현 칸.">
+      <text class="lab" x="250" y="26" text-anchor="middle">수평 — 화살표가 방향을 나른다 (촉 단)</text>
+      <text class="lab" x="640" y="26" text-anchor="middle">수직 — 배치가 방향을 나른다 (촉 없)</text>
+      <text class="lab" x="62" y="96" text-anchor="end">존재 · 구조</text>
+      <text class="lab" x="62" y="110" text-anchor="end">실선</text>
+      <text class="lab" x="62" y="226" text-anchor="end">행위 · 의도</text>
+      <text class="lab" x="62" y="240" text-anchor="end">점선</text>
+      <path class="grid" d="M80,36 L860,36 M80,166 L860,166 M450,36 L450,296"/>
+
+      <text class="b" x="250" y="66" text-anchor="middle">분류 — is_a</text>
+      <text class="s" x="250" y="86" text-anchor="middle">정체성: A 는 B 의 한 종류다</text>
+      <text class="s" x="250" y="102" text-anchor="middle">식별성: 수평(≠전체/부분은 수직) · 있는 것의 관계(≠흐름은 하는 것)</text>
+      <text class="lab" x="250" y="124" text-anchor="middle">개 ▷ 갯과 · 개념 그래프 · 배타 게이트의 한쪽</text>
+      <text class="lab" x="250" y="144" text-anchor="middle">표현: C1 직·단·실 — 현행 그대로</text>
+
+      <text class="b" x="640" y="66" text-anchor="middle">전체 / 부분</text>
+      <text class="s" x="640" y="86" text-anchor="middle">정체성: A 는 B 를 이루는 부분이다</text>
+      <text class="s" x="640" y="102" text-anchor="middle">식별성: 수직(≠분류는 수평) · 있는 것의 관계(≠목적/수단은 의도)</text>
+      <text class="lab" x="640" y="124" text-anchor="middle">L0 → 핵심 구성 · has_a / component_of · 구체화</text>
+      <text class="lab" x="640" y="144" text-anchor="middle">표현: C4 직·없·실 — 구체화 선이 점선 → 실선으로 바뀜(유일한 변경, 적용됨)</text>
+
+      <text class="b" x="250" y="196" text-anchor="middle">실행흐름</text>
+      <text class="s" x="250" y="216" text-anchor="middle">정체성: A 가 끝나면 B 가 시작한다</text>
+      <text class="s" x="250" y="232" text-anchor="middle">식별성: 하는 것의 관계(≠분류) · 수평(≠목적/수단은 수직) · tree 도 된다</text>
+      <text class="lab" x="250" y="254" text-anchor="middle">input → process → output · 파이프라인 순서</text>
+      <text class="lab" x="250" y="274" text-anchor="middle">표현: C2 직·단·점 — 현행 그대로</text>
+
+      <text class="b" x="640" y="196" text-anchor="middle">목적 / 수단</text>
+      <text class="s" x="640" y="216" text-anchor="middle">정체성: A 는 B 를 위해 있다</text>
+      <text class="s" x="640" y="232" text-anchor="middle">식별성: 수직(≠흐름은 수평) · 의도의 관계(≠전체/부분은 존재) · tree 도 된다</text>
+      <text class="lab" x="640" y="254" text-anchor="middle">상위 목적 → 상위의 상위 → Ultimate Goal · HANDOFF §0.5 사다리</text>
+      <text class="lab" x="640" y="274" text-anchor="middle">표현: C3 직·없·점 — 비어 있던 자리에 든다</text>
+    </svg>
+    <figcaption>확정. 현행에서 바뀐 것은 <b>하나</b> — 구체화(전체/부분) 선이 점선에서 실선으로(존재 관계). 촉 없음·직각·기본색은 그대로.
+    비어 있던 C3 에 목적/수단 사다리가 든다. 넷째로 고르지 않은 기표/기의·대칭은 Sub 로 내려간다.</figcaption>
+  </figure>
+  <p><b>면의 의미 Core.</b> 남은 두 구조 부류가 그대로 두 축이다(사용자, 2026-09-07) — <b>사상</b>(이 노드가 무엇을 지시하나: 있는 것/하는 것 → 모양)
+  × <b>대비 쌍</b>(있음/없음: 실물/절차·비확정, 부재 = 빈 칸 → 테두리). 위의 N1~N4 가 그 근거를 얻는다. 선의 네 관계와 면의 네 노드가 같은 두 구조
+  부류(순서 / 사상·대비)에서 나왔다는 것이 이 체계의 뼈대다.</p>
+</section>
+
+<section>
+  <h2>색 — 판정 3값의 겹침 층</h2>
+  <p>색은 축이 아니라 <b>겹침 층</b>이고 뜻은 목적 문장의 세 판정 그대로다. 그래서 구체화 선의 파랑을 뺐다 — 파랑은 구현의
+  <b>글씨</b>에만 남는다.</p>
+  <figure>
+    <svg viewBox="0 0 880 120" role="img" aria-label="같은 C1 간선 셋. 기본색은 성립함, 회색 점선은 판단 불가, 붉음은 성립하지 않음.">
+      <defs>
+        <marker id="ds-h2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="head" d="M0,0 L10,5 L0,10 z"/></marker>
+        <marker id="ds-h2r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="head-red" d="M0,0 L10,5 L0,10 z"/></marker>
+      </defs>
+      <rect class="n-concept" x="40" y="40" width="70" height="30" rx="15"/><text x="75" y="60" text-anchor="middle">개</text>
+      <path class="e" d="M110,55 L182,55" marker-end="url(#ds-h2)"/>
+      <rect class="n-concept" x="190" y="40" width="70" height="30" rx="15"/><text x="225" y="60" text-anchor="middle">갯과</text>
+      <text class="s" x="150" y="92" text-anchor="middle">성립함 — 기본색</text>
+
+      <rect class="n-concept" x="340" y="40" width="80" height="30" rx="15"/><text x="380" y="60" text-anchor="middle">자동차</text>
+      <path class="e gray" d="M420,55 L492,55"/>
+      <rect class="n-concept" x="500" y="40" width="70" height="30" rx="15"/><text x="535" y="60" text-anchor="middle">바퀴</text>
+      <text class="s gray" x="440" y="92" text-anchor="middle">판단 불가 — 회색 · 촉 없음 (has_a 미해석)</text>
+
+      <rect class="n-concept" x="620" y="40" width="70" height="30" rx="15"/><text x="655" y="60" text-anchor="middle">개</text>
+      <path class="e red" d="M690,50 L762,50" marker-end="url(#ds-h2r)"/>
+      <path class="e red" d="M762,62 L690,62" marker-end="url(#ds-h2r)"/>
+      <rect class="n-concept" x="770" y="40" width="70" height="30" rx="15"/><text x="805" y="60" text-anchor="middle">동물</text>
+      <text class="s red" x="730" y="92" text-anchor="middle">성립하지 않음 — 붉음 (순환: 두 간선이 각각)</text>
+    </svg>
+    <figcaption>미해석은 방향도 주장하지 않는다 — 그래서 회색이면서 촉도 없다. 순환은 한 간선의 양방향 촉이 아니라
+    <b>두 간선이 각각</b> 붉어진다(각 주장이 따로 성립하지 않음).</figcaption>
+  </figure>
+</section>
+
+<section>
+  <h2>적용 1 — 파이프라인 한 조각, 이 열한 가지만으로</h2>
+  <p>위에서 목적이 가는 점선으로 내려오고(C3), 왼쪽의 <b>예시 자료</b>(호박 원형, 값은 「개 is_a 갯과」)가 곡선으로 과업에 들어가 과업 사이를 점선 화살표로 흐르고(C2),
+  과업 아래로 실선이 핵심 구성에 닿는다(C4). 구현은 실선 — 저장소에 실제로 있는 물건이라서. <b>is_a 는 여기 없다</b> — 파이프라인 도식에서 개념 관계는 자료의 값이고,
+  간선으로 그리는 것은 개념 그래프 계열(적용 2 · 대조 (4))의 몫이다. 그래서 예시(호박)와 개념(흰 원형)이 한눈에 갈린다.</p>
+  <figure>
+    <svg viewBox="0 0 880 300" role="img" aria-label="파이프라인 조각에 세 관계와 자료. 맨 위 목적 「자기모순 증명부터 판정한다」에서 가는 점선이 촉 없이 관계 게이트로 내려온다(목적과 수단). 왼쪽 호박 원형 자료 「개 is_a 갯과」가 곡선 실선으로 원문 대조에 들어가고, 원문 대조에서 관계 게이트로 점선 화살표(실행흐름), 관계 게이트에서 곡선 실선으로 판정 자료로 나간다. 관계 게이트 아래로 실선 촉 없음이 반대칭 검사와 results_from_pipeline 구현 상자에 닿는다(전체와 부분).">
+      <defs>
+        <marker id="ds-h3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="head" d="M0,0 L10,5 L0,10 z"/></marker>
+      </defs>
+      <!-- 목적/수단 C3 (수직 · 가는 점선 · 촉 없음, 위가 목적) -->
+      <rect class="n-goal" x="440" y="26" width="220" height="30"/><text x="550" y="46" text-anchor="middle">목적: 자기모순 증명부터 판정한다</text>
+      <path class="e fine" d="M550,56 L550,104"/>
+      <text class="lab" x="562" y="84" text-anchor="start">목적/수단 · C3</text>
+      <!-- 자료 N1 (호박 원형): claim 은 파이프라인 도식에서 자료의 값이다 — 개념 간선으로 펴지 않는다(규칙 §2.5) -->
+      <rect class="n-datum" x="40" y="105" width="160" height="44" rx="22"/>
+      <text class="b" x="120" y="124" text-anchor="middle">claim</text><text class="s" x="120" y="139" text-anchor="middle">개 is_a 갯과 · ev1</text>
+      <text class="lab" x="120" y="168" text-anchor="middle">자료 · N1 (예시)</text>
+      <!-- 자료 곡선 (Main): claim 이 과업으로 -->
+      <path class="e" d="M200,127 Q235,100 270,127" marker-end="url(#ds-h3)"/>
+      <!-- 실행흐름 C2 (수평 · 점선 · 촉) -->
+      <rect class="n-task" x="270" y="104" width="140" height="46"/>
+      <text class="s" x="340" y="121" text-anchor="middle">claim · 원문</text><text class="b" x="340" y="136" text-anchor="middle">원문 대조</text><text class="s" x="340" y="148" text-anchor="middle">판정 행 4</text>
+      <path class="e dot" d="M410,127 L472,127" marker-end="url(#ds-h3)"/>
+      <text class="lab" x="441" y="118" text-anchor="middle">흐름 · C2</text>
+      <rect class="n-task" x="472" y="104" width="156" height="46"/>
+      <text class="s" x="550" y="121" text-anchor="middle">그래프</text><text class="b" x="550" y="136" text-anchor="middle">관계 게이트</text><text class="s" x="550" y="148" text-anchor="middle">판정 행 3 + checked</text>
+      <path class="e" d="M628,127 Q664,100 700,127" marker-end="url(#ds-h3)"/>
+      <rect class="n-datum" x="700" y="105" width="160" height="44" rx="22"/>
+      <text class="b" x="780" y="124" text-anchor="middle">3 × PASS</text><text class="s" x="780" y="139" text-anchor="middle">checked = 0</text>
+      <!-- 전체/부분 C4 (수직 · 실선 · 촉 없음, 위가 전체) -->
+      <path class="e" d="M550,150 L550,186 L440,186 L440,214 M550,186 L660,186 L660,214" style="stroke-width:1.2;opacity:.8"/>
+      <text class="lab" x="550" y="180" text-anchor="middle">「관계 게이트」의 핵심 구성 · 전체/부분 · C4</text>
+      <rect class="n-task part" x="360" y="214" width="160" height="52"/>
+      <text class="s" x="440" y="231" text-anchor="middle">간선</text><text class="b" x="440" y="246" text-anchor="middle">반대칭 검사</text><text class="s" x="440" y="260" text-anchor="middle">위반 목록</text>
+      <rect class="n-impl part" x="580" y="214" width="160" height="52"/>
+      <text class="m" x="660" y="231" text-anchor="middle">results_from_pipeline</text><text class="b" x="660" y="246" text-anchor="middle">판정 행 만들기</text><text class="s" x="660" y="260" text-anchor="middle">위반→FAIL · 0→PASS</text>
+      <text class="s" x="440" y="290" text-anchor="middle">N2 구성 과업 — 투명(부분: 테두리 연함)</text>
+      <text class="s" x="660" y="290" text-anchor="middle">N3 구현 — 채움(부분: 채움 연함)</text>
+    </svg>
+    <figcaption><b>세 관계 + 자료가 한 그림에 — 대조 평가는 여기서 한다.</b> 촉 유무로 수평(흐름)과 수직(전체/부분·목적/수단)이 갈리는가, 실/점으로 존재(전체/부분)와
+    행위(흐름·목적/수단)가 갈리는가, 곡선·호박으로 자료 이동이 과업 사이 관계와 갈리는가. is_a 는 이 계열에 없다 — 첫 수정판에 개 ▷ 갯과를 개념 간선으로 넣었다가
+    되돌렸다(사용자: 호박 블록이 예시와 개념을 식별하게 한다 · 규칙 §2.5: 파이프라인 도식에서 개념 관계는 자료의 값).
+    실물: 목적은 목적 문장의 절 「단일 주장의 자기모순 증명부터」(슬라이드 3단계가 실현하는 절) · 자료는 진행 예시 claim · 나머지는 파이프라인 2·3단계.
+    슬라이드에서는 구성 상자를 전부 N2 로 그린다(구현 레지스터를 가진 과업) — 여기서는 N3 을 보이기 위해 오른쪽 아래를 순수 구현으로 두었다.</figcaption>
+  </figure>
+</section>
+
+<section id="part-whole-candidates">
+  <h2>전체/부분 표현 후보 — 「적용 1」에서 식별이 안 된다 <span style="color:var(--accent)">확인 대기</span></h2>
+  <p>사용자(2026-09-07): <i>「이해는 했는데 그 부분이 직관적으로 식별이 안 되어서 … 전체/부분 관계의 표현 방법을 바꿔야 할지
+  아니면 색상이나 다른 표현 방법을 바꿔볼지.」</i> 위 「적용 1」의 전체/부분 선(관계 게이트 → 반대칭 검사 · results_from_pipeline)을
+  그대로 떼어 네 방식으로 다시 그렸다 — <b>수정 프로토콜 철학</b>(같은 문제를 새 해법으로 풀지 말고 있는 해법을 먼저 찾는다)에 따라
+  먼저 물었다: 이 저장소가 「전체/부분을 어떻게 식별시키는가」를 이미 풀어둔 자리가 있는가 — 있다, <code>scripts/l1_s5_model.py</code> 의
+  마름모 화살촉(등록부 <code>structural_composition</code>, 위 「적용 2」에 이미 실증)이 그것이다. <b>D</b>는 그 기존 해법을 그대로 재사용하고,
+  <b>A·B·C</b>는 그것이 안 맞을 때(아래 D 캡션)를 대비한 Core 안에서의 새 강조 후보다. 선 Core 는 넷 다 그대로(직선 · 촉 없음 · 실선, 위가 전체) —
+  바뀌는 것은 강조 방식뿐이다.</p>
+  <figure>
+    <svg viewBox="0 0 920 580" role="img" aria-label="전체/부분 표현 후보 넷을 2행 2열 카드로 비교. A는 지금과 같은 꺾은선을 굵은 청록으로. B는 자식을 잇는 굵은 가로 막대와 가는 세로선의 브래킷. C는 자식들을 옅은 점선 테두리로 묶는 포함 영역. D는 등록부가 이미 쓰는 마름모 화살촉을 그대로 재사용 — 부분에서 전체로 향하는 두 선의 전체 쪽 끝에 채운 마름모.">
+      <defs><marker id="cand-dia" viewBox="0 0 14 10" refX="13" refY="5" markerWidth="11" markerHeight="8" orient="auto"><path class="head-f" d="M1,5 L7,1 L13,5 L7,9 z"/></marker></defs>
+
+      <rect class="cand-panel" x="20" y="20" width="420" height="250" rx="10"/>
+      <circle class="cand-badge" cx="42" cy="42" r="14"/>
+      <text class="b" x="42" y="47" text-anchor="middle" font-size="13">A</text>
+      <text class="b" x="66" y="47" font-size="12">색 + 굵기만</text>
+      <rect class="n-task" x="160" y="75" width="140" height="30"/>
+      <text x="230" y="94" text-anchor="middle" font-size="11">관계 게이트</text>
+      <path class="part-a" d="M230,105 L230,148 L160,148 L160,195 M230,148 L300,148 L300,195"/>
+      <rect class="n-task part" x="100" y="195" width="120" height="40"/>
+      <text class="s" x="160" y="219" text-anchor="middle">반대칭 검사</text>
+      <rect class="n-impl part" x="240" y="195" width="120" height="40"/>
+      <text class="s" x="300" y="219" text-anchor="middle">results_from…</text>
+      <text class="s" x="230" y="255" text-anchor="middle">지금과 모양은 같다</text>
+      <text class="s" x="230" y="268" text-anchor="middle">선만 두껍고 청록이다</text>
+
+
+      <rect class="cand-panel" x="470" y="20" width="420" height="250" rx="10"/>
+      <circle class="cand-badge" cx="492" cy="42" r="14"/>
+      <text class="b" x="492" y="47" text-anchor="middle" font-size="13">B</text>
+      <text class="b" x="516" y="47" font-size="12">브래킷(형제 먼저)</text>
+      <rect class="n-task" x="610" y="75" width="140" height="30"/>
+      <text x="680" y="94" text-anchor="middle" font-size="11">관계 게이트</text>
+      <rect class="part-b-bar" x="610" y="146" width="140" height="4"/><path class="part-b-stem" d="M680,105 L680,146 M610,150 L610,195 M750,150 L750,195"/>
+      <rect class="n-task part" x="550" y="195" width="120" height="40"/>
+      <text class="s" x="610" y="219" text-anchor="middle">반대칭 검사</text>
+      <rect class="n-impl part" x="690" y="195" width="120" height="40"/>
+      <text class="s" x="750" y="219" text-anchor="middle">results_from…</text>
+      <text class="s" x="680" y="255" text-anchor="middle">굵은 막대 = 「이 둘은 형제」</text>
+      <text class="s" x="680" y="268" text-anchor="middle">가는 세로 = 「부모에 속한다」</text>
+
+
+      <rect class="cand-panel" x="20" y="300" width="420" height="250" rx="10"/>
+      <circle class="cand-badge" cx="42" cy="322" r="14"/>
+      <text class="b" x="42" y="327" text-anchor="middle" font-size="13">C</text>
+      <text class="b" x="66" y="327" font-size="12">포함 윤곽(영역)</text>
+      <rect class="n-task" x="160" y="355" width="140" height="30"/>
+      <text x="230" y="374" text-anchor="middle" font-size="11">관계 게이트</text>
+      <path class="part-c-tick" d="M230,385 L230,405"/><rect class="part-c-group" x="85" y="460" width="290" height="70" rx="8"/>
+      <rect class="n-task part" x="100" y="475" width="120" height="40"/>
+      <text class="s" x="160" y="499" text-anchor="middle">반대칭 검사</text>
+      <rect class="n-impl part" x="240" y="475" width="120" height="40"/>
+      <text class="s" x="300" y="499" text-anchor="middle">results_from…</text>
+      <text class="s" x="230" y="535" text-anchor="middle">옅은 테두리 = 「전체 안의 영역」</text>
+      <text class="s" x="230" y="548" text-anchor="middle">부모↔영역은 짧은 틱 하나</text>
+
+
+      <rect class="cand-panel" x="470" y="300" width="420" height="250" rx="10"/>
+      <circle class="cand-badge" cx="492" cy="322" r="14"/>
+      <text class="b" x="492" y="327" text-anchor="middle" font-size="13">D</text>
+      <text class="b" x="516" y="327" font-size="12">마름모 재사용(기존 해법)</text>
+      <rect class="n-task" x="610" y="355" width="140" height="30"/>
+      <text x="680" y="374" text-anchor="middle" font-size="11">관계 게이트</text>
+      <path class="e" d="M610,475 L670,385" marker-end="url(#cand-dia)"/><path class="e" d="M750,475 L690,385" marker-end="url(#cand-dia)"/>
+      <rect class="n-task part" x="550" y="475" width="120" height="40"/>
+      <text class="s" x="610" y="499" text-anchor="middle">반대칭 검사</text>
+      <rect class="n-impl part" x="690" y="475" width="120" height="40"/>
+      <text class="s" x="750" y="499" text-anchor="middle">results_from…</text>
+      <text class="s" x="680" y="535" text-anchor="middle">등록부 structural_composition 과 같은 마름모</text>
+      <text class="s" x="680" y="548" text-anchor="middle">새 모양이 아니라 이미 있는 것을 그대로 붙임</text>
+
+    </svg>
+    <figcaption><b>D 는 새로 지은 것이 아니다</b> — <code>scripts/l1_s5_model.py</code> 의 <code>_HEAD_BY_FEATURE_TYPE["structural_composition"]="diamond"</code> 를
+    그대로 재사용한다(이미 구현·렌더·위 「적용 2」에 실증됨 — "마름모는 전체 쪽에 앉는다"). 저장소가 이미 푼 문제를 A·B·C 처럼 새로 푸는 대신
+    <b>있는 해법을 다른 자리에 다시 쓸 수 있는가</b>를 먼저 물어야 했다(수정 프로토콜 철학). 다만 D 를 그대로 쓰면 Core 4 의 「전체/부분 = 촉 없음」
+    규칙과 충돌한다 — Core 는 파이프라인 단계의 <i>일반</i> 구체화이고 마름모는 등록부가 <i>이 관계가 정말 structural_composition 인지</i>를
+    판정한 뒤에만 붙는 <b>Sub 층</b> 마크였다. 그래서 D 를 고르면 "이 파이프라인 조각을 Sub 층까지 판정한 것으로 볼 것인가"라는
+    별도 결정이 따라온다 — A·B·C 는 그 결정 없이 Core 안에서 강조만 더한다.</figcaption>
+  </figure>
+</section>
+
+
+<section>
+  <h2>적용 2 — 개념 그래프 한 조각: 등록부가 촉 모양을 정한다</h2>
+  <p>이 그림은 노드마다 관계 하나씩을 한 장에 섞은 <b>범례</b>다(대조용은 아래 「의미별로 하나씩」). 여기서는 모든 간선이 C1(직·단·실)이고, <b>종류</b>는 그림이 아니라 등록부 <code>feature_type</code> 이 촉 모양으로 나른다 —
+  분류는 빈 삼각, 부분–전체는 마름모, 구성원은 빈 마름모, 그 외는 보통 촉. 라벨이 정확한 종류다.</p>
+  <figure>
+    <svg viewBox="0 0 880 210" role="img" aria-label="개념 그래프 조각. 개에서 갯과로 빈 삼각 촉 is_a, 바퀴에서 자동차로 채운 마름모 촉 component_integral, 개에서 무리로 빈 마름모 촉 member_collection, 오아시스에서 사막으로 보통 촉 place_area, 자동차와 바퀴 사이 회색 점선 촉 없음 has_a 미해석.">
+      <defs>
+        <marker id="ds-h4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="head" d="M0,0 L10,5 L0,10 z"/></marker>
+        <marker id="ds-tri" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="10" markerHeight="10" orient="auto"><path class="head-o" d="M1,1 L11,6 L1,11 z"/></marker>
+        <marker id="ds-dia" viewBox="0 0 14 10" refX="13" refY="5" markerWidth="11" markerHeight="8" orient="auto"><path class="head-f" d="M1,5 L7,1 L13,5 L7,9 z"/></marker>
+        <marker id="ds-odia" viewBox="0 0 14 10" refX="13" refY="5" markerWidth="11" markerHeight="8" orient="auto"><path class="head-o" d="M1,5 L7,1 L13,5 L7,9 z"/></marker>
+      </defs>
+      <rect class="n-concept" x="30" y="40" width="80" height="30" rx="15"/><text x="70" y="60" text-anchor="middle">개</text>
+      <path class="e" d="M110,55 L212,55" marker-end="url(#ds-tri)"/>
+      <rect class="n-concept" x="220" y="40" width="80" height="30" rx="15"/><text x="260" y="60" text-anchor="middle">갯과</text>
+      <text class="lab" x="161" y="46" text-anchor="middle">is_a</text>
+
+      <rect class="n-concept" x="30" y="130" width="80" height="30" rx="15"/><text x="70" y="150" text-anchor="middle">개</text>
+      <path class="e" d="M110,145 L212,145" marker-end="url(#ds-odia)"/>
+      <rect class="n-concept" x="220" y="130" width="100" height="30" rx="15"/><text x="270" y="150" text-anchor="middle">갯과 무리</text>
+      <text class="lab" x="161" y="136" text-anchor="middle">member_collection</text>
+
+      <rect class="n-concept" x="380" y="40" width="80" height="30" rx="15"/><text x="420" y="60" text-anchor="middle">바퀴</text>
+      <path class="e" d="M460,55 L562,55" marker-end="url(#ds-dia)"/>
+      <rect class="n-concept" x="570" y="40" width="90" height="30" rx="15"/><text x="615" y="60" text-anchor="middle">자동차</text>
+      <text class="lab" x="511" y="46" text-anchor="middle">component_integral</text>
+
+      <rect class="n-concept" x="380" y="130" width="90" height="30" rx="15"/><text x="425" y="150" text-anchor="middle">오아시스</text>
+      <path class="e" d="M470,145 L562,145" marker-end="url(#ds-h4)"/>
+      <rect class="n-concept" x="570" y="130" width="80" height="30" rx="15"/><text x="610" y="150" text-anchor="middle">사막</text>
+      <text class="lab" x="516" y="136" text-anchor="middle">place_area · 미결 = 보통 촉</text>
+
+      <rect class="n-concept" x="700" y="40" width="90" height="30" rx="15"/><text x="745" y="60" text-anchor="middle">자동차</text>
+      <path class="e gray" d="M745,70 L745,130"/>
+      <rect class="n-concept" x="705" y="130" width="80" height="30" rx="15"/><text x="745" y="150" text-anchor="middle">바퀴</text>
+      <text class="lab gray" x="800" y="104" text-anchor="start">has_a — 미해석</text>
+      <text class="lab gray" x="800" y="118" text-anchor="start">등록부 밖 · 방향 미주장</text>
+      <text class="s" x="440" y="196" text-anchor="middle">마름모는 전체 쪽에, 빈 삼각은 상위 쪽에 앉는다 — 등록부 <tspan class="m">claim_subject</tspan> 가 준 방향, UML 과 같은 자리</text>
+    </svg>
+    <figcaption>이 그림의 정본 실물은 <code>docs/formal/L1_GOAL_KG_render.svg</code>(22 claim) 다 — 같은 규칙(<code>edge_code</code>)으로 그려져
+    마름모 10 · 빈 삼각 4 · 빈 마름모 8. 앞 판은 <code>is_a</code> 만 실선이고 나머지 8종이 같은 파랑 점선이었다.</figcaption>
+  </figure>
+</section>
+
+<section id="dag-four">
+  <h2>의미별로 하나씩 — 시각 대조를 위한 네 그래프 (각 그래프는 한 관계만)</h2>
+  <p>사용자 요구(2026-09-07): <i>「(1) 실행흐름 (2) 전체/부분 (3) 목적/수단 (4) is_a 네 가지 모두 DAG 로도 표현할 수 있다는 것을
+  보여야 한다 — 각각을 적용한 사례를 포함시켜라 … 이런 것들이 필요한 것은 시각적인 대조를 확인하기 위함이다.」</i>
+  위 「적용 2」는 노드마다 관계 하나씩을 한 그림에 섞은 범례였다. 여기서는 <b>그래프마다 관계 하나만</b> 그린다 — is_a 만 보이는 그래프,
+  전체/부분만 보이는 그래프 — 그래야 넷이 나란히 놓였을 때 표현이 서로 구별되는지 <b>눈으로</b> 확인된다. 넷 다 이 저장소의 실물이고,
+  출처는 캡션에. 나무는 DAG 의 특수한 경우이고, 부모를 공유하는 순간 그대로 DAG 다.</p>
+
+  <figure>
+    <svg viewBox="0 0 880 200" role="img" aria-label="실행흐름만 보이는 그래프. 간선 해석에서 반대칭 검사, 비순환 검사, 배타 검사 셋으로 갈라지고 판정 행 변환 하나로 합류해 인증서 발급으로 간다. 점선 단방향 화살표 C2 만 쓴다.">
+      <defs><marker id="dg-h1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="head" d="M0,0 L10,5 L0,10 z"/></marker></defs>
+      <text class="lab" x="20" y="24">(1) 실행흐름만 — C2 직·단·점 · 갈라졌다 합류하는 DAG · 다른 관계 없음</text>
+      <rect class="n-task" x="20" y="84" width="120" height="32"/><text x="80" y="105" text-anchor="middle">간선 해석</text>
+      <path class="e dot" d="M140,100 L190,60" marker-end="url(#dg-h1)"/>
+      <path class="e dot" d="M140,100 L190,100" marker-end="url(#dg-h1)"/>
+      <path class="e dot" d="M140,100 L190,140" marker-end="url(#dg-h1)"/>
+      <rect class="n-task" x="190" y="44" width="150" height="32"/><text x="265" y="65" text-anchor="middle">반대칭 검사</text>
+      <rect class="n-task" x="190" y="84" width="150" height="32"/><text x="265" y="105" text-anchor="middle">비순환 검사</text>
+      <rect class="n-task" x="190" y="124" width="150" height="32"/><text x="265" y="145" text-anchor="middle">배타 검사</text>
+      <path class="e dot" d="M340,60 L400,100" marker-end="url(#dg-h1)"/>
+      <path class="e dot" d="M340,100 L400,100" marker-end="url(#dg-h1)"/>
+      <path class="e dot" d="M340,140 L400,100" marker-end="url(#dg-h1)"/>
+      <rect class="n-task" x="400" y="84" width="170" height="32"/><text x="485" y="105" text-anchor="middle">판정 행 변환 + 계수</text>
+      <path class="e dot" d="M570,100 L640,100" marker-end="url(#dg-h1)"/>
+      <rect class="n-task" x="640" y="84" width="150" height="32"/><text x="715" y="105" text-anchor="middle">인증서 발급</text>
+      <text class="s" x="440" y="186" text-anchor="middle">셋은 같은 입력 위에서 독립(순서 없음) — 한 줄로 그리면 거짓 순서를 만든다</text>
+    </svg>
+    <figcaption>출처: 슬라이드 3단계 L1 (`gen_goal_slides_l12.py` 의 `edges1 = [(0,3),(1,3),(2,3)]`, 라벨 ∥). 같은 형태가 S5 재검증에도 있다 —
+    검사 6종이 `X` 하나 위에서 병렬로 돌고 PASS 하나로 합류한다(`scripts/s5_verify.py`).</figcaption>
+  </figure>
+
+  <figure>
+    <svg viewBox="0 0 880 200" role="img" aria-label="전체와 부분 DAG. 정본 지식 그래프에서 궁극 목표가 성분 여덟, 즉 S2, S4, S5 와 (가)에서 (마)까지를 구성원으로 갖고, 그중 S5 는 다시 export 묶음의 부분 넷을 갖는다. 실선 촉 없음 C4, 위가 전체.">
+      <text class="lab" x="20" y="24">(2) 전체/부분만 — C4 직·없·실 · 위가 전체, 아래로 갈라지는 DAG</text>
+      <rect class="n-concept" x="360" y="40" width="160" height="30" rx="15"/><text x="440" y="60" text-anchor="middle">궁극 목표</text>
+      <path class="e" d="M440,70 L440,86 L90,86 L90,100 M440,86 L190,86 L190,100 M440,86 L290,86 L290,100 M440,86 L390,86 L390,100 M440,86 L490,86 L490,100 M440,86 L590,86 L590,100 M440,86 L690,86 L690,100 M440,86 L790,86 L790,100" style="stroke-width:1.2;opacity:.75"/>
+      <rect class="n-concept part" x="55" y="100" width="70" height="26" rx="13"/><text class="s" x="90" y="117" text-anchor="middle">S2</text>
+      <rect class="n-concept part" x="155" y="100" width="70" height="26" rx="13"/><text class="s" x="190" y="117" text-anchor="middle">S4</text>
+      <rect class="n-concept part" x="255" y="100" width="70" height="26" rx="13"/><text class="s" x="290" y="117" text-anchor="middle">S5</text>
+      <rect class="n-concept part" x="355" y="100" width="70" height="26" rx="13"/><text class="s" x="390" y="117" text-anchor="middle">(가)</text>
+      <rect class="n-concept part" x="455" y="100" width="70" height="26" rx="13"/><text class="s" x="490" y="117" text-anchor="middle">(나)</text>
+      <rect class="n-concept part" x="555" y="100" width="70" height="26" rx="13"/><text class="s" x="590" y="117" text-anchor="middle">(다)</text>
+      <rect class="n-concept part" x="655" y="100" width="70" height="26" rx="13"/><text class="s" x="690" y="117" text-anchor="middle">(라)</text>
+      <rect class="n-concept part" x="755" y="100" width="70" height="26" rx="13"/><text class="s" x="790" y="117" text-anchor="middle">(마)</text>
+      <path class="e" d="M290,126 L290,142 L170,142 L170,156 M290,142 L260,142 L260,156 M290,142 L350,142 L350,156 M290,142 L440,142 L440,156" style="stroke-width:1.2;opacity:.75"/>
+      <rect class="n-concept part2" x="132" y="156" width="76" height="24" rx="12"/><text class="s" x="170" y="172" text-anchor="middle">인증서</text>
+      <rect class="n-concept part2" x="222" y="156" width="76" height="24" rx="12"/><text class="s" x="260" y="172" text-anchor="middle">객체</text>
+      <rect class="n-concept part2" x="312" y="156" width="76" height="24" rx="12"/><text class="s" x="350" y="172" text-anchor="middle">공개키</text>
+      <rect class="n-concept part2" x="402" y="156" width="76" height="24" rx="12"/><text class="s" x="440" y="172" text-anchor="middle">표시</text>
+      <text class="s" x="640" y="172" text-anchor="middle">두 층 — 성분 8, 그중 S5 의 묶음 X 는 다시 넷</text>
+    </svg>
+    <figcaption>출처: 정본 지식 그래프 `L1_GOAL_KG_render.dot` — `member_collection` 8건(g15~g22: S2·S4·S5·(가)~(마) → 궁극 목표),
+    `component_integral` 4건(g4~g7: 인증서·객체·공개키·표시 → x). 정본 §9.4 의 「성분 여덟 중 셋」이 이 그림이다.</figcaption>
+  </figure>
+
+  <figure>
+    <svg viewBox="0 0 880 210" role="img" aria-label="목적과 수단 DAG. HANDOFF 목적 사다리: 여러 열린 과업이 L3 기술 층 또는 L2 조건 층에 걸리고, L3 는 L2 를, L2 는 L1 궁극을 위해 있다. 점선 촉 없음 C3, 위가 목적.">
+      <text class="lab" x="20" y="24">(3) 목적/수단만 — C3 직·없·점 · 위가 목적, 수단 여럿이 모이는 DAG</text>
+      <rect class="n-goal" x="330" y="40" width="220" height="30"/><text x="440" y="60" text-anchor="middle">L1 궁극 — 신뢰 가능한 온톨로지로 누적</text>
+      <path class="e fine" d="M440,70 L440,86"/>
+      <rect class="n-goal lt" x="330" y="86" width="220" height="30"/><text x="440" y="106" text-anchor="middle">L2 조건 — document ⊨ formal model</text>
+      <path class="e fine" d="M440,116 L440,132 L200,132 L200,146 M440,132 L440,146 M440,132 L680,132 L680,146"/>
+      <rect class="n-task" x="110" y="146" width="180" height="28"/><text class="s" x="200" y="164" text-anchor="middle">M1 certificate 재설계</text>
+      <rect class="n-goal lt" x="350" y="146" width="180" height="28"/><text class="s" x="440" y="164" text-anchor="middle">L3 기술 — obligation 시스템</text>
+      <rect class="n-task" x="590" y="146" width="180" height="28"/><text class="s" x="680" y="164" text-anchor="middle">코호트 실행(L2 의 측정)</text>
+      <path class="e fine" d="M440,174 L440,182 L360,182 L360,190 M440,182 L520,182 L520,190"/>
+      <text class="s" x="360" y="204" text-anchor="middle">TWO_PASS_VERIFY1 · document 결박</text>
+      <text class="s" x="520" y="204" text-anchor="middle">invariant 값 채움</text>
+    </svg>
+    <figcaption>출처: `HANDOFF.md` §0.5 목적 사다리와 「열린 Task 가 사다리 어디에 걸리는가」 표 — 과업 여럿이 L3 에, L3 와 M1·코호트가 L2 에,
+    L2 가 L1 에 걸린다. 사다리(한 줄)로 적혀 있지만 실물은 수단이 모이는 나무다.</figcaption>
+  </figure>
+
+  <figure>
+    <svg viewBox="0 0 880 240" role="img" aria-label="is_a 만 보이는 그래프. 윗줄: 고양이는 고양잇과, 고양잇과는 포유류의 하위. 가운데 줄: 개는 갯과, 갯과는 포유류, 포유류는 동물, 동물은 생물의 하위. 아랫줄: 개는 가축이기도 하고(부모 둘, 다중 상속) 가축은 동물의 하위. 포유류와 동물에서 줄기가 합류한다. 실선 단방향 빈 삼각 촉 C1 만 쓴다.">
+      <defs><marker id="dg-tri" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="10" markerHeight="10" orient="auto"><path class="head-o" d="M1,1 L11,6 L1,11 z"/></marker></defs>
+      <text class="lab" x="20" y="14">(4) is_a 만 — C1 직·단·실 · 빈 삼각 촉 · 다중 상속(개 ▷ 갯과 ∧ 가축) + 부모 공유(포유류·동물) = DAG · 다른 관계 없음</text>
+      <!-- 윗줄: 고양이 계열 -->
+      <rect class="n-concept" x="40" y="26" width="90" height="30" rx="15"/><text x="85" y="46" text-anchor="middle">고양이</text>
+      <path class="e" d="M130,41 L202,41" marker-end="url(#dg-tri)"/>
+      <rect class="n-concept" x="210" y="26" width="90" height="30" rx="15"/><text x="255" y="46" text-anchor="middle">고양잇과</text>
+      <path class="e" d="M300,44 L408,94" marker-end="url(#dg-tri)"/>
+      <!-- 가운데 줄: 개 계열 -->
+      <rect class="n-concept" x="40" y="96" width="90" height="30" rx="15"/><text x="85" y="116" text-anchor="middle">개</text>
+      <path class="e" d="M130,111 L202,111" marker-end="url(#dg-tri)"/>
+      <rect class="n-concept" x="210" y="96" width="90" height="30" rx="15"/><text x="255" y="116" text-anchor="middle">갯과</text>
+      <path class="e" d="M300,111 L372,111" marker-end="url(#dg-tri)"/>
+      <rect class="n-concept" x="380" y="96" width="90" height="30" rx="15"/><text x="425" y="116" text-anchor="middle">포유류</text>
+      <path class="e" d="M470,111 L542,111" marker-end="url(#dg-tri)"/>
+      <rect class="n-concept" x="550" y="96" width="90" height="30" rx="15"/><text x="595" y="116" text-anchor="middle">동물</text>
+      <path class="e" d="M640,111 L712,111" marker-end="url(#dg-tri)"/>
+      <rect class="n-concept" x="720" y="96" width="90" height="30" rx="15"/><text x="765" y="116" text-anchor="middle">생물</text>
+      <!-- 아랫줄: 개의 둘째 부모 -->
+      <path class="e" d="M112,126 L300,182" marker-end="url(#dg-tri)"/>
+      <rect class="n-concept" x="300" y="166" width="90" height="30" rx="15"/><text x="345" y="186" text-anchor="middle">가축</text>
+      <path class="e" d="M390,180 L558,128" marker-end="url(#dg-tri)"/>
+      <text class="s" x="440" y="226" text-anchor="middle">개는 부모가 둘(갯과·가축) — 다중 상속. 포유류(갯과·고양잇과)와 동물(포유류·가축)은 자식이 둘 — 부모 공유. 둘 다 나무를 벗어난 DAG 다</text>
+    </svg>
+    <figcaption>출처(전부 이 워크스페이스의 실물): 「개는 갯과의 <b>가축화된</b> 동물이다」(진행 예시 원문 — 개 ▷ 갯과 와 개 ▷ 가축, 부모 둘) · 개 is_a 갯과(10회) ·
+    갯과 is_a 동물(3회) · 개→포유류 · 포유류→동물 · 고양이→동물 · 동물→생물(`L1_KG_1depth.dot` σ11). 고양이 ▷ 고양잇과 ▷ 포유류는 사용자 정정(고양이를 동물에 바로 붙였던 것은 층을 건너뛴 오류). 사용자 지적대로 <b>다중 상속이 있으므로 is_a 는 DAG 여야 한다</b> —
+    앞 판은 부모 공유(합류)만 있어 나무였다. 첫 판은 vendored gufo.owl 의 Kind/Role ⊑ RigidType/Sortal 격자를 썼는데 — 진짜 DAG 이긴 하지만 노드가
+    메타타입이라 「~만 그래프는 한눈에 노드의 역할을 식별할 수 있어야 한다」는 목적에 맞지 않아 바꿨다(사용자 지적). 그 격자는 규칙 문서 §2.6 에 남긴다.</figcaption>
+  </figure>
+</section>
+
+<section>
+  <div class="limits">
+    <h3>이 적용판이 말하지 않는 것</h3>
+    <ul>
+      <li>Main 8 의 곡선 넷 중 둘(곡·없·실 / 곡·없·점)은 빈 칸이다. 면의 Main(크기 · 묶음)과 Sub(`note`·`octagon`)는 미정. 목적 고유색·부분 연함은 Main 의 첫 결정.</li>
+      <li>장소(<code>place_area</code>)·국면(<code>ufo_phase</code>)의 촉은 보통 촉이지만 그것은 결정이 아니라 기본값이다(미결).</li>
+      <li>구체화 사슬의 비순환 검사(L0→L1→L0 금지)는 아직 없다 — 생성기의 <code>len(fanned) &lt;= 1</code> 이 아주 약한 판이다.</li>
+      <li>노드의 동일성(같은 이름 = 같은 노드?)과 자료의 출처(실측인지 예시인지)는 표시가 없다.</li>
+    </ul>
+  </div>
+</section>
+
+<footer>규칙 정본 <code>docs/diagrams/README_node_system.md</code> · 시각판 <a href="https://claude.ai/code/artifact/741b6e11-54c6-4cce-b09e-b69af98a6222">노드 체계</a> ·
+적용 대상 <a href="https://claude.ai/code/artifact/123b8861-671c-4721-b4f2-747c692641e2">목적 문장 여덟 단계</a> · <a href="https://claude.ai/code/artifact/63edc200-ff0a-46a6-b233-930722fad044">주장이 상태가 되기까지</a></footer>
+</main>

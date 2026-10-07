@@ -1,0 +1,20 @@
+{
+ "run_id": "F32",
+ "case": "GC-3",
+ "arm": "fixture",
+ "effort": "-",
+ "model": "-",
+ "rep": 1,
+ "turns": [
+  {
+   "turn": 1,
+   "input": "",
+   "output": "소스를 넷으로 나눈 건 제 판단이고 아직 확인받지 못했어요. 보시고 바꿀 곳 알려 주세요. /private/tmp/drd-eval/F32/out/F.html",
+   "cost": 0,
+   "classifier": {
+    "asks_human": false,
+    "topic": null
+   }
+  }
+ ]
+}

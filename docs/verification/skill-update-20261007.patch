@@ -1,0 +1,220 @@
+--- a/v3_8_cli/designing-relation-diagrams/SKILL.md
++++ b/v3_8_cli/designing-relation-diagrams/SKILL.md
+@@ -15,7 +15,7 @@
+ | 경우 | 판정 | 다음에 읽을 파일 |
+ |------|------|------------------|
+ | 1. 명시된 유형 | 요청이 아래 네 유형 중 하나 이상이다 | 해당 유형 파일 + [references/ir.md](references/ir.md) |
+-| 2. 명시되지 않은 유형 | 네 유형 어디에도 맞지 않거나, 유형 파일이 "대상이 아님"이라고 적은 경우다. 예: 데이터로 항목을 몇 개 그룹으로 나누는 분석(군집화 등)은 이 skill이 다루지 않는다. 분석을 끝낸 뒤 결과를 그릴 때 이 skill을 쓴다 | [references/human-decisions.md](references/human-decisions.md) |
++| 2. 명시되지 않은 유형 | 네 유형 어디에도 맞지 않거나, 유형 파일이 "대상이 아님"이라고 적은 경우다. 예: 데이터로 항목을 몇 개 그룹으로 나누는 분석(군집화 등)은 이 skill이 다루지 않는다. 분석 산출물은 분석·데이터 시각화이며, Human이 관계 도식을 요청한 경우에만 분석 결과를 이 skill로 그린다 | [references/human-decisions.md](references/human-decisions.md) |
+ | 3. 애매하거나 판단할 수 없음 | 명시 여부 자체를 정할 수 없다 | [references/human-decisions.md](references/human-decisions.md) |
+ 
+ | 유형 | 뜻 | 파일 |
+@@ -30,7 +30,7 @@
+ 
+ ## 2. 빠른 경로
+ 
+-1. 유형 판정(위 표) → 유형 파일 READ → [ir.md](references/ir.md)로 `diagram.json` 작성. 묶음 `source:"request"`는 요청에 실제로 명시된 묶음에만 쓴다. 색·Legend·점선 등 표현은 [expression-rules.md](references/expression-rules.md).
++1. 유형 판정(위 표) → 유형 파일 READ → [ir.md](references/ir.md)로 `diagram.json` 작성. 표현을 위한 묶음·추상화는 Agent가 먼저 정해 그리고 사후 검토를 받는다(DEC-132·133·143). 그리기 전에는 요청의 요소·관계와 IR의 뜻이 정합하는지 점검한다(DEC-137). 묶음 `source:"request"`는 요청에 실제로 명시된 묶음에만 쓴다. 색·Legend·점선 등 표현은 [expression-rules.md](references/expression-rules.md).
+ 2. **L0을 먼저 그린다.** 가장 추상 단계다. 이 명령의 non-zero 종료는 어느 것도 성공이 아니다.
+ 
+    ```
+@@ -39,7 +39,7 @@
+ 
+ 3. exit 0이면 `out/L0/diagram.png`를 **이미지로 직접 READ**해 식별·대조를 판정하고, 이미지가 실제 내용과 같은 뜻인지 의미 정합 대조표로 평가하고([cli.md](references/cli.md) "exit 0 이후" 2), 렌더링을 Human에게 보여 피드백을 받는다. Human이 고치라고 하면 IR을 고쳐 L0부터 다시 그린다. 관계 유형마다 규칙이 다르다(유형 파일). PNG가 없으면 S7 UNKNOWN(이미지 READ 보류)으로 이유와 함께 보고한다.
+ 4. L0 피드백을 반영한 뒤 L1(필요하면 L2)을 같은 IR에서 그린다: `finalize diagram.json --out out/L1 --level 1`. 한 IR에서 단계만 바꾼다(design-system.md §7). 각 단계마다 `node scripts/drd.mjs verify <out>`.
+-5. `STATUS REVIEW_PENDING`이면 Human이 정하지 않은 묶음이 있다는 뜻이다. 그 묶음은 실선으로(점선은 원천이 미정이라고 표현한 경우만, DEC-141) 그리고, 검토 대기는 REVIEW 보고 글로 알린다 (DEC-133). 출력된 `REVIEW` 블록을 최종 보고에 그대로 넣어 Human 검토를 받는다. Human 답에 따라 `source:"human"` + `decision_ref`를 넣거나 묶음을 지우고 다시 그린다.
++5. `STATUS REVIEW_PENDING`이면 Human 검토를 기다리는 Agent의 묶음 결정이 있다는 뜻이다. Human의 보류·미결정으로 기록하지 않는다(DEC-136). 그 묶음은 실선으로(점선은 원천이 미정이라고 표현한 경우만, DEC-141) 그리고, 검토 대기는 REVIEW 보고 글로 알린다 (DEC-133). 출력된 `REVIEW` 블록을 최종 보고에 그대로 넣어 Human 검토를 받는다. Human 답에 따라 `source:"human"` + `decision_ref`를 넣거나 묶음을 지우고 다시 그린다.
+ 6. IR을 고쳤다면 마지막 IR로 `finalize`부터 다시 돌린다.
+ 
+ ## 3. non-zero 종료: 영수증 기반 수리
+--- a/v3_8_cli/designing-relation-diagrams/references/cli.md
++++ b/v3_8_cli/designing-relation-diagrams/references/cli.md
+@@ -1,6 +1,6 @@
+ # CLI: drd.mjs
+ 
+-**읽는 때**: `finalize`가 non-zero로 끝났을 때, `decisions.json`을 써야 할 때, `verify`를 돌릴 때. 계약 전문은 `../../SPEC_cli.md`.
++**읽는 때**: `finalize`가 non-zero로 끝났을 때, `decisions.json`을 써야 할 때, `verify`를 돌릴 때. 아래에 번들 사용에 필요한 명령·종료 코드·결정 기록 형식을 둔다.
+ 
+ ```
+ node scripts/drd.mjs finalize <ir.json> --out <dir> [--decisions f] [--level N] [--expand a,b] [--collapse a,b] [--focus id]
+@@ -56,7 +56,7 @@
+    |---|---|---|---|
+ 
+    판정 칸은 "뜻이 같은가" 하나다. 경로(파일·줄·인용 위치)는 바뀌거나 없을 수 있으므로 판정 근거로 쓰지 않는다. 다르면 IR을 고쳐 `finalize`를 다시 돌린다.
+-3. PNG가 없으면(`receipt.png: null`, `png_attempts`에 시도 기록) 이미지 READ를 **보류(S7 UNKNOWN)**로 notes와 최종 답에 적는다: 무엇을 시도했고 왜 실패했는지. 말없이 건너뛰지 않는다.
++3. PNG가 없으면(`receipt.outputs.png: null`, `png_attempts`에 시도 기록) 이미지 READ를 **보류(S7 UNKNOWN)**로 notes와 최종 답에 적는다: 무엇을 시도했고 왜 실패했는지. 말없이 건너뛰지 않는다.
+ 4. `node scripts/drd.mjs verify <out>`: S6(산출물 sha), S8(html에 svg 그대로 포함), S1(원본 IR 불변), S7(png). exit 1이면 `finalize`를 다시 돌린다. S1 INCONSISTENT는 IR을 finalize 뒤에 고쳤다는 뜻이다.
+ 5. 출력 끝줄 `SELF-CHECK ONLY — NOT DONE…`: exit 0과 `CONSISTENT`는 **자기 일관성만** 뜻한다. 완료·시각 품질은 판정 외부 몫이다. `WARN`이 남아 있어도 완료가 아니다.
+ 6. 안내한 상호작용(hover, [+] 등)은 `diagram.html`에서 직접 시험한 것만 시험했다고 적는다.
+--- a/v3_8_cli/designing-relation-diagrams/references/expression-rules.md
++++ b/v3_8_cli/designing-relation-diagrams/references/expression-rules.md
+@@ -20,7 +20,7 @@
+ ```
+ 
+ - **색**: 흑·백·빨·초·파 5색만 쓴다.
+-- **점선**: 간격 = 확실성. 간격이 넓을수록 불확실하다. edge는 긴 대시, 영역은 짧은 점이다.
++- **점선**: 간격 = 확실성. 간격이 넓을수록 불확실하다. edge는 긴 대시, 영역은 짧은 점이다. 내용 미정의 주체는 도식이 표현하는 원천이다. Human 미검토나 Agent 자신의 불확실을 점선으로 표현하지 않는다(DEC-141).
+ - **곡선**: node가 상하좌우로 정렬돼 직선이 자연스러우면 쓰지 않는다. 다른 요소를 우회해야 할 때만 쓴다.
+ - **Legend**: 그 도식에 실제로 나온 종류만 싣는다.
+ - **대조와 식별**이 이 체계의 상위 원칙이다. 규칙을 지켜도 렌더 결과에서 대조가 떨어지면 고친다.
+--- a/v3_8_cli/designing-relation-diagrams/references/human-decisions.md
++++ b/v3_8_cli/designing-relation-diagrams/references/human-decisions.md
+@@ -2,12 +2,12 @@
+ 
+ **읽는 때**: 요청이 네 유형 밖이거나 판정할 수 없을 때(경우 2·3), `finalize`가 `STATUS REVIEW_PENDING`을 냈을 때, L0 동의를 받을 때, Human이 보류했을 때.
+ 
+-## 묶음 검토 (DEC-095·097)
++## 묶음 검토 (DEC-095·097·132·133·143)
+ 
+-1. 묶음은 **L0을 먼저** 그려 Human 동의를 받은 뒤 L1을 그린다. L0에는 묶음이 접힌 상자로 보이므로 무엇이 어떤 이름으로 묶였는지 Human이 그림으로 판단한다.
++1. 표현을 위한 묶음·추상화는 Agent가 먼저 정해 **L0을 먼저** 그려 Human 검토를 받은 뒤 L1을 그린다. L0에는 묶음이 접힌 상자로 보이므로 무엇이 어떤 이름으로 묶였는지 Human이 그림으로 판단한다.
+ 2. `STATUS REVIEW_PENDING`: `source`가 `request`도 아니고 유효한 Human 결정(`human` + `decision_ref`)도 아닌 묶음은 막히지 않고 실선으로(점선은 원천이 미정이라고 표현한 경우만, DEC-141) 그리고, 검토 대기는 REVIEW 보고 글로 알린다 (DEC-133). 출력된 `REVIEW <group-id>` 블록(비교 그림 `candidates/index.html` 경로 포함)을 최종 보고에 그대로 넣는다.
+ 3. Human 답을 `decisions.json`에 기록한다(형식은 [cli.md](cli.md)). "이대로 묶음"이면 `source:"human"` + `decision_ref:<결정 id>`, "묶지 않음"이면 IR에서 묶음을 뺀다, "보류"면 아래 보류 규칙.
+-4. 실제 Human 답이나 명시 요청 없이 `source`를 `human`/`request`로 쓰지 않는다. 미정 묶음을 확정된 것처럼 보고하지 않는다.
++4. 실제 Human 답이나 명시 요청 없이 `source`를 `human`/`request`로 쓰지 않는다. Agent가 정한 묶음을 Human이 승인한 것처럼 보고하지 않는다. 검토 대기는 REVIEW 보고에만 남기고 Human 미결 목록에 넣지 않는다(DEC-128·136).
+ 
+ ## 경우 2 (명시되지 않은 유형)
+ 
+@@ -24,19 +24,27 @@
+ 
+ ## 경우 3 (애매하거나 판단할 수 없음)
+ 
+-- Human에게 폐쇄형 질문을 하고, 선택지에 **"보류"**를 넣는다.
++- 상위 개념과 장단점을 설명하고 한 턴에 하나의 폐쇄형 질문을 한다. 선택지에 **"보류"**를 넣는다(DEC-018).
+ - 선택지는 기본 경로일 뿐이다. Human이 선택지 밖에서 답하면 그 답을 따른다.
++
++## Human 응답과 검토 대기의 구분
++
++- Human의 보류는 결정 시기를 유보하겠다는 명시적 응답이다. 추가 설명 요청을 보류와 같은 것으로 보지 않는다(DEC-116·118·126·129).
++- 판단하기 어려워 추가 설명을 요청하면 설명을 보강한다. 설명 뒤에도 해소되지 않으면 미결정으로 기록한다(DEC-121). 추가 설명 요청은 판단불가를 알아보는 한 경로이며 그 정의 자체가 아니다(DEC-126).
++- 질문·응답이 없는데 Human이 보류하거나 결정한 것으로 기록하지 않는다(DEC-122). Agent의 의도적 보류나 검토 대기는 Human 미결 목록과 구분한다(DEC-130·135·136).
+ 
+ ## Human이 보류하면 (Agent의 책임)
+ 
+ - 보류를 줄이는 것은 Agent의 몫이다. 다음 중 하나로 진행한다.
+   - 결정을 돕는 설명(이해를 돕는 풀이, 장단점)을 더하고 다시 묻는다.
+   - 위임 조건을 만족하면 Agent가 결정한다.
+-- **위임 조건**: 꼭 필요할 때만, 그리고 검증 결과와 근거가 분명할 때만. 위임을 선택지로 줄 때는 값과 근거를 함께 적는다(예: "추천값 3개로 진행 — 근거: 3개에서 오차 감소가 가장 크게 꺾임"). 값을 아직 계산하지 않았으면 위임 선택지를 넣지 않는다.
++- **위임 조건**: Human이 위임했을 때만 Agent의 위임 결정으로 기록한다. 위임 선택지는 꼭 필요할 때만, 그리고 검증 결과와 근거가 분명할 때만 제시한다. 위임을 선택지로 줄 때는 값과 근거를 함께 적는다(예: "추천값 3개로 진행 — 근거: 3개에서 오차 감소가 가장 크게 꺾임"). 값을 아직 계산하지 않았으면 위임 선택지를 넣지 않는다.
+ - 보류가 풀리지 않으면 그 부분은 그리지 않고 나머지만 산출하며, 미결로 기록한다. Human이 요청하면 도식에는 표시하지 않고, 도식 밖에 무엇을 왜 그리지 않았는지 글로 적는다.
+ - "판단불가"는 선택지로 쓰지 않는다. 판단하기 어려운 상황은 위 방법으로 해소할 대상이다.
+ 
+ ## 기록에는 결정 주체를 적는다
++
++Human이 고른 선택지가 Agent의 권고였는지도 보고에 남긴다(DEC-124). Human의 미결·보류에는 후속 질문과 다음 행동을 기록하고, Agent의 후속 작업 목록과 구분한다(DEC-117·123·135·136).
+ 
+ ```
+ 결정: Human — 3개
+--- a/v3_8_cli/designing-relation-diagrams/references/information-amount.md
++++ b/v3_8_cli/designing-relation-diagrams/references/information-amount.md
+@@ -5,8 +5,8 @@
+ - **기준**: Main으로 보이는 node는 기본 9개 이하다. `VB-MAIN-COUNT` 경고가 나오면 아래를 **순서대로** 시도한다. 배경 처리된 node는 세지 않는다.
+ - exit 4는 아래 둘 중 하나로만 풀린다: (a) `decisions.json`에 Human `info_amount` 결정(`topic:"info_amount"`, `subject:"Human"`, `status:"decided"`), (b) 효과가 `effective`/`not_needed`인 `--focus`. WARN을 "의도된 구성"으로 해석해 넘기지 않는다. 넘기고 싶으면 Human에게 묻는다(선택지에 보류 포함).
+ 
+-**1) 접기.** 요청에 **명시된** 전체–부분 관계가 있을 때만 접는다.
+-- 요청에 없는 묶음을 만들지 않는다. 이름의 공통 접미어나 비슷함으로 묶는 것도 "묶음 기준을 고르는 일"이므로 접기가 아니라 3) 분할로 다룬다.
++**1) 묶음과 접기.** 요청에 명시된 전체–부분을 접거나, 표현을 위한 묶음을 Agent가 먼저 정해 추상화한다(DEC-132·133·143).
++- Agent가 정한 묶음은 요청 사실이나 Human 결정으로 바꾸어 기록하지 않는다. 묶음 기준·소속의 의미 정합을 점검하고, L0을 그려 Agent 결정·Human 검토 대기임을 REVIEW 글로 알린다([human-decisions.md](human-decisions.md)). 데이터 분석의 군집 개수를 먼저 묻는 절차와 구분한다.
+ - 접은 뒤 다시 `check`로 Main 수를 센다.
+ - **IR을 한 번이라도 고치면** `finalize`와 이미지 READ를 마지막 IR로 다시 한다. 마지막 IR로 만든 산출물만 낸다.
+ 
+@@ -22,7 +22,7 @@
+ - 요청이 **HTML이면 정적 출력이 아니다.** 강조가 유효하면 hover로 낸다. `finalize`가 만드는 `diagram.html`이 `scripts/dds.js`의 `DDS.attachHover`로 hover를 연결한다. HTML을 손으로 쓰거나 고치지 않는다.
+ - 정적 출력(이미지·인쇄·PDF처럼 hover·애니메이션·화면 전환을 쓸 수 없는 출력)은 강조할 흐름 후보 2~3개를 Human에게 제시해 하나를 고르게 하고, 그 흐름을 강조한 한 장으로 낸다(`finalize … --focus <node id>`). Human이 더 요청하면 흐름별 여러 장으로 낸다.
+ 
+-**3) 분할.** 묶음·분할 기준 후보 2~3개를 Human에게 제시해 고르게 한다(예: 내부/외부, 실시간/배치).
++**3) 분할.** 앞 단계로 정보량을 조정할 수 없으면 여러 장으로 나누는 기준 후보 2~3개를 Human에게 제시해 고르게 한다(예: 내부/외부, 실시간/배치). 표현 묶음의 사후 검토와 여러 장 분할의 선택을 구분한다.
+ - 선택지에 "보류"를 넣는다. 위임 선택지는 [human-decisions.md](human-decisions.md)의 조건을 만족할 때만 추가한다.
+ - **Human이 고르기 전에는 최종 도식을 확정하지 않는다.** 기계적으로 나누지 않는다.
+ - Human이 답하면 `decisions.json`에 `topic:"info_amount"` 결정으로 기록한다([cli.md](cli.md)).
+--- a/v3_8_cli/designing-relation-diagrams/references/ir.md
++++ b/v3_8_cli/designing-relation-diagrams/references/ir.md
+@@ -24,8 +24,8 @@
+   - `x`, `y`: 접혔을 때의 위치. 접힐 수 있는 전체 node에는 반드시 준다(없으면 부분 node들의 중심에 자동 배치하고 `VB-GROUP-POS` 경고).
+   - `expandAt`: 이 L 단계부터 펼쳐진다. 그보다 낮은 단계에서는 접혀 [+]가 붙는다. 접혀도 자기 `role`의 모양을 유지한다.
+   - `drawRegion: true`: 펼쳤을 때 영역을 그린다.
+-  - `"certainty": "dashed"`: 묶음이 미정이면 준다. 영역이 짧은 점으로 그려진다.
+-  - `source`: 묶음의 출처. `"request"`(요청에 명시) 또는 `"human"`(Human이 고름, `decision_ref` 필수). 둘이 아니거나 `human`인데 유효한 `decision_ref`가 없으면 `finalize`가 그 묶음을 실선으로(점선은 원천이 미정이라고 표현한 경우만, DEC-141) 그리고, 검토 대기는 REVIEW 보고 글로 알린다 (DEC-133). `STATUS REVIEW_PENDING`으로 Human 검토 대기를 표시한다. **실제 Human 답이나 명시 요청 없이 `request`/`human`을 쓰지 않는다**([human-decisions.md](human-decisions.md)).
++  - `"certainty": "dashed"`: 원천이 묶음의 내용을 미정으로 표현한 경우에만 준다(DEC-141). Human 검토 대기나 Agent 자신의 불확실만으로 설정하지 않는다. 영역이 짧은 점 `2 6`으로 그려진다.
++  - `source`: **묶음을 누가 정했는지**에 관한 출처다. 도식이 표현하는 내용의 원천 존재 여부와 구분한다. `"request"`(요청에 명시) 또는 `"human"`(Human이 고름, `decision_ref` 필수). 둘이 아니거나 `human`인데 유효한 `decision_ref`가 없으면 `finalize`가 그 묶음을 실선으로(점선은 원천이 미정이라고 표현한 경우만, DEC-141) 그리고, 검토 대기는 REVIEW 보고 글로 알린다 (DEC-133). `STATUS REVIEW_PENDING`으로 Human 검토 대기를 표시한다. **실제 Human 답이나 명시 요청 없이 `request`/`human`을 쓰지 않는다**([human-decisions.md](human-decisions.md)).
+ - **edge**
+   - `meaning`: 관계 유형.
+   - `certainty`: `solid`, `dashed`, 또는 간격 숫자.
+--- a/v3_8_cli/designing-relation-diagrams/relation_types/whole_part.md
++++ b/v3_8_cli/designing-relation-diagrams/relation_types/whole_part.md
+@@ -15,14 +15,14 @@
+ - **is_a와의 경계**: 정의(상위개념 + 종차)가 먼저 있고 그 정의로 관계가 성립하면 is_a다. 구성이나 데이터를 보고 해석해 부분을 나누고 그다음에 이름을 붙였다면 whole_part다.
+ - **세는 대상**: 부분을 셀 때 세는 것은 구성원(데이터의 index나 인코딩 값)이다. 부분에 붙인 이름은 그 구성원 묶음에 덧붙인 설명 label이므로, node에서 세는 대상과 설명을 구분해 적는다.
+ - **겹침**: 부분끼리 겹칠 수 있다. 겹치면 부분의 합이 전체와 같다고 가정하지 않는다.
+-- **묶음은 요청에 명시된 것만** 만든다. 이름이나 성격이 비슷해 보여 묶는 것은 묶음 기준을 고르는 일이므로, Human에게 후보를 제시해 고르게 한다([information-amount.md](../references/information-amount.md)).
++- 요청에 명시된 전체–부분은 그대로 남긴다. **표현을 위한 묶음은 Agent가 먼저 정해 그리고 사후 검토를 받는다**(DEC-132·133·143). 묶음 기준과 소속이 실제 내용과 정합하는지 그리기 전과 후에 점검한다. 요청에 없던 묶음은 `source:"request"`로 기록하지 않고, Agent 결정·Human 검토 대기임을 REVIEW 글로 알린다([human-decisions.md](../references/human-decisions.md)). 데이터에서 군집 개수 등을 정하는 분석은 이 절차와 다르다.
+ 
+ ## 확실성
+ 
+ | 상태 | 영역 경계 |
+ |------|-----------|
+-| 묶음 결정 | 실선 (기본) |
+-| 묶음 미정 | 짧은 점 `2 6` (`"certainty": "dashed"`). 정도는 두지 않는다 |
++| Agent 또는 Human이 정한 묶음 | 실선 (기본). Human 미검토만으로 점선을 쓰지 않는다 |
++| 원천이 내용 미정으로 표현한 묶음 | 짧은 점 `2 6` (`"certainty": "dashed"`). 정도는 두지 않는다 (DEC-133·134·141) |
+ 
+ ## 접기와 펼치기
+ 
+--- a/v3_8_cli/designing-relation-diagrams/rules/design-system.md
++++ b/v3_8_cli/designing-relation-diagrams/rules/design-system.md
+@@ -1,4 +1,4 @@
+-# Diagram Design System — 전체 규칙 (v3.6)
++# Diagram Design System — 전체 규칙 (v3.8-cli)
+ 
+ > 이 파일은 Default가 아닌 세부 규칙과, 규칙을 수정할 때 보는 전체 규칙이다. 괄호 안의 ARG·DEC·R 번호는 결정 기록의 근거 ID다.
+ 
+@@ -205,6 +205,8 @@
+ | 묶음 미정 | 짧은 점 `2 6` (간격 6 = edge 점선과 같은 "미정") |
+ 
+ - 묶음 미정에는 정도를 두지 않는다. 영역의 간격은 `2 6` 하나만 쓴다. (DEC-007)
++- 여기서 내용 미정은 원천이 미정이라고 표현한 것을 뜻한다. Agent가 정한 묶음도 실선이며, Human 미검토나 Agent 자신의 불확실은 점선의 이유가 아니다. 검토 대기는 REVIEW 글로 알린다. (DEC-133·134·141)
++- 그리기 형식은 원천 존재 유무에 따라 바꾸지 않는다. 원천과 그림의 점선 유무를 기록하는 외부 판정과, 이 Skill의 의미 정합 평가는 구분한다. (DEC-138·146·147)
+ 
+ ---
+ 
+@@ -230,7 +232,7 @@
+ 
+ | 단계 | 수단 | 조건 | 동작 |
+ |------|------|------|------|
+-| 1 | 접기 | 요청에 **명시된** 위계(whole_part)가 있음 | 전체 node로 접고 [+]로 펼칠 수 있게 두며, 나머지는 다른 L에서 보여준다. 이름·성격이 비슷해 묶는 것은 묶음 기준 선택이므로 3단계(분할)로 다룬다 (R3) |
++| 1 | 묶음과 접기 | 요청의 전체–부분 또는 Agent가 표현을 위해 정한 묶음 | 전체 node로 접고 [+]로 펼칠 수 있게 두며, 나머지는 다른 L에서 보여준다. Agent가 정한 묶음은 먼저 그리고 기준·소속을 사후 검토받는다. 요청 사실이나 Human 결정으로 가장하지 않는다 (DEC-132·133·143) |
+ | 2 | hover 강조 | 접을 수 없음 (같은 위계의 형제가 많음) | 모든 node를 두되 관련 흐름과 그 공동 입력만 Main으로 강조한다 (§10.2, DEC-029) |
+ | 3 | 분할 | 강조 후에도 Main이 9개 초과, 또는 강조해도 흐려지는 node가 없음(강조 무효, R9) | 분할안 2~3개를 Human에게 제시해 고르게 한다(보류 포함). 기계적으로 나누지 않는다 (DEC-016) |
+ 
+@@ -440,8 +442,8 @@
+ | 명시되지 않은 label | 의미가 모호하면 Human에게 추가 질문·설명을 요청한다. 표현 방식은 다른 Agent Skill, Tool, GitHub repo를 탐색한다 |
+ | 명시 여부가 애매하거나 판단하기 어려움 | Human에게 폐쇄형 질문을 하고, 선택지에 "보류"를 포함한다 (DEC-050) |
+ 
+-- 라우팅을 위해 skill이 직접 다루지 않는 경우를 명시할 수 있다. 예: 데이터로 항목을 그룹으로 나누는 분석(군집화 등)은 이 skill이 다루지 않으며, 다른 Skill·Tool로 분석을 먼저 끝낸 뒤 결과를 그릴 때 이 skill을 쓴다. 분석 방법은 적지 않는다. (DEC-043, DEC-047)
+-- 그 결과를 그릴 때: 그룹 개수를 먼저 묻고 → 분석하고 → 결과를 보고 이름을 추천한다. 나뉜 근거는 데이터 시각화로 보이고, 관계 도식으로도 그리면 whole_part로 그려 함께 낸다. 그룹 번호(인코딩 값)와 설명 이름은 다른 계층의 label임을 밝힌다. 데이터로 나눈 그룹은 Human이 개수나 이름을 골라도 확정된 분류 체계가 되지 않는다(착각 주의). (DEC-039, DEC-040, DEC-041, DEC-044)
++- 라우팅을 위해 skill이 직접 다루지 않는 경우를 명시할 수 있다. 예: 데이터로 항목을 그룹으로 나누는 분석(군집화 등)은 이 skill이 다루지 않으며, 다른 Skill·Tool로 분석을 먼저 끝내고 Human이 관계 도식을 요청한 경우에만 이 skill을 쓴다. 분석 방법은 적지 않는다. (DEC-043, DEC-047)
++- 분석에서는 그룹 개수를 먼저 묻고 → 분석하고 → 결과를 보고 이름을 추천한다. 분석 전에 이름·특성·배치 예시를 제시하지 않는다. 분석과 데이터 시각화가 산출물이며, 관계 도식은 Human이 요청할 때 whole_part로 그린다. 그룹 번호(인코딩 값)와 설명 이름은 다른 계층의 label이고, Human이 개수나 이름을 골라도 is_a 분류 체계가 되지 않는다. 표현을 위한 묶음은 먼저 그리고 사후 검토받는 별도 절차다. (DEC-039·040·041·044·094·102·143)
+ 
+ ### 16.2 보류와 위임
+ 
+@@ -449,12 +451,14 @@
+ - "위임"(Agent가 정해 진행)은 꼭 필요할 때만, 검증 결과와 근거가 분명할 때만 선택지로 추가하며, 값과 근거를 함께 적는다. (DEC-051)
+ - Human이 보류하면 Agent는 결정을 돕는 설명을 더해 다시 묻거나, 위임 조건을 만족하면 결정한다. 풀리지 않은 보류는 그 부분을 그리지 않고 나머지만 산출하며, 미결로 기록한다. 기록에는 결정 주체(Human 결정 / Agent 위임과 근거·검증 / 보류와 다음 행동)를 적는다. (DEC-052, DEC-017 수정)
+ - 쌓인 보류는 그 Agent가 책임지고 줄인다. (DEC-053)
++- Human의 보류는 결정 유보를 명시한 응답이다. 추가 설명 요청과 구분하고, 설명 뒤에도 해소되지 않은 판단불가는 미결정으로 기록한다. 질문·응답 없이 Human 상태를 추정하지 않는다. Agent의 검토 대기는 REVIEW 보고에만 남기며 Human 미결·후속 질문 목록에 넣지 않는다. 세부 처리와 위임 조건은 [human-decisions.md](../references/human-decisions.md)를 따른다. (DEC-116·121·122·126·129·135·136)
+ - Human이 요청하면 도식에는 표시하지 않고, 도식 밖에 무엇을 왜 그리지 않았는지 **글로 자유 서술**한다. 종류는 구분하지 않는다. (DEC-024)
+ 
+ ### 16.3 질문 원칙
+ 
+ - 미결은 미결 목록을 READ한 뒤, 한 턴에 하나의 폐쇄형 질문과 장단점·상위 개념 설명으로 Human의 결정을 지원한다. (DEC-018)
+ - 폐쇄형 질문의 선택지는 기본 경로일 뿐 Human의 답을 제한하지 않는다. 선택지 밖의 답이 우선한다. (DEC-031, §1 해석 우선순위)
++- Human이 고른 선택지가 Agent 권고였는지 함께 기록한다. (DEC-124)
+ 
+ ### 16.4 고정 정책
+ 
+@@ -474,4 +478,5 @@
+ 
+ - 절차 준수는 먼저 **문장 강화만으로** 시험하고, 품질이 개선되지 않으면 그때 도구로 강제한다. (DEC-054)
+ - 완료 조건: 체크리스트의 모든 단계가 완료이거나, 미완료 단계마다 이유와 보류 기록이 있을 때만 완료다. 검증기의 통과와 종료 코드 0은 완료가 아니며, WARN이 남아 있으면 완료가 아니다.
++- 의미 평가는 그리기 전과 렌더된 이미지 READ 뒤에 수행한다. 실제 내용의 요소·관계와 이미지가 표현한 뜻을 비교하고 대조표로 남긴다. 파일·줄·해시 등 경로의 존재나 일치를 의미 정합의 근거로 쓰지 않으며, CLI가 대조표 형식을 관문으로 강제하지 않는다. (DEC-137~140)
+ - 필수 확인: 경고 뒤 정보량 조정(접기 → 강조 측정 → 필요하면 Human 분할 질문), 이미지 READ(볼 수 없으면 PNG로 변환, 수단이 없으면 보류로 기록), IR을 고친 뒤 마지막 IR로 재검사·재렌더, 스크립트 오류 시 결함 대응 파일부터 읽기, HTML 요청은 정적 출력이 아님, 데이터 기반 분류는 데이터 시각화를 따로 냄.

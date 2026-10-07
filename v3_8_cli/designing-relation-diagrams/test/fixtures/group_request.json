@@ -1,0 +1,66 @@
+{
+ "w": 900,
+ "h": 160,
+ "nodes": [
+  {
+   "id": "a",
+   "role": "entity",
+   "label": "주문",
+   "x": 90,
+   "y": 80
+  },
+  {
+   "id": "grp",
+   "role": "process",
+   "label": "결제 묶음",
+   "x": 400,
+   "y": 80,
+   "expandAt": 0,
+   "drawRegion": true,
+   "source": "request"
+  },
+  {
+   "id": "b1",
+   "parent": "grp",
+   "role": "process",
+   "label": "카드 인증",
+   "x": 330,
+   "y": 80
+  },
+  {
+   "id": "b2",
+   "parent": "grp",
+   "role": "process",
+   "label": "승인 요청",
+   "x": 560,
+   "y": 80
+  },
+  {
+   "id": "c",
+   "role": "entity",
+   "label": "영수증",
+   "x": 800,
+   "y": 80
+  }
+ ],
+ "edges": [
+  {
+   "from": "a",
+   "to": "b1",
+   "meaning": "execution_flow",
+   "certainty": "solid"
+  },
+  {
+   "from": "b1",
+   "to": "b2",
+   "meaning": "execution_flow",
+   "certainty": "solid"
+  },
+  {
+   "from": "b2",
+   "to": "c",
+   "meaning": "execution_flow",
+   "certainty": "solid"
+  }
+ ]
+}

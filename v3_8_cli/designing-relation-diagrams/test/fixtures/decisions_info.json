@@ -1,0 +1,13 @@
+{
+ "decisions": [
+  {
+   "id": "D2",
+   "topic": "info_amount",
+   "subject": "Human",
+   "question": "정보량?",
+   "answer": "그대로 둠",
+   "answered_at": "2026-10-04T00:00:00Z",
+   "status": "decided"
+  }
+ ]
+}

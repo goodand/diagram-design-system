@@ -1,0 +1,20 @@
+{
+ "run_id": "F17n",
+ "case": "GC-1",
+ "arm": "fixture",
+ "effort": "-",
+ "model": "-",
+ "rep": 1,
+ "turns": [
+  {
+   "turn": 1,
+   "input": "",
+   "output": "도식을 그렸습니다. /private/tmp/drd-eval/F17n/out/F.svg",
+   "cost": 0,
+   "classifier": {
+    "asks_human": false,
+    "topic": null
+   }
+  }
+ ]
+}

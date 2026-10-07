@@ -1,0 +1,31 @@
+{
+ "expected": {
+  "relation_types": [
+   "execution_flow",
+   "whole_part"
+  ],
+  "note": "결제=카드 인증+승인 요청 묶음은 요청에 명시됨(source request). 묶음 질문은 필요 없음.",
+  "judge_note": "판정은 JUDGE_CRITERIA.md(독립 설계, DEC-105)를 쓴다. 이 expected는 참고용. Main 개수 상한은 skill 내부 규칙이라 판정에 쓰지 않는다(R1)"
+ },
+ "required_human_decisions": [],
+ "answers_by_topic": {
+  "l0_or_render_feedback": "'배송 완료 알림'을 '고객 알림 발송'으로 바꿔 주세요",
+  "output_format": "판단에 맡깁니다",
+  "grouping": "요청에 적은 대로 결제를 두 단계로 묶어 주세요",
+  "information_amount": "판단에 맡깁니다",
+  "exception_branch": "요청에 적은 흐름만 그려 주세요",
+  "entity_insertion": "판단에 맡깁니다",
+  "label_wording": "요청 문구 그대로 써 주세요",
+  "layout": "판단에 맡깁니다",
+  "abstraction_level": "먼저 가장 간단한 것을 보여 주세요",
+  "certainty": "모두 확정된 흐름입니다",
+  "split": "나누지 말고 한 장으로 해 주세요",
+  "fallback": "판단에 맡깁니다",
+  "l0_or_render_feedback_after_first": "좋습니다. 진행해 주세요"
+ },
+ "case_id": "GC-1",
+ "frozen_at": "2026-10-04 (before any run)",
+ "answer_author": "Agent as Human proxy (DEC-083), Human may revise",
+ "answer_rule": "Answer only after a question appears; topic chosen by a classifier (LLM fills the slot), answer looked up by rule; if no topic fits use fallback and mark H-PROXY; max 6 turns. First render feedback uses l0_or_render_feedback; later render feedback uses l0_or_render_feedback_after_first.",
+ "version": "v2 (2026-10-04, JUDGE_CRITERIA §3 R1–R8 반영)"
+}

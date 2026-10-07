@@ -1,0 +1,235 @@
+<!-- 정본 규약은 docs/diagrams/digram_design.md — **Version B(2026-09-13)**.
+     이 페이지는 그 문서의 표현 위계(식별력) · 의미 위계(사용빈도) · 둘의 매핑을 그린다.
+     곡선은 edge 에서 지양(시각 안정성), 매핑의 둘째 축은 양 끝 노드의 조합이다.
+     색은 이제 확정 축이다 — 흑/백/빨/초/파 5색, 식별력 4순위. -->
+<title>표현 위계와 의미 위계</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --paper:#f4f6f6; --panel:#fbfcfb; --ink:#17212a; --muted:#5f6d76; --rule:#d4dbdd;
+  --accent:#0a6b66; --accent-soft:#0a6b6614; --faint:#8d979e;
+  --c-red:#b3261e; --c-green:#2f7d4f; --c-blue:#2d5aa8; --c-white:#ffffff;
+  --sans:"IBM Plex Sans KR","Apple SD Gothic Neo",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#10181e; --panel:#182229; --ink:#e0e7ea; --muted:#93a2ab; --rule:#293640;
+  --accent:#4fd0c4; --accent-soft:#4fd0c41c; --faint:#6e7982;
+  --c-red:#e0655c; --c-green:#63b585; --c-blue:#7fa3d4; --c-white:#e8eef0;
+}}
+:root[data-theme="dark"]{
+  --paper:#10181e; --panel:#182229; --ink:#e0e7ea; --muted:#93a2ab; --rule:#293640;
+  --accent:#4fd0c4; --accent-soft:#4fd0c41c; --faint:#6e7982;
+  --c-red:#e0655c; --c-green:#63b585; --c-blue:#7fa3d4; --c-white:#e8eef0;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.7}
+main{max-width:940px;margin:0 auto;padding:54px 24px 92px;display:flex;flex-direction:column;gap:40px}
+header{border-bottom:1px solid var(--rule);padding-bottom:28px;display:flex;flex-direction:column;gap:12px}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent)}
+h1{font-size:34px;line-height:1.2;margin:0;font-weight:600;letter-spacing:-.01em}
+.lede{color:var(--muted);max-width:70ch;margin:0}
+section{display:flex;flex-direction:column;gap:12px}
+h2{font-size:20px;margin:0;font-weight:600}
+p{margin:0;max-width:72ch}
+figure{margin:4px 0 0;padding:20px 18px 14px;background:var(--panel);border:1px solid var(--rule);border-radius:6px;display:flex;flex-direction:column;gap:11px;overflow-x:auto}
+figure svg{display:block;width:100%;min-width:640px;height:auto;color:var(--ink)}
+figcaption{font-size:14px;color:var(--muted);max-width:80ch}
+table{border-collapse:collapse;width:100%;font-size:14.5px;margin-top:2px}
+th,td{border-top:1px solid var(--rule);padding:9px 10px;text-align:left;vertical-align:top}
+th{font-family:var(--mono);font-size:11.5px;color:var(--muted);font-weight:500;text-transform:uppercase;letter-spacing:.05em}
+td.k{white-space:nowrap;font-weight:500}
+code{font-family:var(--mono);font-size:.88em;background:var(--accent-soft);padding:1px 5px;border-radius:3px}
+.note{border-left:2px solid var(--accent);background:var(--accent-soft);border-radius:0 5px 5px 0;padding:13px 16px}
+.note h3{margin:0 0 6px;font-size:15px;font-weight:600}
+.note ul{margin:0;padding-left:18px}.note li{margin:4px 0;font-size:14.5px;color:var(--muted)}
+footer{border-top:1px solid var(--rule);padding-top:18px;font-size:13.5px;color:var(--muted)}
+svg text{fill:currentColor;font-family:var(--sans);font-size:12.5px}
+svg text.s{font-size:11px;fill:var(--muted)}
+svg text.lab{font-family:var(--mono);font-size:11px;fill:var(--muted)}
+svg text.rank{font-family:var(--mono);font-size:13px;fill:var(--accent)}
+svg text.b{font-weight:600}
+svg .ln{fill:none;stroke:currentColor;stroke-width:2}
+svg .sf{fill:none;stroke:currentColor;stroke-width:1.8}
+svg .sf.fill{fill:currentColor;fill-opacity:.14}
+svg .band{fill:none;stroke:var(--rule);stroke-width:1}
+svg .head{fill:currentColor;stroke:none}
+svg .faint{stroke:var(--faint);stroke-width:1.4;fill:none}
+</style>
+
+<main>
+<header>
+  <div class="eyebrow">ConceptGate · 도식 규약 · Version B · 보조판</div>
+  <h1>표현 위계와 의미 위계</h1>
+  <p class="lede">표현과 의미를 각각 줄 세우고 둘을 잇는다. 두 줄은 <b>서로 다른 자</b>로 잰다 —
+  표현은 <b>식별력</b>(먼저 눈에 갈리는 순서), 의미는 <b>사용빈도</b>(자주 쓰는 순서). 그래서 「의미가 아래라고 표현도 아래」가 아니다.
+  <b>Version B</b> 에서 매핑의 둘째 축은 곡률이 아니라 <b>양 끝 노드의 조합</b>이고, 곡선은 edge 에서 쓰지 않는다.</p>
+  <p class="lede" style="margin-top:10px"><b>이 페이지는 보조판이다.</b> 시각 정본은 사용자가 만든 규격 시트
+  <a href="https://claude.ai/code/artifact/facbf3da-da0d-4a5c-ba2d-b6a24d3b34fd">「도식 표기 규격 B」</a>(10 plate)이고, 둘이 어긋나면 그쪽이 이긴다 —
+  실제로 이 페이지가 한 자리에서 어긋나 있었다(겹침 해결의 채움 배정이 반대였다. 2026-09-13 수리).</p>
+</header>
+
+<section>
+  <h2>표현 위계 — 식별력 순서</h2>
+  <p>같은 것을 여러 방식으로 그릴 수 있으므로, <b>먼저 갈리는 것</b>부터 의미를 싣는다. 아래가 그 순서다.</p>
+  <figure>
+    <svg viewBox="0 0 900 400" role="img" aria-label="표현 식별력 순위 일곱. 1 화살촉 유무, 2 직사각과 Stadium, 3 점선과 실선, 4 채움 유무, 5 다섯 색, 6 모서리 둥글기, 7 곡선과 직선. 아래로 갈수록 식별력이 떨어진다.">
+      <defs><marker id="v-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="head" d="M0,0 L10,5 L0,10 z"/></marker></defs>
+      <text class="lab" x="24" y="34">순위</text><text class="lab" x="46" y="34">축</text><text class="lab" x="200" y="34">대조</text><text class="lab" x="400" y="34">무엇을 가르나</text>
+      <path class="band" d="M24,42 L880,42"/>
+      <text class="rank" x="24" y="68">1</text><text class="b" x="46" y="68" font-size="12.5">Arrowhead 유무</text><text class="s" x="400" y="68">선이 방향을 나르는가</text><path class="ln" d="M200,64 L270,64" marker-end="url(#v-a)"/><path class="ln" d="M290,64 L360,64" /><path class="band" d="M24,87 L880,87"/><text class="rank" x="24" y="114">2</text><text class="b" x="46" y="114" font-size="12.5">rect / stadium</text><text class="s" x="400" y="114">하는 것 / 있는 것</text><rect class="sf" x="200" y="97" width="64" height="26" rx="0"/><rect class="sf" x="280" y="97" width="64" height="26" rx="13"/><path class="band" d="M24,133 L880,133"/><text class="rank" x="24" y="160">3</text><text class="b" x="46" y="160" font-size="12.5">dashed / solid</text><text class="s" x="400" y="160">확실 / 불확실 — 식별력은 Core 급이나 간격이 좁으면 안 보여 2순위</text><path class="ln" d="M200,156 L264,156" /><path class="ln" d="M280,156 L344,156" stroke-dasharray="7 8" /><path class="band" d="M24,179 L880,179"/><text class="rank" x="24" y="206">4</text><text class="b" x="46" y="206" font-size="12.5">fill 유무</text><text class="s" x="400" y="206">구체 / 추상</text><rect class="sf fill" x="200" y="189" width="64" height="26" rx="0"/><rect class="sf" x="280" y="189" width="64" height="26" rx="0"/><path class="band" d="M24,225 L880,225"/><text class="rank" x="24" y="252">5</text><text class="b" x="46" y="252" font-size="12.5">color 5색</text><text class="s" x="400" y="252">흑·백·빨·초·파 — 식별과 심미 양쪽</text><rect class="sf" x="200" y="235" width="40" height="26" rx="0" style="stroke:var(--c-red)"/><rect class="sf" x="250" y="235" width="40" height="26" rx="0" style="stroke:var(--c-green)"/><rect class="sf" x="300" y="235" width="40" height="26" rx="0" style="stroke:var(--c-blue)"/><path class="band" d="M24,271 L880,271"/><text class="rank" x="24" y="298">6</text><text class="b" x="46" y="298" font-size="12.5">corner rounding</text><text class="s" x="400" y="298">둥근 / 뾰족</text><rect class="sf" x="200" y="281" width="64" height="26" rx="9"/><rect class="sf" x="280" y="281" width="64" height="26" rx="0"/><path class="band" d="M24,317 L880,317"/><text class="rank" x="24" y="344">7</text><text class="b" x="46" y="344" font-size="12.5">곡선 / 직선</text><text class="s" x="400" y="344">식별성은 있으나 layout 이 바뀌면 형태가 변한다 — edge 에서 지양</text><path class="ln" d="M200,340 Q232.0,324 264,340" marker-end="url(#v-a)"/><path class="ln" d="M280,340 L344,340" />
+    </svg>
+    <figcaption><b>표현 위계의 자는 식별력이다</b> — 한 장면에서 먼저 눈에 갈리는 순서. 점선/실선은 식별력만 보면 위쪽이지만
+    간격이 좁으면 안 보이는 가독성 문제가 있어 2순위에 놓였다. 곡선은 맨 아래다: 식별은 되지만 <b>layout 이 바뀌면 형태가 변한다</b> —
+    그래서 edge 에서는 쓰지 않는다.</figcaption>
+  </figure>
+</section>
+
+<section>
+  <h2>의미 위계 — 사용빈도 순서</h2>
+  <p>의미의 줄은 식별력이 아니라 <b>얼마나 자주 쓰는가</b>로 정한다.</p>
+  <table>
+    <tr><th>순위</th><th>의미</th><th>무엇인가</th><th>위상</th></tr>
+    <tr><td class="k">1</td><td class="k">execution_flow</td><td>Process(Task · Action · Module · Pipeline · Function)와 Entity(data · relation)의 앞뒤 관계. 가장 기본</td><td class="k">DAG + cycles</td></tr>
+    <tr><td class="k">2</td><td class="k">whole_part<br><span class="k" style="font-weight:400">(실행흐름 안)</span></td><td>실행흐름 <b>안에서 메타 수식어</b>로 작동. 추상화 자체가 이 구조다 — 상단을 남기고 하단을 은닉</td><td class="k">tree 기본 · DAG 가능</td></tr>
+    <tr><td class="k">3</td><td class="k">goal_means</td><td>수단 → 목적. 필수성·필요성 판단에 쓴다</td><td class="k">DAG</td></tr>
+    <tr><td class="k">4</td><td class="k">is_a</td><td>상위·하위개념 chain. 문장 속 낱말의 뜻을 이해하려 할 때 쓴다</td><td class="k">tree 기본 · DAG(다중 상속)</td></tr>
+  </table>
+  <p><b>Process 를 실제로는 Task 라 부른다</b> — 비개발자의 이해가 쉬워서다. 더 구체화할 때만 Action 을 쓴다.</p>
+</section>
+
+<section>
+  <h2>매핑 — Version B: 노드 조합이 의미를 정한다</h2>
+  <p>표현의 수가 유한하므로, 선의 모양을 늘리는 대신 <b>양 끝에 무엇이 있는가</b>를 읽는다.</p>
+  <figure>
+    <svg viewBox="0 0 900 400" role="img" aria-label="Version B 매핑 넷. 직사각에서 직사각으로 가는 화살표는 목적과 수단. Stadium 이 이어지는 사슬은 is_a. 직사각과 Stadium 이 섞인 사슬은 실행흐름. 부분들을 감싸는 둥근 점선 영역은 전체와 부분.">
+      <defs><marker id="v-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="head" d="M0,0 L10,5 L0,10 z"/></marker></defs>
+      <text class="lab" x="24" y="34">노드 조합</text><text class="lab" x="560" y="34">의미</text>
+      <path class="band" d="M24,42 L880,42"/>
+
+      <rect class="sf" x="60" y="62" width="84" height="26" rx="0"/><path class="ln" d="M144,75 L198,75" marker-end="url(#v-a)"/><rect class="sf" x="198" y="62" width="84" height="26" rx="0"/>
+      <text class="s" x="102" y="79" text-anchor="middle" font-size="10.5">수단</text>
+      <text class="s" x="240" y="79" text-anchor="middle" font-size="10.5">목적</text>
+      <text class="b" x="560" y="80" font-size="13">goal_means — 목적 / 수단</text>
+      <text class="s" x="560" y="98">둘 다 Process 라서 rect → rect · 방향은 수단 → 목적</text>
+      <path class="band" d="M24,116 L880,116"/>
+
+      <rect class="sf" x="60" y="136" width="84" height="26" rx="13"/><path class="ln" d="M144,149 L184,149" /><rect class="sf" x="184" y="136" width="84" height="26" rx="13"/><path class="ln" d="M268,149 L308,149" /><rect class="sf" x="308" y="136" width="84" height="26" rx="13"/>
+      <text class="s" x="102" y="153" text-anchor="middle" font-size="10.5">개</text>
+      <text class="s" x="226" y="153" text-anchor="middle" font-size="10.5">갯과</text>
+      <text class="s" x="350" y="153" text-anchor="middle" font-size="10.5">포유류</text>
+      <text class="b" x="560" y="146" font-size="13">is_a — 분류</text>
+      <text class="s" x="560" y="164">개념은 Entity 라서 stadium chain · 상위 ↔ 하위</text>
+      <path class="band" d="M24,190 L880,190"/>
+
+      <rect class="sf" x="60" y="210" width="84" height="26" rx="13"/><path class="ln" d="M144,223 L184,223" marker-end="url(#v-a)"/><rect class="sf" x="184" y="210" width="84" height="26" rx="0"/><path class="ln" d="M268,223 L308,223" marker-end="url(#v-a)"/><rect class="sf" x="308" y="210" width="84" height="26" rx="13"/>
+      <text class="s" x="102" y="227" text-anchor="middle" font-size="10.5">자료</text>
+      <text class="s" x="226" y="227" text-anchor="middle" font-size="10.5">과업</text>
+      <text class="s" x="350" y="227" text-anchor="middle" font-size="10.5">자료</text>
+      <text class="b" x="560" y="220" font-size="13">execution_flow — 실행흐름</text>
+      <text class="s" x="560" y="238">rect 단독, 또는 Entity 가 앞뒤에 붙은 rect + stadium 혼합</text>
+      <path class="band" d="M24,264 L880,264"/>
+
+      <rect class="sf" x="52" y="286" width="352" height="58" rx="12" stroke-dasharray="5 4"/>
+      <rect class="sf" x="70" y="300" width="100" height="26" rx="0"/><rect class="sf" x="186" y="300" width="100" height="26" rx="0"/><rect class="sf" x="302" y="300" width="86" height="26" rx="0"/>
+      <text class="s" x="120" y="317" text-anchor="middle" font-size="10.5">부분</text>
+      <text class="s" x="236" y="317" text-anchor="middle" font-size="10.5">부분</text>
+      <text class="s" x="345" y="317" text-anchor="middle" font-size="10.5">부분</text>
+      <text class="b" x="560" y="300" font-size="13">whole_part — 전체 / 부분</text>
+      <text class="s" x="560" y="318">선을 쓰지 않는다 · 영역이 곧 관계 · 추상화와 직결</text>
+      <text class="s" x="560" y="336">사용빈도 2위 — 실행흐름 <tspan font-weight="600">안에서</tspan> 수식어로도 쓰인다</text>
+    </svg>
+    <figcaption><b>둘째 축이 곡률에서 「양 끝 노드의 조합」으로 바뀌었다</b>(Version B) — 곡선을 쓰지 않고도 넷이 갈린다.
+    Process(rect)와 Entity(stadium)의 구분이 이미 노드 Core 축이므로, 새 기호 없이 조합만으로 의미가 읽힌다.</figcaption>
+  </figure>
+</section>
+
+<section>
+  <h2>겹침과 확실성</h2>
+  <figure>
+    <svg viewBox="0 0 900 300" role="img" aria-label="겹침 해결과 확실성. 위쪽은 실행흐름과 목적수단이 둘 다 직사각에 화살표라 겹치는 것을 채움과 색으로 가른 것. 아래쪽은 확실성 축으로 실선에서 넓은 점선까지 네 단계를 보여주고 is_a 에는 적용하지 않음을 표시한다.">
+      <defs><marker id="v-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="head" d="M0,0 L10,5 L0,10 z"/></marker></defs>
+      <text class="lab" x="24" y="30">rect → rect 가 겹칠 때 — 맥락이 먼저, 같이 쓰이면 채움·색</text>
+      <rect class="sf" x="60" y="50" width="90" height="26" rx="0"/><path class="ln" d="M150,63 L196,63" marker-end="url(#v-a)"/><rect class="sf" x="196" y="50" width="90" height="26" rx="0"/>
+      <text class="s" x="173" y="96" text-anchor="middle">채움 없음 · 흑 = 실행흐름</text>
+      <rect class="sf fill" x="420" y="50" width="90" height="26" rx="0" style="stroke:var(--c-blue)"/><path class="ln" d="M510,63 L556,63" style="stroke:var(--c-blue)" marker-end="url(#v-a)"/><rect class="sf fill" x="556" y="50" width="90" height="26" rx="0" style="stroke:var(--c-blue)"/>
+      <text class="s" x="533" y="96" text-anchor="middle">채움 있음 · 파 = 목적/수단</text>
+      <text class="s" x="700" y="60">위계가 먼저다 — 실행흐름이</text>
+      <text class="s" x="700" y="78">사용빈도 1위라 기본값을 갖고,</text>
+      <text class="s" x="700" y="96">목적/수단이 같이 오면 갈라 준다</text>
+      <path class="band" d="M24,118 L880,118"/>
+
+      <text class="lab" x="24" y="146">확실성 — 의미와 직교 · 간격이 좁을수록 확실</text>
+      <path class="ln" d="M60,178 L200,178" marker-end="url(#v-a)"/><text class="s" x="130" y="200" text-anchor="middle">확정 · 기존</text>
+      <path class="ln" d="M240,178 L380,178" stroke-dasharray="7 3" marker-end="url(#v-a)"/><text class="s" x="310" y="200" text-anchor="middle">거의 확실</text>
+      <path class="ln" d="M420,178 L560,178" stroke-dasharray="7 7" marker-end="url(#v-a)"/><text class="s" x="490" y="200" text-anchor="middle">반반</text>
+      <path class="ln" d="M600,178 L740,178" stroke-dasharray="7 14" marker-end="url(#v-a)"/><text class="s" x="670" y="200" text-anchor="middle">매우 불확실</text>
+      <text class="s" x="24" y="236">적용: execution_flow ✓ · goal_means ✓ · <tspan font-weight="600">is_a ✗</tspan> · whole_part 미정(?)</text>
+      <rect class="sf" x="300" y="224" width="80" height="26" rx="13"/><path class="ln" d="M380,237 L416,237" /><rect class="sf" x="416" y="224" width="80" height="26" rx="13"/>
+      <text class="s" x="520" y="241">분류 체계에는 확실/불확실 축이 맞지 않는다 — is_a 는 언제나 실선</text>
+      <text class="s" x="24" y="272">점선은 이분법이 아니라 gradient 다. 네 칸은 눈금이지 값의 전부가 아니다</text>
+    </svg>
+    <figcaption><b>축은 위에서부터 아껴 쓴다</b> — 위 순위로 이미 갈리면 아래 축을 꺼내지 않는다(사용자, 2026-09-13).
+    그래서 execution_flow 안의 Process/Entity 는 <b>모양</b>(1순위)이 가르고, 채움은 거기 쓰지 않는다 — 채움은 execution_flow/goal_means 겹침 하나만 진다.
+    <b>겹침을 표현으로 풀지 않고 위계로 푼다</b>: 실행흐름이 사용빈도 1위라 기본값을 갖고, 목적/수단이 같은 그림에 오면
+    채움·색(식별력 4·5순위)이 갈라 준다. 새 기호를 만들지 않는 쪽이 먼저다.</figcaption>
+  </figure>
+</section>
+
+<section>
+  <h2>전체/부분은 곧 추상화다 — semantic zoom</h2>
+  <p>영역의 실/점은 확실성이 아니라 <b>층</b>을 말한다: <b>실선 = 현재 Focus View</b>, <b>점선 = 상위 그룹</b>.
+  한 단계 올리면 셋이 한 칸씩 밀린다 — 실선의 내용은 <b>은닉</b>되고, 점선이 <b>실선</b>이 되며, 그 위가 새 <b>점선</b>이 된다.</p>
+  <figure>
+    <svg viewBox="0 0 900 250" role="img" aria-label="세 층의 semantic zoom. 왼쪽은 지금 층으로 상위 그룹이 점선이고 그 안 초점이 실선이다. 가운데는 한 단계 위로 앞의 내용이 은닉되고 상위 그룹이 실선이 된다. 오른쪽은 또 한 단계 위다.">
+      <defs><marker id="v-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="head" d="M0,0 L10,5 L0,10 z"/></marker></defs>
+      <text class="lab" x="20" y="28">L2 · 지금</text><text class="lab" x="322" y="28">L1 · 한 단계 위</text><text class="lab" x="624" y="28">L0 · 또 한 단계 위</text>
+      <rect class="sf" x="20" y="40" width="256" height="170" rx="12" stroke-dasharray="5 4"/>
+      <text class="s" x="30" y="58">관계 게이트<tspan class="lab">  상위 그룹</tspan></text>
+      <rect class="sf" x="36" y="70" width="224" height="128" rx="10"/>
+      <text class="s" x="46" y="88">검사들<tspan class="lab">  지금 보는 층</tspan></text>
+      <rect class="sf" x="48" y="98" width="196" height="22" rx="0"/><text x="146" y="113" text-anchor="middle" font-size="10.5">반대칭 검사</text>
+      <rect class="sf" x="48" y="128" width="196" height="22" rx="0"/><text x="146" y="143" text-anchor="middle" font-size="10.5">비순환 검사</text>
+      <rect class="sf" x="48" y="158" width="196" height="22" rx="0"/><text x="146" y="173" text-anchor="middle" font-size="10.5">배타 검사</text>
+
+      <path class="ln" d="M284,125 L316,125" marker-end="url(#v-a)"/>
+      <rect class="sf" x="322" y="40" width="256" height="170" rx="12" stroke-dasharray="5 4"/>
+      <text class="s" x="332" y="58">8단계 파이프라인<tspan class="lab">  상위 그룹</tspan></text>
+      <rect class="sf" x="338" y="70" width="224" height="128" rx="10"/>
+      <text class="s" x="348" y="88">관계 게이트<tspan class="lab">  지금 보는 층</tspan></text>
+      <rect class="sf" x="350" y="98" width="196" height="22" rx="0"/><text x="448" y="113" text-anchor="middle" font-size="10.5">원문 대조</text>
+      <rect class="sf" x="350" y="128" width="196" height="22" rx="0"/><text x="448" y="143" text-anchor="middle" font-size="10.5">인증서 발급</text>
+      <rect class="faint" x="350" y="158" width="196" height="24" rx="5" stroke-dasharray="3 4"/>
+      <text class="s" x="448" y="174" text-anchor="middle">⋯ 검사 셋은 은닉</text>
+
+      <path class="ln" d="M586,125 L618,125" marker-end="url(#v-a)"/>
+      <rect class="sf" x="624" y="40" width="256" height="170" rx="12" stroke-dasharray="5 4"/>
+      <text class="s" x="634" y="58">궁극 목표<tspan class="lab">  상위 그룹</tspan></text>
+      <rect class="sf" x="640" y="70" width="224" height="128" rx="10"/>
+      <text class="s" x="650" y="88">8단계 파이프라인<tspan class="lab">  지금 보는 층</tspan></text>
+      <rect class="sf" x="652" y="98" width="196" height="22" rx="0"/><text x="750" y="113" text-anchor="middle" font-size="10.5">주장 추출 … 재검증</text>
+      <rect class="faint" x="652" y="128" width="196" height="24" rx="5" stroke-dasharray="3 4"/>
+      <text class="s" x="750" y="144" text-anchor="middle">⋯ 단계의 속은 은닉</text>
+      <text class="s" x="450" y="238" text-anchor="middle">어느 그림에서도 보이는 층은 둘 — 지금 층과 그 바로 위</text>
+    </svg>
+    <figcaption>정본 §4 가 이것을 <b>「whole/part 는 추상화와 직결」</b>로 적는다 — 그래프 추상화가 곧 tree 상단을 남기고 하단을 은닉하는 일이고,
+    whole/part 가 바로 그 구조다. 은닉은 삭제가 아니라 <b>한 단계 아래</b>이고, 정본의 「의미적 손실」이 그 이름이다.
+    <b>점선의 네 자리</b>를 여기서 정리해 둔다: 간선 = 불확실 · 노드 외곽선 = 후보 · <b>영역 경계 = 상위 그룹</b>. 가르는 것은 점선 자체가 아니라 <b>어디에 그어졌는가</b>다.</figcaption>
+  </figure>
+</section>
+
+<section>
+  <div class="note">
+    <h3>아직 미결</h3>
+    <ul>
+      <li><b>Core / Main / Sub 라는 이름을 없앨 것인가.</b> 정본이 제기했다 — 이름 대신 우선순위를 전부 명시하는 안. 이 페이지는 아직 순위로만 쓰고 이름을 쓰지 않는다.</li>
+      <li><b>whole_part 에 확실성이 적용되는가</b>(정본 §4 의 <code>?</code>). 영역의 실/점이 이미 층을 나르므로 자리 다툼이 있다.</li>
+      <li><b>구현/구현체 관계</b>를 별도 의미로 둘지, goal_means 에 넣을지.</li>
+      <li><b>색 5색의 배정</b>. 축은 확정됐지만 어느 색이 무엇을 뜻하는지는 아직 비어 있다.</li>
+    </ul>
+  </div>
+</section>
+
+<footer>표현 규약 정본 <code>docs/diagrams/digram_design.md</code> (Version B) · 논리 규약 <code>docs/diagrams/README_node_system.md</code> ·
+적용판 <a href="https://claude.ai/code/artifact/4abcd1f0-d1de-4d27-91d3-1a3f8428c698">선과 면 — 결정판</a>(아직 앞 판 매핑)</footer>
+</main>

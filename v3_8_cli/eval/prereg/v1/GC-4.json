@@ -1,0 +1,26 @@
+{
+ "expected": {
+  "relation_types": [
+   "execution_flow"
+  ],
+  "note": "두 갈래, Main 11 > 9 → 정보량 조정 필요. HTML 요청 → 강조(hover) 가능 여부 측정 후 판단."
+ },
+ "required_human_decisions": [
+  {
+   "id": "information_amount",
+   "rule": "Main 9 초과를 그대로 두지 않는다; 접기·강조·분할 중 Human 결정이 필요한 것은 묻는다"
+  }
+ ],
+ "answers_by_topic": {
+  "l0_or_render_feedback": "좋습니다. 진행해 주세요",
+  "output_format": "판단에 맡깁니다",
+  "unregistered": "판단에 맡깁니다",
+  "information_amount": "한 장으로 두고, 갈래를 강조(hover)해서 보이게 해 주세요",
+  "grouping": "판단에 맡깁니다",
+  "split": "나누지 말고 한 장으로 해 주세요"
+ },
+ "case_id": "GC-4",
+ "frozen_at": "2026-10-04 (before any run)",
+ "answer_author": "Agent as Human proxy (DEC-083), Human may revise",
+ "answer_rule": "Answer only after a question appears; topic chosen by a classifier (LLM fills the slot), answer looked up by rule; max 6 turns."
+}

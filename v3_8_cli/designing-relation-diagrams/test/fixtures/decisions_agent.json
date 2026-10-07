@@ -1,0 +1,13 @@
+{
+ "decisions": [
+  {
+   "id": "D1",
+   "topic": "grouping",
+   "subject": "Agent",
+   "question": "묶을까요?",
+   "answer": "이대로 묶음",
+   "answered_at": "2026-10-04T00:00:00Z",
+   "status": "decided"
+  }
+ ]
+}

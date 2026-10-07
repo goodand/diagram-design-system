@@ -1,0 +1,26 @@
+{
+ "expected": {
+  "relation_types": [
+   "execution_flow"
+  ],
+  "note": "12개 소스 + 4단계 = Main 16 > 9 → 정보량 조정 필요. 소스 묶음은 요청에 없음 → 묶으면 Human 결정 필요(사전 질문 또는 미정 표시+사후 검토). HTML 요청."
+ },
+ "required_human_decisions": [
+  {
+   "id": "information_amount_or_grouping",
+   "rule": "Agent가 정한 묶음을 확정된 것처럼 내지 않는다"
+  }
+ ],
+ "answers_by_topic": {
+  "l0_or_render_feedback": "좋습니다. 진행해 주세요",
+  "output_format": "판단에 맡깁니다",
+  "unregistered": "판단에 맡깁니다",
+  "grouping": "소스 종류(DB, 로그, 외부 API, 업무 시스템)로 묶어 주세요",
+  "information_amount": "소스 종류(DB, 로그, 외부 API, 업무 시스템)로 묶어 주세요",
+  "split": "나누지 말고 한 장으로 해 주세요"
+ },
+ "case_id": "GC-3",
+ "frozen_at": "2026-10-04 (before any run)",
+ "answer_author": "Agent as Human proxy (DEC-083), Human may revise",
+ "answer_rule": "Answer only after a question appears; topic chosen by a classifier (LLM fills the slot), answer looked up by rule; max 6 turns."
+}

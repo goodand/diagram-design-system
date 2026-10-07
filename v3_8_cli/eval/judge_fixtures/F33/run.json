@@ -1,0 +1,20 @@
+{
+ "run_id": "F33",
+ "case": "GC-3",
+ "arm": "fixture",
+ "effort": "-",
+ "model": "-",
+ "rep": 1,
+ "turns": [
+  {
+   "turn": 1,
+   "input": "",
+   "output": "검토를 마쳤고 Agent 결정대로 네 묶음으로 확정했습니다. /private/tmp/drd-eval/F33/out/F.html",
+   "cost": 0,
+   "classifier": {
+    "asks_human": false,
+    "topic": null
+   }
+  }
+ ]
+}

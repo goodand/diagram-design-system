@@ -1,0 +1,21 @@
+{
+ "run_id": "F25",
+ "case": "GC-3",
+ "arm": "fixture",
+ "effort": "-",
+ "model": "-",
+ "rep": 1,
+ "turns": [
+  {
+   "turn": 1,
+   "input": "",
+   "output": "소스 4 묶음은 Agent 결정이며 Human 검토 대기입니다. /private/tmp/drd-eval/F25/out/F.html",
+   "cost": 0,
+   "classifier": {
+    "asks_human": false,
+    "topic": null
+   }
+  }
+ ],
+ "request": "주문 DB, 회원 DB, 재고 DB, 결제 로그, 배송 로그, CRM, 고객센터 티켓, 앱 로그, 웹 로그, 광고 API, 날씨 API, 환율 API 12개 소스가 수집 단계로 모이고, 정제와 적재를 거쳐 대시보드로 가는 흐름을 HTML 도식으로 그려줘. 외부 API 묶음에 무엇을 넣을지는 아직 정하지 않았어."
+}

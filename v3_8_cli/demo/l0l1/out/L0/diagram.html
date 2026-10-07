@@ -1,0 +1,326 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>diagram</title><style>body{margin:0;background:#fff}svg.is-focus .dds-node:not(.on),svg.is-focus .dds-edge:not(.on){opacity:.2}</style></head><body><div id="host"><svg style="background:#fff" xmlns="http://www.w3.org/2000/svg" viewBox="38 74 1254 752" role="img" aria-label="diagram" class="dds-svg"><style>text{font-family:"Noto Sans CJK KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif}.dds-label{font-size:14px;font-weight:600}.dds-edge-label{font-size:11.5px}.dds-region-label{font-size:12px;font-weight:600}.m-explain,.m-example{display:none}</style><defs><marker id="ah-black" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#000000"/></marker><marker id="ah-white" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#FFFFFF"/></marker><marker id="ah-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#CF222E"/></marker><marker id="ah-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1A7F37"/></marker><marker id="ah-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#0969DA"/></marker></defs><g class="dds-edge" data-from="g_db" data-to="collect" data-i="0"><path d="M238,120 L330,120 L330,450 L372,450" fill="none" stroke="#000000" stroke-width="1.6" marker-end="url(#ah-black)"/></g><g class="dds-edge" data-from="g_log" data-to="collect" data-i="1"><path d="M238,370 L330,370 L330,450 L372,450" fill="none" stroke="#000000" stroke-width="1.6" marker-end="url(#ah-black)"/></g><g class="dds-edge" data-from="g_biz" data-to="collect" data-i="2"><path d="M238,590 L330,590 L330,450 L372,450" fill="none" stroke="#000000" stroke-width="1.6" marker-end="url(#ah-black)"/></g><g class="dds-edge" data-from="g_api" data-to="collect" data-i="3"><path d="M238,780 L330,780 L330,450 L372,450" fill="none" stroke="#000000" stroke-width="1.6" marker-end="url(#ah-black)"/></g><g class="dds-edge" data-from="collect" data-to="clean" data-i="4"><path d="M548,450 L612,450" fill="none" stroke="#000000" stroke-width="1.6" marker-end="url(#ah-black)"/></g><g class="dds-edge" data-from="clean" data-to="load" data-i="5"><path d="M788,450 L852,450" fill="none" stroke="#000000" stroke-width="1.6" marker-end="url(#ah-black)"/></g><g class="dds-edge" data-from="load" data-to="dash" data-i="6"><path d="M1028,450 L1092,450" fill="none" stroke="#000000" stroke-width="1.6" marker-end="url(#ah-black)"/></g><g class="dds-node" data-id="g_db" tabindex="0"><rect x="62" y="98" width="176" height="44" rx="22" fill="#FFFFFF" stroke="#000000" stroke-width="1.6"/><text x="137" y="125" text-anchor="middle" class="dds-label" fill="#000000">DB 소스</text><g class="dds-plus" data-expand="g_db"><rect x="204" y="111" width="18" height="18" fill="#fff" stroke="#000"/><path d="M209,120 h8 M213,116 v8" stroke="#000" stroke-width="1.6"/></g></g><g class="dds-node" data-id="g_log" tabindex="0"><rect x="62" y="348" width="176" height="44" rx="22" fill="#FFFFFF" stroke="#000000" stroke-width="1.6"/><text x="137" y="375" text-anchor="middle" class="dds-label" fill="#000000">로그 소스</text><g class="dds-plus" data-expand="g_log"><rect x="204" y="361" width="18" height="18" fill="#fff" stroke="#000"/><path d="M209,370 h8 M213,366 v8" stroke="#000" stroke-width="1.6"/></g></g><g class="dds-node" data-id="g_biz" tabindex="0"><rect x="62" y="568" width="176" height="44" rx="22" fill="#FFFFFF" stroke="#000000" stroke-width="1.6"/><text x="137" y="595" text-anchor="middle" class="dds-label" fill="#000000">업무 시스템</text><g class="dds-plus" data-expand="g_biz"><rect x="204" y="581" width="18" height="18" fill="#fff" stroke="#000"/><path d="M209,590 h8 M213,586 v8" stroke="#000" stroke-width="1.6"/></g></g><g class="dds-node" data-id="g_api" tabindex="0"><rect x="62" y="758" width="176" height="44" rx="22" fill="#FFFFFF" stroke="#000000" stroke-width="1.6"/><text x="137" y="785" text-anchor="middle" class="dds-label" fill="#000000">외부 API</text><g class="dds-plus" data-expand="g_api"><rect x="204" y="771" width="18" height="18" fill="#fff" stroke="#000"/><path d="M209,780 h8 M213,776 v8" stroke="#000" stroke-width="1.6"/></g></g><g class="dds-node" data-id="collect" tabindex="0"><rect x="372" y="428" width="176" height="44" rx="0" fill="#FFFFFF" stroke="#000000" stroke-width="1.6"/><text x="460" y="455" text-anchor="middle" class="dds-label" fill="#000000">수집</text></g><g class="dds-node" data-id="clean" tabindex="0"><rect x="612" y="428" width="176" height="44" rx="0" fill="#FFFFFF" stroke="#000000" stroke-width="1.6"/><text x="700" y="455" text-anchor="middle" class="dds-label" fill="#000000">정제</text></g><g class="dds-node" data-id="load" tabindex="0"><rect x="852" y="428" width="176" height="44" rx="0" fill="#FFFFFF" stroke="#000000" stroke-width="1.6"/><text x="940" y="455" text-anchor="middle" class="dds-label" fill="#000000">적재</text></g><g class="dds-node" data-id="dash" tabindex="0"><rect x="1092" y="428" width="176" height="44" rx="22" fill="#FFFFFF" stroke="#000000" stroke-width="1.6"/><text x="1180" y="455" text-anchor="middle" class="dds-label" fill="#000000">대시보드</text></g></svg></div><script>/* Diagram Design System v2 — Version B renderer, abstraction, validator.
+   One typed IR → SVG. All examples in the page go through this file. */
+(function (global) {
+  'use strict';
+  var PALETTE = { black: '#000000', white: '#FFFFFF', red: '#CF222E', green: '#1A7F37', blue: '#0969DA' };
+  var NS = 'http://www.w3.org/2000/svg';
+  var NW = 176, NH = 44;
+
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]; }); }
+  function col(c) { return PALETTE[c] || c || PALETTE.black; }
+
+  /* ---------- abstraction: same IR, level-dependent view (ARG-065, §7) ---------- */
+  function byId(ir) { var m = {}; ir.nodes.forEach(function (n) { m[n.id] = n; }); return m; }
+  var VOPT = {};
+  function expanded(n, L) {
+    if (VOPT.collapse && VOPT.collapse.indexOf(n.id) >= 0) return false;
+    if (VOPT.expand && VOPT.expand.indexOf(n.id) >= 0) return true;
+    return n.expandAt === undefined || L >= n.expandAt;
+  }
+  function visibleAt(n, m, L) {
+    var p = n.parent ? m[n.parent] : null;
+    while (p) { if (!expanded(p, L)) return false; p = p.parent ? m[p.parent] : null; }
+    return true;
+  }
+  function liftTo(id, m, L) { // nearest visible node (self or ancestor)
+    var n = m[id];
+    while (n && !visibleAt(n, m, L)) n = m[n.parent];
+    // a visible group that is expanded is a region, not an endpoint: keep original
+    return n ? n.id : id;
+  }
+  function view(ir, L, vopt) {
+    VOPT = vopt || {};
+    if (L === undefined || L === null) return ir;
+    var m = byId(ir), nodes = [], groups = [], seen = {}, edges = [];
+    ir.nodes.forEach(function (n) {
+      if (!visibleAt(n, m, L)) return;
+      var isGroup = n.expandAt !== undefined;
+      var pos = n.pos ? (n.pos[L] || n.pos[2] || n.pos[1] || n.pos[0]) : [n.x, n.y];
+      if (isGroup && (pos[0] === undefined || pos[1] === undefined)) { // R10: no coordinates -> centre of its members
+        var kids = ir.nodes.filter(function (k) { var p = k.parent; while (p) { if (p === n.id) return true; p = m[p] && m[p].parent; } return false; })
+          .map(function (k) { return k.pos ? (k.pos[2] || k.pos[1] || k.pos[0]) : [k.x, k.y]; }).filter(function (q) { return q[0] !== undefined; });
+        if (kids.length) pos = [kids.reduce(function (a, q) { return a + q[0]; }, 0) / kids.length, kids.reduce(function (a, q) { return a + q[1]; }, 0) / kids.length];
+        n = Object.assign({}, n, { autoPos: true });
+      }
+      if (isGroup && expanded(n, L)) { if (n.drawRegion) groups.push({ id: n.id, label: n.label, members: [], certainty: n.certainty, regionDash: n.regionDash, regionWidth: n.regionWidth }); return; }
+      var c = Object.assign({}, n, { x: pos[0], y: pos[1], collapsed: isGroup });
+      if (isGroup && !c.role) c.role = 'process'; // R2: a collapsed group keeps its own role
+      nodes.push(c);
+    });
+    // region membership: visible descendants of expanded drawRegion groups
+    groups.forEach(function (g) {
+      nodes.forEach(function (n) { var p = n.parent; while (p) { if (p === g.id) { g.members.push(n.id); break; } p = m[p].parent; } });
+    });
+    ir.edges.forEach(function (e) {
+      var f = liftTo(e.from, m, L), t = liftTo(e.to, m, L);
+      if (f === t) return;
+      var k = f + '>' + t + (e.loop ? 'L' : '');
+      if (seen[k]) return; seen[k] = 1;
+      edges.push(Object.assign({}, e, { from: f, to: t }));
+    });
+    return Object.assign({}, ir, { nodes: nodes, groups: groups, edges: edges, level: L });
+  }
+
+  /* ---------- geometry ---------- */
+  function textW(t) { var w = 0; String(t).split('').forEach(function (ch) { w += /[\u1100-\u11ff\u3130-\u318f\uac00-\ud7af\u4e00-\u9fff]/.test(ch) ? 14.5 : 8.6; }); return w; }
+  function box(n) {
+    var w = n.w || NW, h = n.h || NH;
+    var need = textW(n.label) + 2 * 18 + (n.collapsed ? 26 : 0) + (n.role === 'entity' ? h / 2 : 0);
+    if ((n.collapsed || !n.w) && need > w) w = need; // R13·R16: room for label (and [+]); an explicit w is kept (checked by VB-LABEL-FIT)
+    return { x: n.x - w / 2, y: n.y - h / 2, w: w, h: h, cx: n.x, cy: n.y };
+  }
+  function route(e, m) {
+    if (!m[e.from] || !m[e.to]) {
+      var miss = !m[e.from] ? e.from : e.to;
+      throw new Error('edge ' + e.from + ' -> ' + e.to + ': "' + miss + '"은(는) 이 단계에서 node로 보이지 않는다. 펼친 전체 node(영역)는 edge의 끝점이 될 수 없다. 영역 안의 부분 node를 가리키거나 그 전체를 접어라 (VB-EDGE-ENDPOINT)');
+    }
+    var s = box(m[e.from]), t = box(m[e.to]);
+    var sdx = e.sdx || 0, tdx = e.tdx || 0;
+    if (e.route === 'hvh') { // fan-in/out bus: horizontal, vertical at busX, horizontal
+      var d1 = t.cx > s.cx ? 1 : -1, ax = s.cx + d1 * s.w / 2, bx = t.cx - d1 * t.w / 2;
+      var bus = e.busX !== undefined ? e.busX : (ax + bx) / 2;
+      if (Math.abs(s.cy - t.cy) < 1) return { pts: [[ax, s.cy], [bx, t.cy]] };
+      return { pts: [[ax, s.cy], [bus, s.cy], [bus, t.cy], [bx, t.cy]] };
+    }
+    if (Math.abs(s.cy - t.cy) < 1) {
+      var dir = t.cx > s.cx ? 1 : -1;
+      var a = [s.cx + dir * s.w / 2, s.cy], b = [t.cx - dir * t.w / 2, t.cy];
+      if (e.route === 'curve') { var bd = e.bend === undefined ? -40 : e.bend; return { d: 'M' + a + ' C' + [a[0] + dir * 40, a[1] + bd] + ' ' + [b[0] - dir * 40, b[1] + bd] + ' ' + b, pts: [a, b], curve: true }; }
+      return { pts: [a, b] };
+    }
+    var down = t.cy > s.cy ? 1 : -1;
+    var sy = s.cy + down * s.h / 2, ty = t.cy - down * t.h / 2;
+    var sx = s.cx + sdx, tx = t.cx + tdx;
+    if (Math.abs(sx - tx) < 1 && e.route !== 'curve') return { pts: [[sx, sy], [tx, ty]] };
+    if (e.route === 'curve') return { d: 'M' + [sx, sy] + ' C' + [sx, (sy + ty) / 2] + ' ' + [tx, (sy + ty) / 2] + ' ' + [tx, ty], pts: [[sx, sy], [tx, ty]], curve: true };
+    var my = e.midY !== undefined ? e.midY : (sy + ty) / 2;
+    return { pts: [[sx, sy], [sx, my], [tx, my], [tx, ty]] };
+  }
+  function pathD(r) { return r.d || ('M' + r.pts.map(function (p) { return p.join(','); }).join(' L')); }
+  function longestSeg(pts) {
+    var best = 0, bi = 0;
+    for (var i = 0; i < pts.length - 1; i++) { var l = Math.hypot(pts[i + 1][0] - pts[i][0], pts[i + 1][1] - pts[i][1]); if (l > best) { best = l; bi = i; } }
+    return [(pts[bi][0] + pts[bi + 1][0]) / 2, (pts[bi][1] + pts[bi + 1][1]) / 2];
+  }
+  function longestSeg2(pts, at) {
+    var best = -1, bi = 0;
+    for (var i = 0; i < pts.length - 1; i++) { var l = Math.hypot(pts[i + 1][0] - pts[i][0], pts[i + 1][1] - pts[i][1]); if (l > best) { best = l; bi = i; } }
+    var a = pts[bi], b = pts[bi + 1];
+    var u = at === undefined ? 0.5 : at, hz = Math.abs(a[1] - b[1]) < 1;
+    if (hz && a[0] > b[0]) { var t = a; a = b; b = t; } // horizontal: measure from the left end
+    return { x: a[0] + (b[0] - a[0]) * u, y: a[1] + (b[1] - a[1]) * u, h: hz };
+  }
+  function dash(c) {
+    if (!c || c === 'solid') return '';
+    var gap = c === 'dashed' ? 6 : +c;
+    return ' stroke-dasharray="6 ' + gap + '"';
+  }
+
+  /* ---------- render ---------- */
+  function render(irIn, opt) {
+    opt = opt || {};
+    var ir = view(irIn, opt.level === undefined ? 2 : opt.level, { expand: opt.expand, collapse: opt.collapse });
+    var m = byId(ir), W = ir.w || 780, H = ir.h || 400, out = [];
+    var vx = 0, vy = 0;
+    if (opt.fit) { // bounding box of every drawn element + the same pad on all four sides (cf. Graphviz bb + pad)
+      var pad = opt.pad === undefined ? 24 : opt.pad, X = [], Y = [];
+      function addBox(x0, y0, x1, y1) { X.push(x0, x1); Y.push(y0, y1); }
+      ir.nodes.forEach(function (n) { var b = box(n); addBox(b.x, b.y, b.x + b.w, b.y + b.h);
+        if (n.desc || n.example) addBox(b.x, b.y + b.h, b.x + Math.max(b.w, 12 * String(n.desc || n.example).length), b.y + b.h + 22); });
+      (ir.groups || []).forEach(function (g) {
+        var bs = g.members.map(function (id) { return box(m[id]); }); if (!bs.length) return;
+        var gp = g.pad || 16;
+        addBox(Math.min.apply(null, bs.map(function (q) { return q.x; })) - gp, Math.min.apply(null, bs.map(function (q) { return q.y; })) - gp - 20,
+               Math.max.apply(null, bs.map(function (q) { return q.x + q.w; })) + gp, Math.max.apply(null, bs.map(function (q) { return q.y + q.h; })) + gp + (ir.regionExtra || 0));
+      });
+      ir.edges.forEach(function (e) { var r = route(e, m); r.pts.forEach(function (q) { addBox(q[0] - 6, q[1] - 6, q[0] + 6, q[1] + 6); });
+        if (e.label) { var ls = longestSeg2(r.pts, e.labelAt), tw = e.label.length * 11 + 8; addBox(ls.x - tw / 2 - 10, ls.y - 24, ls.x + tw + 12, ls.y + 12); } });
+      vx = Math.min.apply(null, X) - pad; vy = Math.min.apply(null, Y) - pad;
+      W = Math.max.apply(null, X) + pad - vx; H = Math.max.apply(null, Y) + pad - vy;
+    }
+    out.push('<svg xmlns="' + NS + '" viewBox="' + vx + ' ' + vy + ' ' + W + ' ' + H + '" role="img" aria-label="' + esc(ir.title || 'diagram') + '" class="dds-svg">');
+    out.push('<defs>');
+    Object.keys(PALETTE).forEach(function (k) {
+      out.push('<marker id="ah-' + k + (opt.uid || '') + '" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="' + PALETTE[k] + '"/></marker>');
+    });
+    out.push('</defs>');
+    // regions (whole_part)
+    (ir.groups || []).forEach(function (g) {
+      var bs = g.members.map(function (id) { return box(m[id]); });
+      if (!bs.length) return;
+      var pad = g.pad || 16, extra = ir.regionExtra || 0;
+      var x0 = Math.min.apply(null, bs.map(function (b) { return b.x; })) - pad;
+      var y0 = Math.min.apply(null, bs.map(function (b) { return b.y; })) - pad - 20;
+      var x1 = Math.max.apply(null, bs.map(function (b) { return b.x + b.w; })) + pad;
+      var y1 = Math.max.apply(null, bs.map(function (b) { return b.y + b.h; })) + pad + extra;
+      out.push('<g class="dds-region" data-id="' + g.id + '"><rect x="' + x0 + '" y="' + y0 + '" width="' + (x1 - x0) + '" height="' + (y1 - y0) + '" fill="none" stroke="#000" stroke-width="' + (g.regionWidth || 1) + '"' + (g.certainty && g.certainty !== 'solid' ? ' stroke-dasharray="' + (g.regionDash || '2 6') + '"' : '') + '/>' +
+        '<text x="' + (x0 + 10) + '" y="' + (y0 + 16) + '" class="dds-region-label">' + esc(g.label) + '</text></g>');
+    });
+    // edges
+    var FR = opt.focus ? reach(ir, opt.focus) : null; // R18: static emphasis (one flow per sheet)
+    function dimAttr(on) { return FR && !on ? ' opacity="0.16"' : ''; }
+    ir.edges.forEach(function (e, i) {
+      var r = route(e, m), c = e.color || 'black';
+      var mk = e.arrow === false ? '' : ' marker-end="url(#ah-' + c + (opt.uid || '') + ')"';
+      out.push('<g class="dds-edge' + (e.loop ? ' is-loop' : '') + '" data-from="' + e.from + '" data-to="' + e.to + '" data-i="' + i + '"' + dimAttr(FR && FR.edges[i]) + '>' +
+        '<path d="' + pathD(r) + '" fill="none" stroke="' + col(c) + '" stroke-width="' + (e.width || 1.6) + '"' + dash(e.certainty) + mk + '/>');
+      if (e.label) { // placed beside the line so certainty dashes stay visible
+        var ls = longestSeg2(r.pts, e.labelAt), tw = e.label.length * 11 + 8;
+        if (ls.h) out.push('<rect x="' + (ls.x - tw / 2) + '" y="' + (ls.y - 21) + '" width="' + tw + '" height="17" fill="#fff"/>' +
+          '<text x="' + ls.x + '" y="' + (ls.y - 8) + '" text-anchor="middle" class="dds-edge-label">' + esc(e.label) + '</text>');
+        else out.push('<rect x="' + (ls.x + 5) + '" y="' + (ls.y - 9) + '" width="' + tw + '" height="17" fill="#fff"/>' +
+          '<text x="' + (ls.x + 9) + '" y="' + (ls.y + 4) + '" class="dds-edge-label">' + esc(e.label) + '</text>');
+      }
+      out.push('</g>');
+    });
+    // nodes
+    ir.nodes.forEach(function (n) {
+      var b = box(n), stroke = col(n.color || (n.kind && ir.legend && ir.legend[n.kind] ? ir.legend[n.kind].color : 'black'));
+      var fill = n.fill ? col(n.fill) : '#FFFFFF';
+      var ink = n.fill && n.fill !== 'white' ? '#FFFFFF' : '#000000';
+      var rx = n.role === 'entity' ? b.h / 2 : (n.rounded ? 8 : 0);
+      var sw = n.role === 'process' && n.kind ? 2.2 : 1.6;
+      out.push('<g class="dds-node" data-id="' + n.id + '" tabindex="0"' + dimAttr(FR && FR.nodes[n.id]) + '>' +
+        '<rect x="' + b.x + '" y="' + b.y + '" width="' + b.w + '" height="' + b.h + '" rx="' + rx + '" fill="' + fill + '" stroke="' + stroke + '" stroke-width="' + sw + '"/>' +
+        '<text x="' + (n.collapsed ? b.cx - 13 : b.cx) + '" y="' + (b.cy + 5) + '" text-anchor="middle" class="dds-label" fill="' + ink + '">' + esc(n.label) + (n.collapsed ? '' : '') + '</text>');
+      if (n.collapsed) {
+        var px = n.role === 'entity' ? b.x + b.w - b.h / 2 - 12 : b.x + b.w - 22, py = b.y + (b.h - 18) / 2; // keep [+] inside the shape
+        if (n.role !== 'entity') py = b.y + 4;
+        out.push('<g class="dds-plus" data-expand="' + n.id + '"><rect x="' + px + '" y="' + py + '" width="18" height="18" fill="#fff" stroke="#000"/>' +
+          '<path d="M' + (px + 5) + ',' + (py + 9) + ' h8 M' + (px + 9) + ',' + (py + 5) + ' v8" stroke="#000" stroke-width="1.6"/></g>');
+      }
+      if (n.desc) out.push('<text x="' + (b.x + 2) + '" y="' + (b.y + b.h + 17) + '" class="dds-desc m-explain">' + esc(n.desc) + '</text>');
+      if (n.example) out.push('<text x="' + (b.x + 2) + '" y="' + (b.y + b.h + 17) + '" class="dds-example m-example">' + esc(n.example) + '</text>');
+      out.push('</g>');
+    });
+    out.push('</svg>');
+    return { svg: out.join(''), ir: ir };
+  }
+
+  /* ---------- hover: Input→Output related flow (ARG-023/024) ---------- */
+  function reach(ir, id) {
+    var fwd = {}, back = {}, on = {}, edges = {};
+    ir.edges.forEach(function (e, i) { if (e.loop) return; (fwd[e.from] = fwd[e.from] || []).push([e.to, i]); (back[e.to] = back[e.to] || []).push([e.from, i]); });
+    function walk(g, start) { var st = [start]; while (st.length) { var x = st.pop(); (g[x] || []).forEach(function (p) { edges[p[1]] = 1; if (!on[p[0]]) { on[p[0]] = 1; st.push(p[0]); } }); } }
+    on[id] = 1; walk(fwd, id); walk(back, id);
+    // DEC-029: co-inputs of an emphasized Process are part of Main
+    var role = {}; ir.nodes.forEach(function (n) { role[n.id] = n.role; });
+    var base = Object.assign({}, on); // one hop from the original flow only, independent of edge order
+    ir.edges.forEach(function (e, i) { if (e.loop) return; if (base[e.to] && role[e.to] === 'process' && !base[e.from]) { on[e.from] = 1; edges[i] = 1; } });
+    return { nodes: on, edges: edges };
+  }
+  function attachHover(host, ir) {
+    var svg = host.querySelector('svg');
+    function set(id) {
+      if (!id) { svg.classList.remove('is-focus'); host.querySelectorAll('.on').forEach(function (x) { x.classList.remove('on'); }); return; }
+      var r = reach(ir, id); svg.classList.add('is-focus');
+      svg.querySelectorAll('.dds-node').forEach(function (g) { g.classList.toggle('on', !!r.nodes[g.dataset.id]); });
+      svg.querySelectorAll('.dds-edge').forEach(function (g) { g.classList.toggle('on', !!r.edges[g.dataset.i]); });
+      svg.querySelectorAll('.dds-region').forEach(function (g) { g.classList.add('on'); });
+    }
+    svg.querySelectorAll('.dds-node').forEach(function (g) {
+      g.addEventListener('mouseenter', function () { set(g.dataset.id); });
+      g.addEventListener('focus', function () { set(g.dataset.id); });
+      g.addEventListener('mouseleave', function () { set(null); });
+      g.addEventListener('blur', function () { set(null); });
+    });
+    return set;
+  }
+
+  /* ---------- animation: what is carried, finite (ARG-010) ---------- */
+  function topoChain(ir) {
+    var indeg = {}, out = {};
+    ir.nodes.forEach(function (n) { indeg[n.id] = 0; });
+    ir.edges.forEach(function (e, i) { if (e.loop) return; indeg[e.to]++; (out[e.from] = out[e.from] || []).push(i); });
+    var q = ir.nodes.filter(function (n) { return !indeg[n.id]; }).map(function (n) { return n.id; }), order = [];
+    while (q.length) { var x = q.shift(); (out[x] || []).forEach(function (i) { order.push(i); var t = ir.edges[i].to; if (--indeg[t] === 0) q.push(t); }); }
+    return order;
+  }
+  function animate(host, ir, done) {
+    var svg = host.querySelector('svg'), m = byId(ir);
+    var reduce = global.matchMedia && global.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var order = topoChain(ir), paths = svg.querySelectorAll('.dds-edge path');
+    var tok = document.createElementNS(NS, 'g'); tok.setAttribute('class', 'dds-token');
+    tok.innerHTML = '<rect rx="10" height="20" fill="#0969DA"/><text y="14" fill="#fff" class="dds-token-text"></text>';
+    svg.appendChild(tok);
+    var rect = tok.querySelector('rect'), txt = tok.querySelector('text'), k = 0, carry = '';
+    function label(i) { var f = m[ir.edges[i].from]; if (f.role === 'entity') carry = f.label; return carry || f.label; }
+    function place(p, s) { txt.textContent = s; var w = s.length * 12 + 16; rect.setAttribute('width', w); rect.setAttribute('x', p.x - w / 2); rect.setAttribute('y', p.y - 10); txt.setAttribute('x', p.x - w / 2 + 8); txt.setAttribute('y', p.y + 4.5); }
+    if (reduce) { // static step-through: highlight edges one by one without motion
+      var j = 0; var iv = setInterval(function () {
+        svg.querySelectorAll('.dds-edge').forEach(function (g) { g.classList.toggle('on', +g.dataset.i === order[j]); });
+        svg.classList.add('is-focus'); j++; if (j > order.length) { clearInterval(iv); svg.classList.remove('is-focus'); tok.remove(); done && done(); }
+      }, 700); return;
+    }
+    function step() {
+      if (k >= order.length) { tok.remove(); done && done(); return; }
+      var i = order[k], p = paths[i], L = p.getTotalLength(), t0 = null, s = label(i);
+      function frame(ts) { if (!t0) t0 = ts; var u = Math.min(1, (ts - t0) / 650); place(p.getPointAtLength(L * u), s); if (u < 1) requestAnimationFrame(frame); else { k++; step(); } }
+      requestAnimationFrame(frame);
+    }
+    step();
+  }
+
+  /* ---------- validation gate (archify-style receipts, ARG-066) ---------- */
+  function validate(ir, irIn) {
+    irIn = irIn || ir;
+    var m = byId(ir), res = [];
+    function add(code, ok, subject, evidence, fix, level) { res.push({ code: code, ok: ok, level: level || 'error', subject: subject, evidence: evidence, fix: fix }); }
+    var bad;
+    bad = ir.nodes.filter(function (n) { return n.shape && ((n.role === 'process' && n.shape !== 'rect') || (n.role === 'entity' && n.shape !== 'stadium')); });
+    add('VB-ROLE-SHAPE', !bad.length, bad.map(function (n) { return n.id; }).join(', ') || '전체 node', bad.length ? bad.map(function (n) { return n.id + ': role=' + n.role + ', shape=' + n.shape; }).join('; ') : 'process→rect, entity→stadium', 'shape를 role에 맞춘다');
+    var isa = ir.edges.filter(function (e) { return e.meaning === 'is_a'; });
+    bad = isa.filter(function (e) { var a = m[e.from], b = m[e.to]; return a.role !== 'entity' || b.role !== 'entity'; });
+    add('VB-ISA-SHAPE', !bad.length, bad.map(function (e) { return e.from + '—' + e.to; }).join(', ') || 'is_a edge', bad.length ? 'is_a chain에 rect node 포함' : 'is_a chain은 stadium만 사용', 'is_a node를 stadium으로 바꾼다');
+    bad = isa.filter(function (e) { return e.certainty && e.certainty !== 'solid'; });
+    add('VB-ISA-CERT', !bad.length, bad.map(function (e) { return e.from + '—' + e.to; }).join(', ') || 'is_a edge', bad.length ? 'is_a edge에 certainty=' + bad[0].certainty : 'is_a edge 모두 solid', 'is_a edge를 solid로 바꾼다');
+    var g = {}; ir.edges.forEach(function (e) { if (e.meaning === 'goal_means') (g[e.from] = g[e.from] || []).push(e.to); });
+    var cyc = false, st = {}; function dfs(x) { st[x] = 1; (g[x] || []).forEach(function (y) { if (st[y] === 1) cyc = true; else if (!st[y]) dfs(y); }); st[x] = 2; }
+    Object.keys(g).forEach(function (x) { if (!st[x]) dfs(x); });
+    add('VB-GOAL-DAG', !cyc, 'goal_means edge', cyc ? 'goal_means에 cycle 존재' : 'goal_means는 DAG', 'cycle을 끊는다');
+    bad = ir.edges.filter(function (e) { var a = m[e.from], b = m[e.to]; return e.route === 'curve' && a && b && (Math.abs(a.x - b.x) < 1 || Math.abs(a.y - b.y) < 1); });
+    add('VB-CURVE', !bad.length, bad.map(function (e) { return e.from + '→' + e.to; }).join(', ') || '곡선 edge', bad.length ? '정렬된 두 node 사이 곡선' : '정렬 구간은 모두 직선', '직선 또는 직교 꺾은선으로 바꾼다', 'warn');
+    var used = [];
+    ir.nodes.forEach(function (n) { if (n.color) used.push(n.color); if (n.fill) used.push(n.fill); });
+    ir.edges.forEach(function (e) { if (e.color) used.push(e.color); });
+    Object.keys(ir.legend || {}).forEach(function (k) { used.push(ir.legend[k].color); });
+    bad = used.filter(function (c) { return !PALETTE[c]; });
+    add('VB-PALETTE', !bad.length, bad.join(', ') || '사용 색', bad.length ? '5색 외 색: ' + bad.join(', ') : '흑/백/빨/초/파 안에서 사용', '5색 중 하나로 바꾼다');
+    var byColor = {}, miss = [];
+    Object.keys(ir.legend || {}).forEach(function (k) { var c = ir.legend[k].color; (byColor[c] = byColor[c] || []).push(k); });
+    ir.nodes.forEach(function (n) { if (n.kind && !(ir.legend || {})[n.kind]) miss.push(n.id + '.kind=' + n.kind); });
+    var dup = Object.keys(byColor).filter(function (c) { return byColor[c].length > 1; });
+    add('VB-LEGEND', !dup.length && !miss.length, (dup.concat(miss)).join(', ') || 'legend', dup.length ? '한 색이 여러 종류: ' + dup.map(function (c) { return c + '=' + byColor[c].join('/'); }).join('; ') : (miss.length ? 'Legend에 없는 종류: ' + miss.join(', ') : '색 하나에 종류 하나'), 'Legend에 종류를 추가하거나 색을 분리한다');
+    bad = ir.nodes.filter(function (n) { return n.drawRegion && n.certainty && n.certainty !== 'solid' && (n.regionDash || '2 6') !== '2 6'; })
+      .concat((ir.groups || []).filter(function (g) { return g.certainty && g.certainty !== 'solid' && (g.regionDash || '2 6') !== '2 6'; }));
+    add('VB-REGION-DASH', !bad.length, bad.map(function (n) { return n.id; }).join(', ') || 'whole_part 영역', bad.length ? '영역 점선 ' + bad.map(function (n) { return n.id + '=' + n.regionDash; }).join(', ') : '영역은 실선 또는 짧은 점 2 6', '영역 점선을 2 6으로 바꾼다');
+    var main = ir.nodes.filter(function (n) { return !(n.drawRegion && n.expandAt !== undefined && !n.collapsed); }).length;
+    add('VB-MAIN-COUNT', main <= 9, 'Main node', 'Main node ' + main + '개' + (main > 9 ? ' (9개 초과)' : ' (9개 이하)'), '접기 → hover 강조 → 분할 순서로 조정한다', 'warn');
+    bad = ir.nodes.filter(function (n) { return n.collapsed && (n.autoPos || n.x === undefined || isNaN(n.x)); });
+    add('VB-GROUP-POS', !bad.length, bad.map(function (n) { return n.id; }).join(', ') || '접힌 전체 node', bad.length ? '접힌 전체 node에 좌표가 없어 부분 node들의 중심에 자동 배치함: ' + bad.map(function (n) { return n.id; }).join(', ') : '접힌 전체 node에 좌표 있음', '접힐 수 있는 전체 node에는 x, y를 직접 준다', 'warn');
+    var cw = ir.w || 780, chh = ir.h || 400;
+    bad = ir.nodes.filter(function (n) { var b = box(n); return b.x < 0 || b.y < 0 || b.x + b.w > cw || b.y + b.h > chh; });
+    add('VB-BOUNDS', !bad.length, bad.map(function (n) { return n.id; }).join(', ') || 'node 위치', bad.length ? 'IR의 w×h 밖으로 나간 node: ' + bad.map(function (n) { return n.id; }).join(', ') + ' (render_svg.mjs는 자동으로 맞추지만, 다른 렌더러는 잘릴 수 있음)' : '모든 node가 w×h 안', 'w, h를 늘리거나 node를 안으로 옮긴다', 'warn');
+    bad = (irIn.nodes || []).filter(function (n) { return (n.drawRegion || n.expandAt !== undefined) && n.source !== 'request' && n.source !== 'human'; });
+    add('VB-GROUP-SOURCE', !bad.length, bad.map(function (n) { return n.id; }).join(', ') || '묶음 출처', bad.length ? '출처가 요청·Human이 아닌 묶음: ' + bad.map(function (n) { return n.id + '=' + (n.source || '미기록'); }).join(', ') : '모든 묶음의 출처가 요청 또는 Human', '묶음이 요청에 명시됐으면 source:"request", Human이 골랐으면 "human". Agent가 만든 묶음이면 Human에게 기준을 묻는다', 'warn');
+    bad = ir.edges.filter(function (e) { return !m[e.from] || !m[e.to]; });
+    add('VB-EDGE-ENDPOINT', !bad.length, bad.map(function (e) { return e.from + '->' + e.to; }).join(', ') || 'edge 끝점', bad.length ? '이 단계에서 보이지 않는 끝점(펼친 전체 node 등): ' + bad.map(function (e) { return (!m[e.from] ? e.from : e.to); }).join(', ') : '모든 edge 끝점이 보이는 node', '영역 안의 부분 node를 가리키거나 그 전체를 접는다');
+    bad = ir.nodes.filter(function (n) { return n.w && (textW(n.label) + 2 * 18 + (n.collapsed ? 26 : 0) + (n.role === 'entity' ? (n.h || NH) / 2 : 0)) > n.w; });
+    add('VB-LABEL-FIT', !bad.length, bad.map(function (n) { return n.id; }).join(', ') || '라벨', bad.length ? '지정한 폭보다 라벨이 긴 node: ' + bad.map(function (n) { return n.id; }).join(', ') : '라벨이 node 안에 들어감', 'w를 넓히거나 w를 지워 자동 폭을 쓴다', 'warn');
+    var GAP = 16, close = [], linked = {};
+    ir.edges.forEach(function (e) { linked[e.from + '|' + e.to] = linked[e.to + '|' + e.from] = true; });
+    ir.nodes.forEach(function (a, i) { var A = box(a); ir.nodes.slice(i + 1).forEach(function (b) { var B = box(b);
+      var gx = Math.max(B.x - (A.x + A.w), A.x - (B.x + B.w)), gy = Math.max(B.y - (A.y + A.h), A.y - (B.y + B.h)), gap = Math.max(gx, gy);
+      if (gap < 0 || (linked[a.id + '|' + b.id] && gap < GAP)) close.push(a.id + '|' + b.id + ' (간격 ' + Math.round(gap) + 'px)'); }); });
+    add('VB-NODE-GAP', !close.length, close.join(', ') || 'node 간격', close.length ? '겹치거나 화살표 자리가 없는 node 쌍: ' + close.join(', ') : 'node가 겹치지 않고, 연결된 node 사이 간격 ' + GAP + 'px 이상', '두 node의 x 또는 y 간격을 넓혀 사이 화살표가 보이게 한다', 'warn');
+    var pass = res.every(function (r) { return r.ok || r.level === 'warn'; });
+    return { pass: pass, results: res };
+  }
+
+  function focusStats(v, id) {
+    var r = reach(v, id), on = Object.keys(r.nodes).length;
+    return { main: on, dimmed: v.nodes.length - on, total: v.nodes.length };
+  }
+  global.DDS = { PALETTE: PALETTE, render: render, view: view, reach: reach, focusStats: focusStats, attachHover: attachHover, animate: animate, validate: validate };
+})(typeof window !== 'undefined' ? window : globalThis);
+</script><script>var IR={"w":1300,"h":940,"nodes":[{"id":"g_db","role":"entity","label":"DB 소스","x":150,"y":120,"expandAt":1,"drawRegion":true,"source":"agent"},{"id":"g_db_0","parent":"g_db","role":"entity","label":"주문 DB","x":150,"y":60},{"id":"g_db_1","parent":"g_db","role":"entity","label":"회원 DB","x":150,"y":120},{"id":"g_db_2","parent":"g_db","role":"entity","label":"재고 DB","x":150,"y":180},{"id":"g_log","role":"entity","label":"로그 소스","x":150,"y":370,"expandAt":1,"drawRegion":true,"source":"agent"},{"id":"g_log_0","parent":"g_log","role":"entity","label":"결제 로그","x":150,"y":280},{"id":"g_log_1","parent":"g_log","role":"entity","label":"배송 로그","x":150,"y":340},{"id":"g_log_2","parent":"g_log","role":"entity","label":"앱 로그","x":150,"y":400},{"id":"g_log_3","parent":"g_log","role":"entity","label":"웹 로그","x":150,"y":460},{"id":"g_biz","role":"entity","label":"업무 시스템","x":150,"y":590,"expandAt":1,"drawRegion":true,"source":"agent"},{"id":"g_biz_0","parent":"g_biz","role":"entity","label":"CRM","x":150,"y":560},{"id":"g_biz_1","parent":"g_biz","role":"entity","label":"고객센터 티켓","x":150,"y":620},{"id":"g_api","role":"entity","label":"외부 API","x":150,"y":780,"expandAt":1,"drawRegion":true,"source":"agent"},{"id":"g_api_0","parent":"g_api","role":"entity","label":"광고 API","x":150,"y":720},{"id":"g_api_1","parent":"g_api","role":"entity","label":"날씨 API","x":150,"y":780},{"id":"g_api_2","parent":"g_api","role":"entity","label":"환율 API","x":150,"y":840},{"id":"collect","role":"process","label":"수집","x":460,"y":450},{"id":"clean","role":"process","label":"정제","x":700,"y":450},{"id":"load","role":"process","label":"적재","x":940,"y":450},{"id":"dash","role":"entity","label":"대시보드","x":1180,"y":450}],"edges":[{"from":"g_db_0","to":"collect","meaning":"execution_flow","certainty":"solid","route":"hvh","busX":330},{"from":"g_db_1","to":"collect","meaning":"execution_flow","certainty":"solid","route":"hvh","busX":330},{"from":"g_db_2","to":"collect","meaning":"execution_flow","certainty":"solid","route":"hvh","busX":330},{"from":"g_log_0","to":"collect","meaning":"execution_flow","certainty":"solid","route":"hvh","busX":330},{"from":"g_log_1","to":"collect","meaning":"execution_flow","certainty":"solid","route":"hvh","busX":330},{"from":"g_log_2","to":"collect","meaning":"execution_flow","certainty":"solid","route":"hvh","busX":330},{"from":"g_log_3","to":"collect","meaning":"execution_flow","certainty":"solid","route":"hvh","busX":330},{"from":"g_biz_0","to":"collect","meaning":"execution_flow","certainty":"solid","route":"hvh","busX":330},{"from":"g_biz_1","to":"collect","meaning":"execution_flow","certainty":"solid","route":"hvh","busX":330},{"from":"g_api_0","to":"collect","meaning":"execution_flow","certainty":"solid","route":"hvh","busX":330},{"from":"g_api_1","to":"collect","meaning":"execution_flow","certainty":"solid","route":"hvh","busX":330},{"from":"g_api_2","to":"collect","meaning":"execution_flow","certainty":"solid","route":"hvh","busX":330},{"from":"collect","to":"clean","meaning":"execution_flow","certainty":"solid"},{"from":"clean","to":"load","meaning":"execution_flow","certainty":"solid"},{"from":"load","to":"dash","meaning":"execution_flow","certainty":"solid"}]};DDS.attachHover(document.getElementById("host"),IR);</script></body></html>

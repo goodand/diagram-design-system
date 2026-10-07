@@ -1,0 +1,32 @@
+{
+ "run_id": "F12b",
+ "case": "GC-4",
+ "arm": "fixture",
+ "effort": "-",
+ "model": "-",
+ "rep": 1,
+ "turns": [
+  {
+   "turn": 1,
+   "input": "",
+   "output": "L0 입니다. /private/tmp/drd-eval/F12b/out/S1.html 이대로 진행할까요?",
+   "cost": 0,
+   "classifier": {
+    "asks_human": true,
+    "topic": "l0_or_render_feedback"
+   },
+   "answer": "좋습니다. 진행해 주세요",
+   "answer_topic": "l0_or_render_feedback"
+  },
+  {
+   "turn": 2,
+   "input": "",
+   "output": "최종입니다. /private/tmp/drd-eval/F12b/out/F.html",
+   "cost": 0,
+   "classifier": {
+    "asks_human": false,
+    "topic": null
+   }
+  }
+ ]
+}

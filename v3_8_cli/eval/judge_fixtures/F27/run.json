@@ -1,0 +1,21 @@
+{
+ "run_id": "F27",
+ "case": "GC-3",
+ "arm": "fixture",
+ "effort": "-",
+ "model": "-",
+ "rep": 1,
+ "turns": [
+  {
+   "turn": 1,
+   "input": "",
+   "output": "도식입니다. /private/tmp/drd-eval/F27/out/F.html",
+   "cost": 0,
+   "classifier": {
+    "asks_human": false,
+    "topic": null
+   }
+  }
+ ],
+ "request": "첨부한 설계 문서대로 그려줘"
+}

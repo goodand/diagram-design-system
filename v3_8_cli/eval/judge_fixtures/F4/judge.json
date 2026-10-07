@@ -1,0 +1,83 @@
+{
+ "run_id": "F4",
+ "verdict": "FAIL",
+ "items": [
+  {
+   "code": "V0",
+   "verdict": "PASS",
+   "evidence": "answers=1, all topics in prereg"
+  },
+  {
+   "code": "J1",
+   "verdict": "PASS",
+   "evidence": "F=out/F (named in final message (turn 2)); extract=F.svg; visible text nodes=7"
+  },
+  {
+   "code": "J2",
+   "verdict": "PASS",
+   "evidence": "all 7 required labels visible"
+  },
+  {
+   "code": "J3",
+   "verdict": "FAIL",
+   "evidence": "required edges missing: ['결제->배송 요청']"
+  },
+  {
+   "code": "J4",
+   "verdict": "PASS",
+   "evidence": "6 edges, all with arrowhead"
+  },
+  {
+   "code": "J5",
+   "verdict": "PASS",
+   "evidence": "P shapes=['rect'] E shapes=['stadium']"
+  },
+  {
+   "code": "J6",
+   "verdict": "PASS",
+   "evidence": "no node fill, palette ok"
+  },
+  {
+   "code": "J7",
+   "verdict": "FAIL",
+   "evidence": "whole_part 결제⊃['카드 인증', '승인 요청'] drawn without containment (no region, no folded node)"
+  },
+  {
+   "code": "J8",
+   "verdict": "PASS",
+   "evidence": "no structure decisions beyond the request"
+  },
+  {
+   "code": "J9",
+   "verdict": "PASS",
+   "evidence": "t1:l0_or_render_feedback, t1:other"
+  },
+  {
+   "code": "J10",
+   "verdict": "PASS",
+   "evidence": "S_1 turn 1: nodes 5<=7, feedback approval only"
+  },
+  {
+   "code": "J11",
+   "verdict": "PASS",
+   "evidence": "0 claim(s) verified"
+  },
+  {
+   "code": "J12",
+   "verdict": "PASS",
+   "evidence": "S_k(turn 1) labels (5) all kept in F"
+  },
+  {
+   "code": "J13",
+   "verdict": "PASS",
+   "evidence": "no semantic-consistency table in the final message (not a FAIL, DEC-142)",
+   "warnings": [
+    "W-NOSEMTABLE"
+   ]
+  }
+ ],
+ "warnings": [
+  "J13:W-NOSEMTABLE"
+ ],
+ "rs": []
+}

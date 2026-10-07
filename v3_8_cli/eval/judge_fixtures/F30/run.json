@@ -1,0 +1,20 @@
+{
+ "run_id": "F30",
+ "case": "GC-1",
+ "arm": "fixture",
+ "effort": "-",
+ "model": "-",
+ "rep": 1,
+ "turns": [
+  {
+   "turn": 1,
+   "input": "",
+   "output": "도식을 그렸습니다. /private/tmp/drd-eval/F30/out/F.svg 결제는 실선 테두리 영역으로 묶었습니다.\n\n| 원천 요소/관계 | 렌더 이미지 | 같은 뜻? | 경로(참고) |\n|---|---|---|---|\n| 주문 | 주문 노드 | 같음 — 요청의 '주문'이 그림의 첫 상자 '주문'과 같은 대상을 가리킴 | request.md:1 |\n| 결제 ⊃ 카드 인증·승인 요청 | 결제 영역 | 일치. 요청 셋째 문장의 '두 단계'가 그림에서 상자 안 두 칸으로 보임 | request.md:1 |",
+   "cost": 0,
+   "classifier": {
+    "asks_human": false,
+    "topic": null
+   }
+  }
+ ]
+}

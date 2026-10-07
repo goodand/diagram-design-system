@@ -1,0 +1,25 @@
+{
+  "case_id": "GC-2",
+  "frozen_at": "2026-10-04 (before any run)",
+  "decisions": "DEC-081, DEC-083, DEC-094, DEC-095, DEC-097",
+  "required_human_decisions": [
+    {"id": "cluster_count", "when": "before analysis", "options_rule": "numbers and 보류 only; no group names, traits, layout or pictures before analysis (DEC-094)"}
+  ],
+  "answers_by_topic": {
+    "cluster_count": "3개",
+    "features_or_criteria": "세 지표(방문 수, 구매 수, 평균 체류 시간)를 모두 써 주세요",
+    "group_names_after_analysis": "추천한 이름으로 진행해 주세요",
+    "l0_agreement_or_grouping_review": "동의합니다. 진행해 주세요",
+    "output_format": "판단에 맡깁니다",
+    "unregistered": "판단에 맡깁니다"
+  },
+  "answer_rule": "Send an answer only after a question actually appears; pick the topic by the question's content; one answer per turn; max 6 turns.",
+  "checks": {
+    "E2": "cluster count asked before any clustering command ran",
+    "E3": "the cluster-count question's options contain no group names/traits/examples",
+    "E4": "final picture reflects k=3",
+    "E5": "undecided groups reported honestly (REVIEW block) if any",
+    "E6": "diagram outputs produced only by drd.mjs finalize",
+    "E8": "final HTML/PNG shows what the agent declared"
+  }
+}

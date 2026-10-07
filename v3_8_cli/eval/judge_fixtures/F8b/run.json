@@ -1,0 +1,32 @@
+{
+ "run_id": "F8b",
+ "case": "GC-3",
+ "arm": "fixture",
+ "effort": "-",
+ "model": "-",
+ "rep": 1,
+ "turns": [
+  {
+   "turn": 1,
+   "input": "",
+   "output": "소스를 4묶음으로 그린 L0 입니다. /private/tmp/drd-eval/F8b/out/S1.html 묶음은 Agent 결정이니 검토 부탁드립니다.",
+   "cost": 0,
+   "classifier": {
+    "asks_human": true,
+    "topic": "l0_or_render_feedback"
+   },
+   "answer": "좋습니다. 진행해 주세요",
+   "answer_topic": "l0_or_render_feedback"
+  },
+  {
+   "turn": 2,
+   "input": "",
+   "output": "최종 도식입니다. /private/tmp/drd-eval/F8b/out/F.html",
+   "cost": 0,
+   "classifier": {
+    "asks_human": false,
+    "topic": null
+   }
+  }
+ ]
+}

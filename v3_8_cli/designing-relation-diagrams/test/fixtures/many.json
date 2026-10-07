@@ -1,0 +1,145 @@
+{
+ "w": 2800,
+ "h": 160,
+ "nodes": [
+  {
+   "id": "n0",
+   "role": "process",
+   "label": "단계0",
+   "x": 90,
+   "y": 80
+  },
+  {
+   "id": "n1",
+   "role": "process",
+   "label": "단계1",
+   "x": 330,
+   "y": 80
+  },
+  {
+   "id": "n2",
+   "role": "process",
+   "label": "단계2",
+   "x": 570,
+   "y": 80
+  },
+  {
+   "id": "n3",
+   "role": "process",
+   "label": "단계3",
+   "x": 810,
+   "y": 80
+  },
+  {
+   "id": "n4",
+   "role": "process",
+   "label": "단계4",
+   "x": 1050,
+   "y": 80
+  },
+  {
+   "id": "n5",
+   "role": "process",
+   "label": "단계5",
+   "x": 1290,
+   "y": 80
+  },
+  {
+   "id": "n6",
+   "role": "process",
+   "label": "단계6",
+   "x": 1530,
+   "y": 80
+  },
+  {
+   "id": "n7",
+   "role": "process",
+   "label": "단계7",
+   "x": 1770,
+   "y": 80
+  },
+  {
+   "id": "n8",
+   "role": "process",
+   "label": "단계8",
+   "x": 2010,
+   "y": 80
+  },
+  {
+   "id": "n9",
+   "role": "process",
+   "label": "단계9",
+   "x": 2250,
+   "y": 80
+  },
+  {
+   "id": "n10",
+   "role": "process",
+   "label": "단계10",
+   "x": 2490,
+   "y": 80
+  }
+ ],
+ "edges": [
+  {
+   "from": "n0",
+   "to": "n1",
+   "meaning": "execution_flow",
+   "certainty": "solid"
+  },
+  {
+   "from": "n1",
+   "to": "n2",
+   "meaning": "execution_flow",
+   "certainty": "solid"
+  },
+  {
+   "from": "n2",
+   "to": "n3",
+   "meaning": "execution_flow",
+   "certainty": "solid"
+  },
+  {
+   "from": "n3",
+   "to": "n4",
+   "meaning": "execution_flow",
+   "certainty": "solid"
+  },
+  {
+   "from": "n4",
+   "to": "n5",
+   "meaning": "execution_flow",
+   "certainty": "solid"
+  },
+  {
+   "from": "n5",
+   "to": "n6",
+   "meaning": "execution_flow",
+   "certainty": "solid"
+  },
+  {
+   "from": "n6",
+   "to": "n7",
+   "meaning": "execution_flow",
+   "certainty": "solid"
+  },
+  {
+   "from": "n7",
+   "to": "n8",
+   "meaning": "execution_flow",
+   "certainty": "solid"
+  },
+  {
+   "from": "n8",
+   "to": "n9",
+   "meaning": "execution_flow",
+   "certainty": "solid"
+  },
+  {
+   "from": "n9",
+   "to": "n10",
+   "meaning": "execution_flow",
+   "certainty": "solid"
+  }
+ ]
+}
