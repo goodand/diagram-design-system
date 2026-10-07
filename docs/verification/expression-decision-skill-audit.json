@@ -1,0 +1,40 @@
+{
+  "date": "2026-10-07",
+  "source": "Local preserved decision_ledger.md through DEC-147; later Web edits not accessed",
+  "decision_authoring_and_archiving": "Web; original records excluded from GitHub",
+  "changed_files": [
+    "SKILL.md",
+    "relation_types/execution_flow.md",
+    "relation_types/goal_means.md",
+    "relation_types/whole_part.md",
+    "references/expression-rules.md",
+    "rules/design-system.md"
+  ],
+  "added_or_clarified": [
+    "DEC-099 collapsed-group border",
+    "DEC-112 browser focus outline",
+    "DEC-141 source uncertainty for execution_flow and goal_means",
+    "DEC-146 source presence does not change drawing format",
+    "DEC-008/011 contrast and identity checks on usual reading path"
+  ],
+  "already_present": [
+    "DEC-006/007/009 certainty and is_a exception",
+    "DEC-012/014/025/026/029/030 levels and information amount",
+    "DEC-034/045/046 relation-specific mapping and type boundary",
+    "DEC-132/133/134/136/143 grouping and review status",
+    "DEC-137/138/139/140 semantic comparison before and after rendering"
+  ],
+  "not_activated": [
+    "DEC-109 missing criteria for skipping L0 review",
+    "DEC-110/111 deferred hover color implementation"
+  ],
+  "validation": {
+    "skill_format": "passed",
+    "broken_markdown_links": [],
+    "runtime_and_test_files": "byte-identical to before",
+    "decision_files": "hash unchanged",
+    "package_matches_source": true,
+    "full_selftest": "not run per user"
+  },
+  "package_sha256": "1046d17a5c604a3ba1a845b0b601c75c47fb9501cb63b7d6a3e1a213b61efe6a"
+}

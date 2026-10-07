@@ -1,6 +1,6 @@
 # Diagram Design System — 전체 규칙 (v3.8-cli)
 
-> 이 파일은 Default가 아닌 세부 규칙과, 규칙을 수정할 때 보는 전체 규칙이다. 괄호 안의 ARG·DEC·R 번호는 결정 기록의 근거 ID다.
+> 이 파일은 Default가 아닌 세부 규칙과, 규칙을 수정할 때 보는 전체 규칙이다. 괄호 안의 ARG·DEC·R 번호는 Web에서 관리하는 결정 기록의 근거 ID다. 현재 적용할 표현 규칙을 이 Skill 안에 유지하며, 원장·변경 이력은 복제하지 않는다.
 
 
 ## 목차
@@ -195,6 +195,7 @@ execution_flow > execution_flow_whole_part > goal_means > is_a
 ### 정의
 
 - 확실성 축은 관계가 **확정되었는가**를 넓게 뜻한다. 여러 표현과 여러 의미를 허용하고, Agent가 맥락으로 판단하되 공존하거나 순위가 경쟁하면 정책(§5 겹침 해결)을 따른다. 1차 적용 맥락은 사용빈도상 execution_flow이며, 사용자 interaction도 여기에 포함될 수 있다. (DEC-006)
+- 내용 미정의 주체는 원천이다. execution_flow·goal_means의 edge와 whole_part 영역 모두 Human 미검토나 Agent 자신의 불확실을 점선으로 바꾸지 않는다(DEC-141).
 - **간격 = 확실성**은 edge와 영역 모두에서 같은 뜻이다. 대시 길이는 요소 종류를 가른다(edge = 긴 대시, 영역 = 짧은 점). (DEC-007)
 
 ### whole_part 영역
@@ -204,6 +205,7 @@ execution_flow > execution_flow_whole_part > goal_means > is_a
 | 묶음 결정 | 실선 |
 | 묶음 미정 | 짧은 점 `2 6` (간격 6 = edge 점선과 같은 "미정") |
 
+- 접힌 전체 node에는 내용 미정을 나타내는 별도 점선 테두리를 만들지 않는다. 영역의 짧은 점은 펼쳤을 때 표현한다(DEC-099).
 - 묶음 미정에는 정도를 두지 않는다. 영역의 간격은 `2 6` 하나만 쓴다. (DEC-007)
 - 여기서 내용 미정은 원천이 미정이라고 표현한 것을 뜻한다. Agent가 정한 묶음도 실선이며, Human 미검토나 Agent 자신의 불확실은 점선의 이유가 아니다. 검토 대기는 REVIEW 글로 알린다. (DEC-133·134·141)
 - 그리기 형식은 원천 존재 유무에 따라 바꾸지 않는다. 원천과 그림의 점선 유무를 기록하는 외부 판정과, 이 Skill의 의미 정합 평가는 구분한다. (DEC-138·146·147)
@@ -343,6 +345,7 @@ Arrowhead > rect/stadium > dashed/solid > fill > color(5색) > corner rounding >
 
 - 요소를 클릭했을 때 선택 옵션 수가 예상 없이 바뀌지 않게 한다. (ARG-020)
 - 펼치기 affordance로 [+] 아이콘을 쓴다. (ARG-012)
+- node의 브라우저 기본 포커스 테두리는 식별에 도움이 되므로 유지한다. 도식에 지정하는 5색 규칙을 이유로 브라우저 기본 동작을 바꾸지 않는다. (DEC-112)
 
 ### 11.4 Main과 Side
 

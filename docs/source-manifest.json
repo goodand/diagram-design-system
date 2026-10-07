@@ -4,8 +4,8 @@
   "files": [
     {
       "path": "v3_8_cli/designing-relation-diagrams/SKILL.md",
-      "sha256": "c947353d1e52c356c17bc77bc21ccbbd8397e2f2b4137bae3a0291aa106b5e5b",
-      "bytes": 7088
+      "sha256": "687bee47e7fe3482a0705cecaabf38f7982ed3078d2398f5e9646cc1d93574ed",
+      "bytes": 7534
     },
     {
       "path": "v3_8_cli/designing-relation-diagrams/issue/script_defects.md",
@@ -19,8 +19,8 @@
     },
     {
       "path": "v3_8_cli/designing-relation-diagrams/references/expression-rules.md",
-      "sha256": "f7a742388136abf3bc98e2c75c52785a632f3060968066a19a2504c058370291",
-      "bytes": 2172
+      "sha256": "8a4f683bd5916e9d9e9c2e22e17583a62fb133e4ac4cd01961c6a1da2abec0da",
+      "bytes": 2740
     },
     {
       "path": "v3_8_cli/designing-relation-diagrams/references/human-decisions.md",
@@ -39,13 +39,13 @@
     },
     {
       "path": "v3_8_cli/designing-relation-diagrams/relation_types/execution_flow.md",
-      "sha256": "746428833067121e068695dc971169767ccffc753eafe12aec260181e6d9bcb9",
-      "bytes": 1394
+      "sha256": "a988c0d2b746f5af2810883c5a4fb1c1cacdc39fec5ac690689b28b1e6e3678c",
+      "bytes": 1505
     },
     {
       "path": "v3_8_cli/designing-relation-diagrams/relation_types/goal_means.md",
-      "sha256": "8c5e9887731c0e2fdc108e138ccafccd75118ec31bfca241a4277e07262fb9c5",
-      "bytes": 844
+      "sha256": "ffc9166d9bd92125f51fa5f44faee96643b051b747d7687b3ef5e0942071c910",
+      "bytes": 1019
     },
     {
       "path": "v3_8_cli/designing-relation-diagrams/relation_types/is_a.md",
@@ -54,13 +54,13 @@
     },
     {
       "path": "v3_8_cli/designing-relation-diagrams/relation_types/whole_part.md",
-      "sha256": "6970c65b6ecb57494b8695ab8c9d96b38c7f88f11fb38057bc1dd1e6eaf8d7d6",
-      "bytes": 2832
+      "sha256": "1ad69d715d4df382eead5f25821bf3f5fef4b0df334a5b29f166992ce7c44738",
+      "bytes": 3058
     },
     {
       "path": "v3_8_cli/designing-relation-diagrams/rules/design-system.md",
-      "sha256": "0af1b1e8e687aeeb989bb4f3ec5a43d7b6bec5a9e737a4db001fddf7aa01e19a",
-      "bytes": 32725
+      "sha256": "e59dfe023e6a98e786fe9747ed581f4d9ab542aa756410d5f9c6774ab2e3f7fd",
+      "bytes": 33431
     },
     {
       "path": "v3_8_cli/designing-relation-diagrams/scripts/_args.mjs",
@@ -1239,8 +1239,8 @@
     },
     {
       "path": "designing-relation-diagrams-v3.8-cli.skill",
-      "sha256": "1c4da55f43608599de238f2c08b93804b7aab28de473b0d7d8931f677df7643f",
-      "bytes": 66267
+      "sha256": "1046d17a5c604a3ba1a845b0b601c75c47fb9501cb63b7d6a3e1a213b61efe6a",
+      "bytes": 67181
     },
     {
       "path": "digram_design.md",
@@ -1402,5 +1402,6 @@
       "sha256": "3eb5bb64b017a7c82ad7c48846c6f549adf41c4b6d5f2d712345d5e2a3c7cece",
       "bytes": 1509
     }
-  ]
+  ],
+  "last_update": "2026-10-07 expression-rule integration"
 }

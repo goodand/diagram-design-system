@@ -10,6 +10,8 @@ description: Draws node-link diagrams in the Version B visual language for four 
 
 Agent는 **IR(JSON)과 `decisions.json`만 쓴다.** SVG·HTML·PNG는 `node scripts/drd.mjs finalize`만 만든다. 손으로 쓰거나 고치지 않는다.
 
+확정된 표현 규칙은 이 Skill의 유형별 파일·공통 표현 지침·전체 규칙에 둔다. Decision 원장과 변경 이력은 Web에서 관리하며, 괄호의 DEC·ARG 번호는 추적용 ID다. 도식을 그릴 때 원장 전체를 읽을 필요는 없다. 도식별 Human 응답을 담는 `decisions.json`은 원장과 다른 실행 입력이므로 계속 기록한다.
+
 ## 1. 관계 유형 판정
 
 | 경우 | 판정 | 다음에 읽을 파일 |
@@ -30,7 +32,7 @@ Agent는 **IR(JSON)과 `decisions.json`만 쓴다.** SVG·HTML·PNG는 `node scr
 
 ## 2. 빠른 경로
 
-1. 유형 판정(위 표) → 유형 파일 READ → [ir.md](references/ir.md)로 `diagram.json` 작성. 표현을 위한 묶음·추상화는 Agent가 먼저 정해 그리고 사후 검토를 받는다(DEC-132·133·143). 그리기 전에는 요청의 요소·관계와 IR의 뜻이 정합하는지 점검한다(DEC-137). 묶음 `source:"request"`는 요청에 실제로 명시된 묶음에만 쓴다. 색·Legend·점선 등 표현은 [expression-rules.md](references/expression-rules.md).
+1. 유형 판정(위 표) → 유형 파일과 [expression-rules.md](references/expression-rules.md) READ → [ir.md](references/ir.md)로 `diagram.json` 작성. 표현을 위한 묶음·추상화는 Agent가 먼저 정해 그리고 사후 검토를 받는다(DEC-132·133·143). 그리기 전에는 요청의 요소·관계와 IR의 뜻이 정합하는지 점검한다(DEC-137). 묶음 `source:"request"`는 요청에 실제로 명시된 묶음에만 쓴다. 색·Legend·점선 등 표현은 [expression-rules.md](references/expression-rules.md).
 2. **L0을 먼저 그린다.** 가장 추상 단계다. 이 명령의 non-zero 종료는 어느 것도 성공이 아니다.
 
    ```

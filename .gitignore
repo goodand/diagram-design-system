@@ -5,3 +5,9 @@ node_modules/
 .env
 .env.*
 !.env.example
+
+# Decision archive is maintained on Web; keep per-diagram fixtures.
+/v3_8_cli/decisions/
+/decision_files_v4_2/
+/decision_files_v4_2.zip
+/diagram_design_system_human_decisions_*.json
