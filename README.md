@@ -6,6 +6,7 @@
 
 - Skill 문서 8개 최신화 완료. 배포 패키지와 소스가 일치합니다.
 - J8의 `review_notice` 슬롯 지시문 수리 완료. F7·F8·F19를 Codex 독립 슬롯 채움으로 3회 확인하여 9/9 기대 판정 일치, 48쌍 불일치 0입니다.
+- `eval/judge_fixtures/**/judge.json`은 기존 저장 결과이며 이번 수리 후 재실행 결과가 아닙니다. 이번 부분 검증 결과는 `docs/verification/j8-focused-repeat-results.json`을 기준으로 읽습니다.
 - 이 확인은 정적 SVG 기반 J8 부분 검증입니다. 전체 판정기 자기 시험이나 기존 Haiku 결과의 재현을 뜻하지 않습니다.
 - Human 지시에 따라 `JUDGE_SEQ=1` 전체 자기 시험과 36건 본 실험 판정을 진행하지 않습니다.
 - 평가 실행기·판정기의 기본 LLM 연결은 여전히 Claude CLI입니다. Codex 부분 검증이 전체 실행기의 Codex 전환을 뜻하지 않습니다.
