@@ -10,7 +10,8 @@ import { candidates } from './lib/candidates.mjs';
 import { toPng } from './lib/png.mjs';
 import { context, schema, workflowState } from './lib/workflow.mjs';
 import { runtimeIr, runtimeType } from './lib/workflow-units.mjs';
-const VERSION = 'v3.92-cli';
+const VERSION = 'v3.93-cli';
+const FUNCTION_GUIDE = '반복이 하나의 Process 내부에서 완결되는 기능은 Linear Summary로 표현하고, Core에서 Cycle을 구체화한다. Summary에서는 반복 수행을 하나의 Process로 취급하고, 별도 Process에 반복 종료 여부를 판정하는 Gate를 둘 수 있다.';
 const TAIL = 'SELF-CHECK ONLY — NOT DONE. Final status is decided by the external judge.';
 const OUTS = ['diagram.svg', 'diagram.html', 'diagram.png', 'ir.json', 'receipt.json'];
 const sha = (b) => createHash('sha256').update(b).digest('hex');
@@ -37,6 +38,7 @@ function prepare(irPath) {
   if (L.bad) bad(L.bad);
   const D = loadDecisions(irPath); if (D.bad) bad(D.bad);
   let workflow; try { workflow = workflowState(L.ir, D.decs, path.dirname(path.resolve(irPath)),sha(Buffer.from(text))); } catch (e) { bad(e.message); }
+  if (L.ir.diagram_type === 'Function_Definition' && workflow) workflow.summary_guidance = FUNCTION_GUIDE;
   const presentation = workflow?.l0_refs?.length ? { ...L.ir, l0_refs:workflow.l0_refs,
     ...(runtimeType(L.ir.diagram_type) === 'l1_partial' ? {l0_ref:workflow.l0_refs[0]} : {}) } : L.ir;
   let view; try { view = DDS.view(runtimeIr(presentation), A.level, {expand:A.expand,collapse:A.collapse}); } catch(e) { bad(e.message); }
@@ -76,12 +78,13 @@ if (cmd === 'version' || cmd === '--version') {
   const receipt = { schema: 'drd-receipt-v1', dds_version:VERSION, created_at: new Date().toISOString(), ir_source: irPath, ir_sha256: sha(Buffer.from(P.text)), decisions_sha256: P.sha,
     options: { level: A.level, expand: A.expand, collapse: A.collapse, focus: A.focus }, workflow:P.workflow, decisions_source:P.decisions_source, outputs, png_attempts: png.attempts, checks: g.checks, warnings: g.warns, review_pending: C.review_pending };
   writeFileSync(path.join(out, 'receipt.json'), JSON.stringify(receipt, null, 2) + '\n');
-  done([`STATUS ${g.status}`, ...g.checks.map(c => `${c.code} ${c.state}: ${c.evidence}`), ...C.lines, `wrote ${out}`], 0);
+  done([`STATUS ${g.status}`, ...g.checks.map(c => `${c.code} ${c.state}: ${c.evidence}`), ...C.lines, ...(P.workflow?.summary_guidance ? [`GUIDE ${P.workflow.summary_guidance}`] : []), `wrote ${out}`], 0);
 } else if (cmd === 'check') {
   if (!A.pos[0]) { console.error(usage); process.exit(2); }
   const P = prepare(A.pos[0]), g = P.g;
   const lines = g.results.map(x => `${x.ok ? 'PASS' : x.level === 'warn' ? 'WARN' : 'FAIL'} ${x.code}: ${x.evidence}${x.ok ? '' : ' -> ' + x.fix}`);
   if (g.focus) lines.push(`FOCUS ${g.focus.id}: ${g.focus.verdict} (Main ${g.focus.main}, dimmed ${g.focus.dimmed})`);
+  if (P.workflow?.summary_guidance) lines.push(`GUIDE ${P.workflow.summary_guidance}`);
   done([`STATUS ${g.status}`, ...lines, ...rejLines(g), ...(g.groups.length ? [`NOTE ${g.groups.length} undecided group(s) [${g.groups.join(',')}]: finalize draws them as written (solid unless the IR says dashed), reports them as REVIEW and writes A/B candidates for Human review`] : [])], g.exit);
 } else if (cmd === 'verify') {
   const dir = A.pos[0], rp = dir && path.join(dir, 'receipt.json');
