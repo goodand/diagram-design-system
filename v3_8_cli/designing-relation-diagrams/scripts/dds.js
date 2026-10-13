@@ -28,9 +28,51 @@
     // a visible group that is expanded is a region, not an endpoint: keep original
     return n ? n.id : id;
   }
+  function withAutoFolds(source) {
+    if (!source || !source.diagram_type || source.diagram_type === 'l0_summary') return source;
+    if (source.nodes.some(function (n) { return n.autoFold; })) return JSON.parse(JSON.stringify(source));
+    var ir = JSON.parse(JSON.stringify(source));
+    var refs = ir.diagram_type === 'l1_partial' ? (ir.l0_ref ? [{ ...ir.l0_ref, partial_id:ir.id, partial:Object.assign({},ir.partials[0],{e2e:ir.e2e}) }] : []) : (ir.l0_refs || []);
+    if (!refs.length) return ir;
+    var groups = new Map();
+    refs.forEach(function (ref) {
+      var key = ref.node_id, task = ref.snapshot.nodes.find(function (n) { return n.id === key; }), g = groups.get(key);
+      if (g && g.task.label !== task.label) throw Error('conflicting L0 labels for node_id: ' + key);
+      if (!g) { g = { key:key, task:task, children:new Set(), owners:new Set() }; groups.set(key,g); }
+      (ref.partial.nodes || []).forEach(function (id) { g.children.add(id); g.owners.add(id); });
+    });
+    if (ir.diagram_type === 'l1_full') {
+      var owners = new Map();
+      groups.forEach(function (g) { g.children.forEach(function (id) { owners.set(id,(owners.get(id)||0)+1); }); });
+      groups.forEach(function (g) { g.children.forEach(function (id) { if (ir.e2e.inputs.includes(id) || ir.e2e.outputs.includes(id) || owners.get(id)>1) g.children.delete(id); }); });
+    } else {
+      var ref = refs[0], boundary = new Set((ref.partial.e2e.inputs || []).concat(ref.partial.e2e.outputs || []));
+      groups.forEach(function (g) { g.children.forEach(function (id) { if (boundary.has(id)) g.children.delete(id); }); });
+    }
+    var generated = new Set();
+    groups.forEach(function (g) {
+      var id = '__l0fold:' + g.key.length + ':' + g.key;
+      if (generated.has(id) || ir.nodes.some(function (n) { return n.id === id; })) throw Error('auto-fold id collides with a source node');
+      generated.add(id);
+      if (!g.children.size) return;
+      var childNodes = ir.nodes.filter(function (n) { return g.children.has(n.id); });
+      var roots = childNodes.filter(function (n) { return !n.parent || !g.children.has(n.parent); });
+      if (roots.some(function (n) { return n.parent && !g.children.has(n.parent); })) throw Error('L0 auto-fold conflicts with an existing parent group');
+      var points = childNodes.map(function (n) { var p=n.pos && (n.pos[1] || n.pos[0]); return p && Number.isFinite(p[0]) && Number.isFinite(p[1]) ? p : (Number.isFinite(n.x) && Number.isFinite(n.y) ? [n.x,n.y] : null); }).filter(Boolean);
+      var x = points.length ? points.reduce(function (sum,p) { return sum + p[0]; },0) / points.length : (Number.isFinite(g.task.x) ? g.task.x : 0);
+      var y = points.length ? points.reduce(function (sum,p) { return sum + p[1]; },0) / points.length : (Number.isFinite(g.task.y) ? g.task.y : 0);
+      ir.nodes.push({ id:id, label:g.task.label, role:'process', x:x, y:y, w:g.task.w, h:g.task.h, expandAt:2, autoFold:true, autoFoldKey:g.key });
+      g.children.forEach(function (nodeId) {
+        var n=ir.nodes.find(function (x) { return x.id===nodeId; });
+        if (n && !n.parent) n.parent=id;
+      });
+    });
+    return ir;
+  }
   function view(ir, L, vopt) {
     VOPT = vopt || {};
     if (L === undefined || L === null) return ir;
+    ir = withAutoFolds(ir);
     var m = byId(ir), nodes = [], groups = [], seen = {}, edges = [];
     ir.nodes.forEach(function (n) {
       if (!visibleAt(n, m, L)) return;
@@ -54,7 +96,7 @@
     ir.edges.forEach(function (e) {
       var f = liftTo(e.from, m, L), t = liftTo(e.to, m, L);
       if (f === t) return;
-      var k = f + '>' + t + (e.loop ? 'L' : '');
+      var k = f + '>' + t + (e.loop ? 'L' : '') + (ir.diagram_type && (f === e.from && t === e.to || m[f] && m[f].autoFold || m[t] && m[t].autoFold) ? ':' + e.id : '');
       if (seen[k]) return; seen[k] = 1;
       edges.push(Object.assign({}, e, { from: f, to: t }));
     });
@@ -164,6 +206,7 @@
       var mk = e.arrow === false ? '' : ' marker-end="url(#ah-' + c + (opt.uid || '') + ')"';
       out.push('<g class="dds-edge' + (e.loop ? ' is-loop' : '') + '" data-from="' + e.from + '" data-to="' + e.to + '" data-i="' + i + '"' + dimAttr(FR && FR.edges[i]) + '>' +
         '<path d="' + pathD(r) + '" fill="none" stroke="' + col(c) + '" stroke-width="' + (e.width || 1.6) + '"' + dash(e.certainty) + mk + '/>');
+      if (ir.diagram_type) out.push('<path d="' + pathD(r) + '" fill="none" stroke="transparent" stroke-width="12" pointer-events="stroke"/>');
       if (e.label) { // placed beside the line so certainty dashes stay visible
         var ls = longestSeg2(r.pts, e.labelAt), tw = e.label.length * 11 + 8;
         if (ls.h) out.push('<rect x="' + (ls.x - tw / 2) + '" y="' + (ls.y - 21) + '" width="' + tw + '" height="17" fill="#fff"/>' +
@@ -321,5 +364,5 @@
     var r = reach(v, id), on = Object.keys(r.nodes).length;
     return { main: on, dimmed: v.nodes.length - on, total: v.nodes.length };
   }
-  global.DDS = { PALETTE: PALETTE, render: render, view: view, reach: reach, focusStats: focusStats, attachHover: attachHover, animate: animate, validate: validate };
+  global.DDS = { PALETTE: PALETTE, render: render, view: view, withAutoFolds: withAutoFolds, reach: reach, focusStats: focusStats, attachHover: attachHover, animate: animate, validate: validate };
 })(typeof window !== 'undefined' ? window : globalThis);

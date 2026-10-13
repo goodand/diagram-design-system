@@ -1,6 +1,15 @@
-# Main node 9개 초과 시 정보량 조정
+# 레거시 Main node 수와 새 Workflow Unit의 정보량
 
-**읽는 때**: `finalize`/`check`가 `VB-MAIN-COUNT`를 내며 exit 4(NEEDS_ADJUSTMENT)로 멈췄을 때.
+**읽는 때**: 이전 typed/legacy IR에서 `finalize`/`check`가 `VB-MAIN-COUNT`를 내며 exit 4(NEEDS_ADJUSTMENT)로 멈췄을 때. 새 Workflow Unit은 아래 단위별 제한을 우선 적용한다.
+
+## 새 Workflow Unit
+
+- Function_Definition은 Entity 2개와 Process 1개다. Process_Summary는 Entity인 E2E 입력·출력과 Process 2–3개만 가진다.
+- Process_Core는 최대 9개 노드다. 각 Core는 Summary의 Process 하나에 대응한다.
+- Process_Full은 Summary의 Process 수가 2–3일 때 모든 Core를 하나씩 포함한다. 전체 Full의 노드 수가 9개를 넘는다는 이유로 취합을 막거나 추가 정보량 승인을 요구하지 않는다. 각 Core의 접힘과 Full의 Semantic Flow Token을 사용한다.
+- Full 취합의 Human 결정은 정보량 승인이 아니라 Core를 조립하도록 한 명시적 결정이다. [workflow-units.md](workflow-units.md)를 따른다.
+
+아래의 `VB-MAIN-COUNT`, 접기 → 강조 → 분할 절차는 새 Unit의 Core 제한을 대체하지 않는다. 새 Unit 밖의 기존 도식과 레거시 입력에만 적용한다.
 
 - **기준**: Main으로 보이는 node는 기본 9개 이하다. `VB-MAIN-COUNT` 경고가 나오면 아래를 **순서대로** 시도한다. 배경 처리된 node는 세지 않는다.
 - exit 4는 아래 둘 중 하나로만 풀린다: (a) `decisions.json`에 Human `info_amount` 결정(`topic:"info_amount"`, `subject:"Human"`, `status:"decided"`), (b) 효과가 `effective`/`not_needed`인 `--focus`. WARN을 "의도된 구성"으로 해석해 넘기지 않는다. 넘기고 싶으면 Human에게 묻는다(선택지에 보류 포함).
@@ -26,3 +35,6 @@ node scripts/drd.mjs check diagram.json --focus <강조할 node id>
 - 선택지에 "보류"를 넣는다. 위임 선택지는 [human-decisions.md](human-decisions.md)의 조건을 만족할 때만 추가한다.
 - **Human이 고르기 전에는 최종 도식을 확정하지 않는다.** 기계적으로 나누지 않는다.
 - Human이 답하면 `decisions.json`에 `topic:"info_amount"` 결정으로 기록한다([cli.md](cli.md)).
+# 새 Diagram Type 적용 범위
+
+이전 `l1_full`의 9개 초과 허용은 레거시 typed 입력에 적용한다. 새 Workflow Unit의 Core·Full 제한은 위 단위별 규칙을 따르며, 새 Unit의 추가 승인 절차는 Full 조립 결정 하나로 한정한다. [workflow.md](workflow.md), [workflow-units.md](workflow-units.md).

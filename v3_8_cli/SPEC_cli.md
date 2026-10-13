@@ -1,4 +1,6 @@
-# v3.8-cli contract (`scripts/drd.mjs`)
+# CLI contract (`scripts/drd.mjs`)
+
+The source remains under `v3_8_cli/` for compatibility with existing paths. The active local candidate reports `v3.92-cli`; this does not declare a GitHub release. Older v3.8-cli commands and legacy typed input are retained.
 
 Decisions: DEC-076 (S only + output monopoly), DEC-077 (base v3.7, reuse check_run), DEC-078 (group-source gate),
 DEC-064 (S codes, CONSISTENT/INCONSISTENT/UNKNOWN, SELF-CHECK line), DEC-066 (reject = boundary + reason + fix),
@@ -7,12 +9,18 @@ DEC-071 (unverifiable → UNKNOWN, not failure), DEC-089 (Main count gate). Node
 ## Commands
 
 ```
+node scripts/drd.mjs version
+node scripts/drd.mjs context [diagram_type]
+node scripts/drd.mjs schema [diagram_type]
+node scripts/drd.mjs workflow <ir.json> [--decisions <decisions.json>]
 node scripts/drd.mjs finalize <ir.json> --out <dir> [--decisions <decisions.json>] [--level N] [--expand a,b] [--collapse a,b] [--focus id]
 node scripts/drd.mjs verify <dir> [--ir <ir.json>]
 node scripts/drd.mjs check <ir.json> [--level N] [--expand ..] [--collapse ..] [--focus id]   # diagnosis only, writes nothing
 ```
 
 `--decisions` defaults to `decisions.json` next to the IR (absent file = no decisions).
+
+For v3.92-cli Workflow Units, omitted `diagram_type` in `context` or `schema` defaults to `Function_Definition`. Supported actual values are `Function_Definition`, `Process_Summary_Linear`, `Process_Summary_Router`, `Process_Core`, and `Process_Full`. `version` prints the candidate version. See [workflow-units.md](designing-relation-diagrams/references/workflow-units.md) and [workflow-units.schema.json](designing-relation-diagrams/references/workflow-units.schema.json).
 
 ## finalize: gates in order, first failure stops
 
@@ -74,3 +82,18 @@ Exit 1 if any INCONSISTENT, else 0. No receipt → exit 2.
 ## Output tail (finalize, verify, check)
 
 Last line always: `SELF-CHECK ONLY — NOT DONE. Final status is decided by the external judge.`
+# Legacy typed Workflow extension (2026-10-12, v3.8-cli)
+
+`context <diagram_type>` supplies workflow/expression context; `schema <diagram_type>` emits JSON Schema; `workflow <ir> [--decisions f]` returns versioned stage, approval evidence and next actions. These commands emit JSON. The detailed contract is [workflow.md](designing-relation-diagrams/references/workflow.md).
+
+Typed inputs default to level 0 for `l0_summary`, level 1 for `l1_partial`/`l1_full`. Legacy inputs retain level 2. S5 WORKFLOW rejects missing/mutated approved content or missing Human assembly authorization. `l1_full` is exempt from the S3 nine-node gate. Successful receipts add `workflow`; legacy fields and exit codes remain compatible. This extension does not rerun or redefine historical LLM experiment results.
+
+Automatic folding uses an older partial's `l0_ref` (`node_id` resolved within a supplied L0 `snapshot`). This compatibility behavior is not the v3.9 Workflow Unit reference contract. See `references/workflow.md` for the legacy JSON contract.
+
+## v3.92-cli Workflow Units (local candidate)
+
+`diagram_type` is the actual Unit type and controls validation and rendering. The CLI enforces the sequence `Function_Definition → Process_Summary_Linear/Router → Process_Core → Process_Full`; file references bind exact parent IDs, versions, hashes, and selected node IDs. A Full assembly requires 2–3 hash-bound approved Cores from one Summary, complete one-to-one Process coverage, and a separate Human assembly decision. Summary requires 2–3 Processes; a one-Process Summary is rejected even when its diagram_type is explicitly selected. Function_Definition remains exactly one Process. The JSON Schema provides structural limits; the CLI checks cross-file hashes, topology, ownership and approval records. This contract does not authenticate the person who wrote a decision or prove real-world review chronology. Synthetic decisions are accepted only when explicitly marked `simulated: true` and are test data, not Human approvals.
+
+Function and Summary use E2E Entity boundaries only; Summary shows no intermediate data Entity or edge data labels. Core is limited to 9 nodes and may expose intermediate data. Full preserves inter-Core data and starts with Cores folded. Semantic Flow Token runs only in Full from the initial E2E input Hover. The renderer maps these Units onto the compatible L0/L1 runtime without replacing their actual `diagram_type` values. Legacy `workflow.schema.json` remains unchanged.
+
+`animation_states` optionally maps execution edge IDs to processing-state/type labels. New Full authoring uses these labels for Semantic Flow Tokens; legacy files fall back to `flow`. When supplied, every edge must have a nonempty state label. Approved Core state labels remain immutable. The default travel time is 1800 ms per edge and Hover exit/change cancels immediately. Example playback remains out of this change.

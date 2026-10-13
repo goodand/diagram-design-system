@@ -2,6 +2,8 @@
 
 > 이 파일은 Default가 아닌 세부 규칙과, 규칙을 수정할 때 보는 전체 규칙이다. 괄호 안의 ARG·DEC·R 번호는 Web에서 관리하는 결정 기록의 근거 ID다. 현재 적용할 표현 규칙을 이 Skill 안에 유지하며, 원장·변경 이력은 복제하지 않는다.
 
+> 새 Workflow Unit의 단계·범위·별도 UX 계약은 [workflow-units.md](../references/workflow-units.md)가 우선한다. 아래의 `l0_summary/l1_partial/l1_full` 관련 규칙은 호환을 위해 남긴 v3.8 typed IR 기준이다. 공통 시각 표현 원칙은 새 Unit에도 적용한다.
+
 
 ## 목차
 
@@ -215,7 +217,7 @@ execution_flow > execution_flow_whole_part > goal_means > is_a
 ## 7. 추상화 단계
 
 - **L0** (가장 추상) → **L10** (가장 구체)
-- 일반적 출력: L0–L2 (ARG-063)
+- 새 파이프라인의 기본 Workflow Unit: `Function_Definition` → `Process_Summary_Linear/Router` → Process별 `Process_Core` → 조건을 만족할 때 `Process_Full`. 상한·참조·렌더 동작은 [workflow-units.md](../references/workflow-units.md)에서 관리한다. 예전 `l0_summary/l1_partial/l1_full` 규칙은 레거시 입력에 남긴다.
 - Z0–Z2와 L0–L2는 기호만 다르고 같은 의미다(Zn ≡ Ln). 한 문서·도식 안에서는 한 표기를 일관되게 쓰되, 둘을 하나로 통일하지는 않는다. (DEC-012)
 - 다음 단계 생성 전 반드시 검증 필요 (코드/문서 대조) (ARG-063)
 - 검증은 코드/문서 대조에 더해, **렌더된 Image를 AI가 READ하여** 실제 시각 결과까지 확인하는 루프를 지향한다. (DEC-003)
@@ -223,13 +225,13 @@ execution_flow > execution_flow_whole_part > goal_means > is_a
 
 ### 같은 소스의 단계별 재렌더링
 
-- 추상화 단계는 **하나의 소스**(IR 또는 mmd)에서 detail level만 바꿔 다시 그린다. 단계마다 도식을 따로 새로 그리지 않는다. (ARG-065)
+- 공통 의미 소스를 점진적으로 확장하는 **작성 Workflow**와 작성된 내용을 접고 펼치는 **보기 동작**을 구분한다. Function/Summary는 접지 않고, Core/Full은 Summary의 node ID로 연결되어 접힌 상태로 시작한다. 기존 단일 IR의 detail level과 이전 typed IR 접기 동작은 유지한다. [새 Workflow 계약](../references/workflow-units.md).
 - 상위 단계는 whole_part tree의 하단을 접어 만든다. 접힌 node로 향하던 edge는 가장 가까운 보이는 상위(전체) node로 올리고, 중복·자기 edge는 지운다. (§4 관찰 1, v2 구현 규칙)
 - L 단계는 **의미**(whole_part tree를 어디까지 접는가)로 정의한다. 외부 렌더러 diagram-design의 detail 단계와는 대응표로만 연결한다: L2 ↔ faithful, L1 ↔ balanced, L0 ↔ simplified. 도구 쪽 node 수는 도구의 파라미터이며 L 정의를 바꾸지 않는다. (DEC-014, ARG-065, ARG-067)
 
 ### Main node 수와 정보량 조정
 
-- Main으로 표현하는 node는 기본 **9개 이하**다(L0·L1·L2 공통). 배경 처리된 node는 세지 않는다. 이 값은 금지가 아닌 **경고 기준**이며, 변경의 기준선으로서 바뀔 수 있다. 단계 간 비율은 고정하지 않는다. (DEC-025, DEC-014)
+- Process_Core는 최대 9개 노드다. Process_Full은 모든 Core를 취합하며 9개 초과를 허용한다. Full 전체 수량만으로 생성을 막거나 별도 정보를 승인받지 않는다. 기존 Main 9개 경고와 legacy `l1_full` 동작은 레거시 입력에 적용한다. Dimming은 실제 node 수를 줄이지 않는다.
 - 9개를 넘으면 다음 순서로 조정한다. (DEC-026, DEC-015를 수정)
 
 | 단계 | 수단 | 조건 | 동작 |
@@ -314,6 +316,8 @@ Arrowhead > rect/stadium > dashed/solid > fill > color(5색) > corner rounding >
 
 ### 10.2 hover 강조
 
+새 Workflow Unit에서는 경로 도달성보다 승인된 Process_Core 소속을 우선한다. 고유 요소는 해당 Core, 공유 요소는 관련 Core들의 합집합과 E2E 입출력을 활성화한다. E2E 경로를 찾더라도 다른 Core의 중간 Task까지 활성화하지 않는다. Process_Full의 기본 화면은 Core가 접힌 상태이며 추가 Dimming이 없다. Function_Definition과 Process_Summary는 Dimming을 사용하지 않는다. 이전 typed IR의 Hover 동작은 [workflow.md](../references/workflow.md)에 보존한다.
+
 - hover 시 관련 flow를 강조하고 나머지는 배경처럼 약화한다. (ARG-023)
 - 강조 범위는 국소 연결이 아니라 **Input에서 Output까지 이어지는 관련 흐름 전체**다. (ARG-024)
 - 관련 흐름은 독립성·의존성·응집도·결합도를 고려해 고른다. 되먹임(cycle) edge는 강조 범위 계산에서 분리할 수 있다(v2 구현 선택). (ARG-024)
@@ -321,6 +325,8 @@ Arrowhead > rect/stadium > dashed/solid > fill > color(5색) > corner rounding >
 - 독립 구조, 재사용 후보, 반복 구조의 비효율을 드러내는 데 활용할 수 있다. 불필요하면 쓰지 않는다. (ARG-024)
 
 ### 10.3 애니메이션
+
+새 Workflow Unit의 Semantic Flow Token은 Process_Full에서 데이터·산출물의 전달과 변환을 표현한다. E2E 최초 입력 Hover에서만 시작하고 영역을 벗어나거나 다른 Hover가 발생하면 즉시 종료한다. 일반 흐름에는 재생·종료 버튼을 붙이지 않는다. 별도 버튼은 명시적으로 요청된 예시 애니메이션이 있을 때만 제공한다. 각 Process 전후의 표시 변화는 JSON `flow`를 따른다.
 
 - 애니메이션은 구조 해부 Diagram의 **정식 표현 전략**이다. (ARG-010)
 - 용도는 **전달/실행 흐름**, 즉 무엇이 어디로 전달되는지 보여주는 것에 한정한다. 불필요하면 쓰지 않는다. (ARG-010)
@@ -331,6 +337,8 @@ Arrowhead > rect/stadium > dashed/solid > fill > color(5색) > corner rounding >
 ## 11. Mode와 화면 계층
 
 ### 11.1 Mode 구성
+
+Function_Definition, Process_Summary_Linear/Router, Process_Core, Process_Full은 단계별 사전 구현 Workflow Unit이며 아래 Mode와 별개다. Agent는 CLI와 JSON으로 요청하고 렌더링·상호작용은 도구가 수행한다. 이전 `l0_summary/l1_partial/l1_full` 값은 호환용이다. 입출력 강조와 Task 강조 역시 Workflow 단계 및 추상화 깊이와 독립 기준이다.
 
 - **기본 Mode**(구조적 실행흐름), **설명 Mode**(설명 추가), **예시 Mode**(실제 예시)를 분리한다. (ARG-014)
 - Task가 "무엇을 하는지"에 대한 서술은 구조가 아니라 **설명 계층**에 둔다. (ARG-017)

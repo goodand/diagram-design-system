@@ -32,15 +32,26 @@ Agent는 **IR(JSON)과 `decisions.json`만 쓴다.** SVG·HTML·PNG는 `node scr
 
 ## 2. 빠른 경로
 
-1. 유형 판정(위 표) → 유형 파일과 [expression-rules.md](references/expression-rules.md) READ → [ir.md](references/ir.md)로 `diagram.json` 작성. 표현을 위한 묶음·추상화는 Agent가 먼저 정해 그리고 사후 검토를 받는다(DEC-132·133·143). 그리기 전에는 요청의 요소·관계와 IR의 뜻이 정합하는지 점검한다(DEC-137). 묶음 `source:"request"`는 요청에 실제로 명시된 묶음에만 쓴다. 색·Legend·점선 등 표현은 [expression-rules.md](references/expression-rules.md).
-2. **L0을 먼저 그린다.** 가장 추상 단계다. 이 명령의 non-zero 종료는 어느 것도 성공이 아니다.
+새 파이프라인 도식은 **Function_Definition부터 시작**한다. 새 Workflow Unit의 실제 `diagram_type`은 `Function_Definition`, `Process_Summary_Linear`, `Process_Summary_Router`, `Process_Core`, `Process_Full` 중 하나다. 단계 건너뛰기와 상위 JSON 참조 불일치는 CLI가 거부해야 한다. 계약과 순서는 [workflow-units.md](references/workflow-units.md), JSON 형식은 [workflow-units.schema.json](references/workflow-units.schema.json)을 따른다. 기존 `l0_summary/l1_partial/l1_full` 형식은 이전 자료 호환을 위해 유지되며 새 Workflow Unit과 혼용하지 않는다.
+
+1. 새 작업은 Workflow context/schema를 확인하고 Function_Definition JSON만 작성한다. 정확히 입력 Entity 1개 → Process 1개 → 출력 Entity 1개로 제한하며, 중간 Entity나 별도 edge 라벨을 넣지 않는다. 이 단계에서 도식을 Human에게 보여 피드백을 받는다.
+2. Human 피드백에 따라 다음 단계로 진행하며, Function 파일의 상대 경로, ID, 버전, SHA-256과 대상 Process `node_id`를 참조해 Process_Summary를 만든다. 2–3개 Process만 허용한다. Linear는 단일 직렬 체인이고, Router는 분기 그래프이며 `routing`을 `exclusive` 또는 `parallel` 중 하나로 명시한다. Summary에는 E2E 입력·출력만 Entity로 두고 중간 데이터 Entity와 표시용 edge 라벨은 넣지 않는다. Summary도 Human에게 보여 피드백을 받는다.
+3. Human 피드백을 받고 Summary의 각 Process `node_id`에 Process_Core를 하나씩 연결한다. Core가 Summary의 모든 Process를 덮도록 하며, 각 Core는 최대 9개 노드다. Full 취합 전에는 Core들을 각각 Human에게 보여 피드백을 받는다. Summary는 Process 2–3개여야 하며, Process 1개인 Summary는 CLI가 거부한다.
+4. Process_Full은 동일한 Summary 파일 hash에 연결된 Core 2–3개를 Human에게 제안하고, 실제 Human의 명시적 취합 결정과 각 Core 승인 기록을 받은 뒤 생성한다. 모든 Summary Process에 Core가 정확히 하나씩 대응해야 한다. Full 승인과 취합 기록은 파일 hash에 묶는다. 실제 Human 응답을 추정·생성하지 않는다.
+5. 새 Unit은 Core부터 접기 기능이 있으며 Core와 Full의 초기 화면은 접힌 상태다. Function과 Summary는 E2E Entity만 표현하고 접기 기능이 없다. Full에서 접힌 Core 사이의 전달 Entity는 남긴다. 예시 애니메이션이 아닌 Semantic Flow Token은 Full에서만 E2E 최초 입력 Hover로 시작하고 다른 Hover/이탈 시 종료한다. 새 Full의 `animation_states`에는 edge ID별 처리 상태·산출물 유형을 쓴다. 입력 문구를 복사하지 말고 `접수됨 → 의도 분류됨 → 초안 작성됨 → 전달 완료`처럼 변환을 표현하되 단순 전달은 상태를 유지한다. `flow`는 기존 전달 데이터 이름으로 보존한다. 기본 이동 시간은 구간당 1.8초다.
+
+새 Unit의 모든 단계는 기존 renderer 구현을 재사용하되, 실제 `diagram_type`을 바꾸거나 `l0_summary/l1_partial/l1_full` 값으로 대체하지 않는다. 기존 표현·검토 규칙은 아래를 유지한다.
+
+유형 판정(위 표) → 유형 파일과 [expression-rules.md](references/expression-rules.md) READ → [ir.md](references/ir.md) 및 Workflow Unit schema로 `diagram.json` 작성. 표현을 위한 묶음·추상화는 Agent가 먼저 정해 그리고 사후 검토를 받는다(DEC-132·133·143). 그리기 전에는 요청의 요소·관계와 IR의 뜻이 정합하는지 점검한다(DEC-137). 묶음 `source:"request"`는 요청에 실제로 명시된 묶음에만 쓴다. 색·Legend·점선 등 표현은 [expression-rules.md](references/expression-rules.md).
+
+기존 `l0_summary` 자료를 계속 렌더링하는 절차는 [workflow.md](references/workflow.md)의 레거시 계약을 따른다.
 
    ```
    node scripts/drd.mjs finalize diagram.json --out out/L0 --level 0
    ```
 
 3. exit 0이면 `out/L0/diagram.png`를 **이미지로 직접 READ**해 식별·대조를 판정하고, 이미지가 실제 내용과 같은 뜻인지 의미 정합 대조표로 평가하고([cli.md](references/cli.md) "exit 0 이후" 2), 렌더링을 Human에게 보여 피드백을 받는다. Human이 고치라고 하면 IR을 고쳐 L0부터 다시 그린다. 관계 유형마다 규칙이 다르다(유형 파일). PNG가 없으면 S7 UNKNOWN(이미지 READ 보류)으로 이유와 함께 보고한다.
-4. L0 피드백을 반영한 뒤 L1(필요하면 L2)을 같은 IR에서 그린다: `finalize diagram.json --out out/L1 --level 1`. 한 IR에서 단계만 바꾼다(design-system.md §7). 각 단계마다 `node scripts/drd.mjs verify <out>`.
+4. 이전 작업의 `l0_summary/l1_partial/l1_full` 입력을 유지보수할 때만 [workflow.md](references/workflow.md)를 따른다. 레거시 파일의 렌더 계약은 새 Workflow Unit의 단계 진행·승인을 충족하지 않는다.
 5. `STATUS REVIEW_PENDING`이면 Human 검토를 기다리는 Agent의 묶음 결정이 있다는 뜻이다. Human의 보류·미결정으로 기록하지 않는다(DEC-136). 그 묶음은 실선으로(점선은 원천이 미정이라고 표현한 경우만, DEC-141) 그리고, 검토 대기는 REVIEW 보고 글로 알린다 (DEC-133). 출력된 `REVIEW` 블록을 최종 보고에 그대로 넣어 Human 검토를 받는다. Human 답에 따라 `source:"human"` + `decision_ref`를 넣거나 묶음을 지우고 다시 그린다.
 6. IR을 고쳤다면 마지막 IR로 `finalize`부터 다시 돌린다.
 
@@ -60,10 +71,10 @@ Agent는 **IR(JSON)과 `decisions.json`만 쓴다.** SVG·HTML·PNG는 `node scr
 
 ## 4. 파일
 
-- [references/](references/): `expression-rules.md`(순위경쟁·공통 표현), `ir.md`(IR 필드), `information-amount.md`(Main 9개 초과), `human-decisions.md`(경우 2·3, 보류, 결정 기록), `cli.md`(종료 코드, 수리 루프, decisions.json, verify). 위 트리거에 해당할 때만 읽는다
+- [references/](references/): `workflow-units.md`와 `workflow-units.schema.json`(새 Unit 순서·참조·구조), `workflow.md`와 `workflow.schema.json`(레거시 typed 입력), `expression-rules.md`, `ir.md`, `information-amount.md`, `human-decisions.md`, `cli.md`. 위 트리거에 해당할 때만 읽는다
 - [relation_types/](relation_types/): 유형별 모양·의미·위상
 - [rules/design-system.md](rules/design-system.md): Default가 아닌 세부 규칙 전체. 위 파일에 없는 규칙이 필요할 때만 읽는다
-- `scripts/drd.mjs`: `finalize`·`verify`·`check` (Node.js 18+, 외부 패키지 없음). finalize는 `out/receipt.json`에 입력·산출물 해시를 남긴다
+- `scripts/drd.mjs`: `context`·`schema`·`workflow`·`finalize`·`verify`·`check` (Node.js 18+, 외부 패키지 없음). finalize는 `out/receipt.json`에 입력·산출물 해시와 Workflow 상태를 남긴다
 
 ## 5. Output
 

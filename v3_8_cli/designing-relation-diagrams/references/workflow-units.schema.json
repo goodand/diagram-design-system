@@ -1,0 +1,257 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:diagram-design-system:workflow-units:v3.92-cli",
+  "title": "DDS v3.92-cli Workflow Unit IR",
+  "description": "Structural schema for Function_Definition, Process_Summary_Linear/Router, Process_Core, and Process_Full. Cross-file hashes, graph topology, approvals, and stage progression are checked by the CLI.",
+  "oneOf": [
+    { "$ref": "#/$defs/functionDefinition" },
+    { "$ref": "#/$defs/processSummaryLinear" },
+    { "$ref": "#/$defs/processSummaryRouter" },
+    { "$ref": "#/$defs/processCore" },
+    { "$ref": "#/$defs/processFull" }
+  ],
+  "allOf": [
+    { "if": { "properties": { "diagram_type": { "const": "Function_Definition" } }, "required": ["diagram_type"] }, "then": { "properties": { "workflow_unit": { "const": "Function_Definition" } } } },
+    { "if": { "properties": { "diagram_type": { "const": "Process_Summary_Linear" } }, "required": ["diagram_type"] }, "then": { "properties": { "workflow_unit": { "const": "Process_Summary_Linear" } } } },
+    { "if": { "properties": { "diagram_type": { "const": "Process_Summary_Router" } }, "required": ["diagram_type"] }, "then": { "properties": { "workflow_unit": { "const": "Process_Summary_Router" } } } },
+    { "if": { "properties": { "diagram_type": { "const": "Process_Core" } }, "required": ["diagram_type"] }, "then": { "properties": { "workflow_unit": { "const": "Process_Core" } } } },
+    { "if": { "properties": { "diagram_type": { "const": "Process_Full" } }, "required": ["diagram_type"] }, "then": { "properties": { "workflow_unit": { "const": "Process_Full" } } } }
+  ],
+  "$defs": {
+    "id": { "type": "string", "minLength": 1, "pattern": "^[A-Za-z0-9_.:-]+$" },
+    "ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/id" }
+    },
+    "hash": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "base": {
+      "type": "object",
+      "required": ["id", "version", "diagram_type", "nodes", "edges", "e2e", "flow"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "version": { "type": "string", "minLength": 1 },
+        "diagram_type": {
+          "enum": ["Function_Definition", "Process_Summary_Linear", "Process_Summary_Router", "Process_Core", "Process_Full"]
+        },
+        "workflow_unit": {
+          "enum": ["Function_Definition", "Process_Summary_Linear", "Process_Summary_Router", "Process_Core", "Process_Full"]
+        },
+        "simulation": { "type": "boolean" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "author": { "type": "string" },
+        "review_status": { "enum": ["draft", "reviewed", "approved"] },
+        "nodes": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/node" }
+        },
+        "edges": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/edge" }
+        },
+        "e2e": { "$ref": "#/$defs/e2e" },
+        "flow": { "type": "object", "additionalProperties": { "type": "string" } },
+        "animation_states": {
+          "type": "object",
+          "description": "Map execution edge IDs to concise processing-state or artifact-type labels for Semantic Flow Tokens. Describe transformation state, not copied input content. If supplied, cover every execution edge. Legacy inputs without this map fall back to flow.",
+          "additionalProperties": { "type": "string", "minLength": 1 }
+        }
+      },
+      "additionalProperties": true
+    },
+    "node": {
+      "type": "object",
+      "required": ["id", "role", "label"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "role": { "enum": ["entity", "process"] },
+        "label": { "type": "string", "minLength": 1 },
+        "x": { "type": "number" },
+        "y": { "type": "number" },
+        "w": { "type": "number", "exclusiveMinimum": 0 },
+        "h": { "type": "number", "exclusiveMinimum": 0 }
+      },
+      "additionalProperties": true
+    },
+    "edge": {
+      "type": "object",
+      "required": ["id", "from", "to", "meaning"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "from": { "$ref": "#/$defs/id" },
+        "to": { "$ref": "#/$defs/id" },
+        "meaning": { "enum": ["execution_flow", "whole_part", "goal_means", "is_a"] },
+        "label": { "type": "string" },
+        "certainty": { "type": ["string", "number"] }
+      },
+      "additionalProperties": true
+    },
+    "e2e": {
+      "type": "object",
+      "required": ["inputs", "outputs"],
+      "properties": {
+        "inputs": { "$ref": "#/$defs/ids" },
+        "outputs": { "$ref": "#/$defs/ids" }
+      },
+      "additionalProperties": true
+    },
+    "singleE2e": {
+      "type": "object",
+      "required": ["inputs", "outputs"],
+      "properties": {
+        "inputs": { "$ref": "#/$defs/singleId" },
+        "outputs": { "$ref": "#/$defs/singleId" }
+      },
+      "additionalProperties": true
+    },
+    "singleId": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1,
+      "items": { "$ref": "#/$defs/id" }
+    },
+    "definitionRef": {
+      "type": "object",
+      "required": ["path", "id", "version", "sha256", "node_id"],
+      "properties": {
+        "path": { "type": "string", "minLength": 1 },
+        "id": { "$ref": "#/$defs/id" },
+        "version": { "type": "string", "minLength": 1 },
+        "sha256": { "$ref": "#/$defs/hash" },
+        "node_id": { "$ref": "#/$defs/id" }
+      },
+      "additionalProperties": false
+    },
+    "coreSummaryRef": { "$ref": "#/$defs/definitionRef" },
+    "fullSummaryRef": {
+      "type": "object",
+      "required": ["path", "id", "version", "sha256"],
+      "properties": {
+        "path": { "type": "string", "minLength": 1 },
+        "id": { "$ref": "#/$defs/id" },
+        "version": { "type": "string", "minLength": 1 },
+        "sha256": { "$ref": "#/$defs/hash" }
+      },
+      "additionalProperties": false
+    },
+    "partial": {
+      "type": "object",
+      "required": ["id", "nodes", "edges"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "nodes": { "$ref": "#/$defs/ids" },
+        "edges": { "type": "array", "uniqueItems": true, "items": { "$ref": "#/$defs/id" } }
+      },
+      "additionalProperties": true
+    },
+    "approvedPartial": {
+      "type": "object",
+      "required": ["id", "version", "path", "sha256", "decision_ref"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "version": { "type": "string", "minLength": 1 },
+        "path": { "type": "string", "minLength": 1 },
+        "sha256": { "$ref": "#/$defs/hash" },
+        "decision_ref": { "$ref": "#/$defs/id" }
+      },
+      "additionalProperties": false
+    },
+    "functionDefinition": {
+      "allOf": [
+        { "$ref": "#/$defs/base" },
+        {
+          "properties": {
+            "diagram_type": { "const": "Function_Definition" },
+            "nodes": {
+              "type": "array", "minItems": 3, "maxItems": 3,
+              "items": { "$ref": "#/$defs/node" },
+              "contains": { "properties": { "role": { "const": "process" } }, "required": ["role"] },
+              "minContains": 1, "maxContains": 1,
+              "allOf": [{ "contains": { "properties": { "role": { "const": "entity" } }, "required": ["role"] }, "minContains": 2, "maxContains": 2 }]
+            },
+            "edges": { "type": "array", "minItems": 2, "maxItems": 2 },
+            "e2e": { "$ref": "#/$defs/singleE2e" }
+          }
+        }
+      ]
+    },
+    "processSummaryLinear": {
+      "allOf": [
+        { "$ref": "#/$defs/base" },
+        {
+          "required": ["definition_ref"],
+          "properties": {
+            "diagram_type": { "const": "Process_Summary_Linear" },
+            "definition_ref": { "$ref": "#/$defs/definitionRef" },
+            "nodes": { "$ref": "#/$defs/summaryNodes" },
+            "edges": { "type": "array", "minItems": 3, "maxItems": 4, "items": { "$ref": "#/$defs/summaryEdge" } },
+            "e2e": { "$ref": "#/$defs/singleE2e" }
+          },
+          "not": { "required": ["routing"] }
+        }
+      ]
+    },
+    "processSummaryRouter": {
+      "allOf": [
+        { "$ref": "#/$defs/base" },
+        {
+          "required": ["definition_ref", "routing"],
+          "properties": {
+            "diagram_type": { "const": "Process_Summary_Router" },
+            "definition_ref": { "$ref": "#/$defs/definitionRef" },
+            "routing": { "enum": ["exclusive", "parallel"] },
+            "nodes": { "$ref": "#/$defs/summaryNodes" },
+            "edges": { "type": "array", "minItems": 4, "maxItems": 10, "items": { "$ref": "#/$defs/summaryEdge" } },
+            "e2e": { "$ref": "#/$defs/singleE2e" }
+          }
+        }
+      ]
+    },
+    "summaryNodes": {
+      "type": "array", "minItems": 4, "maxItems": 5,
+      "items": { "$ref": "#/$defs/node" },
+      "allOf": [
+        { "contains": { "properties": { "role": { "const": "entity" } }, "required": ["role"] }, "minContains": 2, "maxContains": 2 },
+        { "contains": { "properties": { "role": { "const": "process" } }, "required": ["role"] }, "minContains": 2, "maxContains": 3 }
+      ]
+    },
+    "summaryEdge": {
+      "allOf": [
+        { "$ref": "#/$defs/edge" },
+        { "properties": { "meaning": { "const": "execution_flow" } }, "not": { "required": ["label"] } }
+      ]
+    },
+    "processCore": {
+      "allOf": [
+        { "$ref": "#/$defs/base" },
+        {
+          "required": ["summary_ref", "partials"],
+          "properties": {
+            "diagram_type": { "const": "Process_Core" },
+            "summary_ref": { "$ref": "#/$defs/coreSummaryRef" },
+            "nodes": { "type": "array", "minItems": 3, "maxItems": 9, "items": { "$ref": "#/$defs/node" } },
+            "partials": { "type": "array", "minItems": 1, "maxItems": 1, "items": { "$ref": "#/$defs/partial" } }
+          }
+        }
+      ]
+    },
+    "processFull": {
+      "allOf": [
+        { "$ref": "#/$defs/base" },
+        {
+          "required": ["summary_ref", "partials", "approved_partials", "assembly_decision_ref"],
+          "properties": {
+            "diagram_type": { "const": "Process_Full" },
+            "summary_ref": { "$ref": "#/$defs/fullSummaryRef" },
+            "partials": { "type": "array", "minItems": 2, "maxItems": 3, "items": { "$ref": "#/$defs/partial" } },
+            "approved_partials": { "type": "array", "minItems": 2, "maxItems": 3, "items": { "$ref": "#/$defs/approvedPartial" } },
+            "assembly_decision_ref": { "$ref": "#/$defs/id" }
+          }
+        }
+      ]
+    }
+  }
+}

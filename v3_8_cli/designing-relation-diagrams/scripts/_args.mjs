@@ -1,6 +1,6 @@
 // Shared CLI argument parsing for the bundled scripts.
 export function parseArgs(argv) {
-  const out = { pos: [], level: 2, expand: [], collapse: [], focus: null, pad: 24 };
+  const out = { pos: [], level: null, expand: [], collapse: [], focus: null, pad: 24 };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     if (a === '--level') out.level = Number(argv[++i]);
