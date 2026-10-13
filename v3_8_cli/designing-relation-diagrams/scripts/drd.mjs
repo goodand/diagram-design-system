@@ -4,10 +4,13 @@ import { readFileSync, writeFileSync, existsSync, mkdirSync, unlinkSync, realpat
 import { createHash } from 'node:crypto';
 import path from 'node:path';
 import { parseArgs } from './_args.mjs';
-import { loadIr, gates } from './lib/engine.mjs';
+import { loadIr, gates, DDS } from './lib/engine.mjs';
 import { renderSvg, renderHtml } from './lib/render.mjs';
 import { candidates } from './lib/candidates.mjs';
 import { toPng } from './lib/png.mjs';
+import { context, schema, workflowState } from './lib/workflow.mjs';
+import { runtimeIr, runtimeType } from './lib/workflow-units.mjs';
+const VERSION = 'v3.92-cli';
 const TAIL = 'SELF-CHECK ONLY — NOT DONE. Final status is decided by the external judge.';
 const OUTS = ['diagram.svg', 'diagram.html', 'diagram.png', 'ir.json', 'receipt.json'];
 const sha = (b) => createHash('sha256').update(b).digest('hex');
@@ -16,7 +19,7 @@ const [cmd, ...rest] = process.argv.slice(2);
 const dIdx = rest.indexOf('--decisions'), outIdx = rest.indexOf('--out'), irIdx = rest.indexOf('--ir');
 const val = (i) => (i >= 0 ? rest[i + 1] : undefined);
 const skip = [dIdx, outIdx, irIdx].filter(i => i >= 0), A = parseArgs(rest.filter((_, i) => !skip.includes(i) && !skip.includes(i - 1)));
-const usage = 'usage: drd.mjs finalize <ir.json> --out <dir> [--decisions f] [--level N] [--expand a,b] [--collapse a,b] [--focus id] | verify <dir> [--ir f] | check <ir.json> [opts]';
+const usage = 'usage: drd.mjs context|schema <diagram_type> | workflow <ir.json> [--decisions f] | finalize <ir.json> --out <dir> [--decisions f] [--level N] [--expand a,b] [--collapse a,b] [--focus id (legacy)] | verify <dir> [--ir f] | check <ir.json> [opts]';
 const bad = (m) => done([`STATUS BAD_INPUT`, `REJECT S0 BAD-INPUT: ${m} -> fix the input and rerun`], 2);
 const rejLines = (g) => g.rejects.map(x => `REJECT ${x.s} ${x.code}: ${x.reason} -> ${x.fix}`);
 
@@ -26,17 +29,29 @@ function loadDecisions(irPath) {
   if (!existsSync(p)) { if (explicit) return { bad: `decisions file not found: ${p}` }; return { decs: [], sha: null }; }
   const buf = readFileSync(p); let j; try { j = JSON.parse(buf.toString('utf8')); } catch (e) { return { bad: `decisions file is not JSON: ${e.message}` }; }
   if (!j || !Array.isArray(j.decisions)) return { bad: 'decisions file must have a "decisions" array' };
-  return { decs: j.decisions, sha: sha(buf) };
+  return { decs: j.decisions, sha: sha(buf), decisions_source:p };
 }
 function prepare(irPath) {
   if (!irPath || !existsSync(irPath)) bad(`cannot read IR: ${irPath}`);
   const text = readFileSync(irPath, 'utf8'), L = loadIr(text, A);
   if (L.bad) bad(L.bad);
   const D = loadDecisions(irPath); if (D.bad) bad(D.bad);
-  return { text, ...L, ...D, g: gates(L.ir, L.view, D.decs, A) };
+  let workflow; try { workflow = workflowState(L.ir, D.decs, path.dirname(path.resolve(irPath)),sha(Buffer.from(text))); } catch (e) { bad(e.message); }
+  const presentation = workflow?.l0_refs?.length ? { ...L.ir, l0_refs:workflow.l0_refs,
+    ...(runtimeType(L.ir.diagram_type) === 'l1_partial' ? {l0_ref:workflow.l0_refs[0]} : {}) } : L.ir;
+  let view; try { view = DDS.view(runtimeIr(presentation), A.level, {expand:A.expand,collapse:A.collapse}); } catch(e) { bad(e.message); }
+  const g = gates(L.ir, view, D.decs, A);
+  if (workflow?.errors.length) { g.rejects.push(...workflow.errors.map(reason => ({s:'S5',code:'WORKFLOW',reason,fix:'restore approved content or obtain the matching Human decision'}))); g.status = 'INCONSISTENT'; g.exit = 1; }
+  return { text, ...L, ...D, g, workflow, presentation };
 }
 
-if (cmd === 'finalize') {
+if (cmd === 'version' || cmd === '--version') {
+  console.log(VERSION);
+} else if (cmd === 'context' || cmd === 'schema') {
+  try { console.log(JSON.stringify((cmd === 'schema' ? schema : context)(A.pos[0]),null,2)); } catch(e) { bad(e.message); }
+} else if (cmd === 'workflow') {
+  const P = prepare(A.pos[0]); console.log(JSON.stringify(P.workflow || {stage:'legacy',next_actions:['author_l0_summary']},null,2)); process.exit(P.g.exit);
+} else if (cmd === 'finalize') {
   const out = val(outIdx); if (!A.pos[0] || !out) { console.error(usage); process.exit(2); }
   // macOS: cwd is reported as /private/var/..; prefer the equivalent /var/.. form the caller used.
   let irPath = path.resolve(A.pos[0]);
@@ -51,15 +66,15 @@ if (cmd === 'finalize') {
     done([`STATUS ${g.status}`, ...rejLines(g)], g.exit);
   }
   mkdirSync(out, { recursive: true });
-  let svg; try { svg = renderSvg(P.ir, A); } catch (e) { console.error(`render failed: ${e.message}`); process.exit(1); }
-  const files = { ir: ['ir.json', P.text], svg: ['diagram.svg', svg], html: ['diagram.html', renderHtml(svg, P.text)] };
+  let svg; try { svg = renderSvg(P.presentation, A); } catch (e) { console.error(`render failed: ${e.message}`); process.exit(1); }
+  const files = { ir: ['ir.json', P.text], svg: ['diagram.svg', svg], html: ['diagram.html', renderHtml(svg, JSON.stringify(P.presentation), A)] };
   const outputs = {};
   for (const [k, [n, c]] of Object.entries(files)) { writeFileSync(path.join(out, n), c); outputs[k] = { path: n, sha256: sha(Buffer.from(c)) }; }
   const pp = path.join(out, 'diagram.png'), png = toPng(path.join(out, 'diagram.svg'), pp);
   outputs.png = png.ok ? { path: 'diagram.png', sha256: sha(readFileSync(pp)) } : null;
   const C = g.groups.length ? candidates(P.ir, g.groups, A, outAbs, out, svg) : { review_pending: [], lines: [] };
-  const receipt = { schema: 'drd-receipt-v1', created_at: new Date().toISOString(), ir_source: irPath, ir_sha256: sha(Buffer.from(P.text)), decisions_sha256: P.sha,
-    options: { level: A.level, expand: A.expand, collapse: A.collapse, focus: A.focus }, outputs, png_attempts: png.attempts, checks: g.checks, warnings: g.warns, review_pending: C.review_pending };
+  const receipt = { schema: 'drd-receipt-v1', dds_version:VERSION, created_at: new Date().toISOString(), ir_source: irPath, ir_sha256: sha(Buffer.from(P.text)), decisions_sha256: P.sha,
+    options: { level: A.level, expand: A.expand, collapse: A.collapse, focus: A.focus }, workflow:P.workflow, decisions_source:P.decisions_source, outputs, png_attempts: png.attempts, checks: g.checks, warnings: g.warns, review_pending: C.review_pending };
   writeFileSync(path.join(out, 'receipt.json'), JSON.stringify(receipt, null, 2) + '\n');
   done([`STATUS ${g.status}`, ...g.checks.map(c => `${c.code} ${c.state}: ${c.evidence}`), ...C.lines, `wrote ${out}`], 0);
 } else if (cmd === 'check') {
@@ -82,6 +97,15 @@ if (cmd === 'finalize') {
   const src = val(irIdx) || rc.ir_source;
   if (!src || !existsSync(src)) put('S1', 'UNKNOWN', `source IR not found: ${src}`);
   else { const same = sha(readFileSync(src)) === rc.ir_sha256; put('S1', same ? 'CONSISTENT' : 'INCONSISTENT', same ? 'source IR sha256 equals receipt.ir_sha256' : `source IR ${src} changed since finalize -> rerun finalize`); }
+  if (rc.workflow) {
+    try {
+      if (!src || !existsSync(src)) throw Error('source IR unavailable for approval verification');
+      const bytes = rc.decisions_source ? readFileSync(rc.decisions_source) : null;
+      if ((bytes ? sha(bytes) : null) !== rc.decisions_sha256) throw Error('decisions changed since finalize');
+      const state = workflowState(JSON.parse(readFileSync(src,'utf8')),bytes ? JSON.parse(bytes).decisions : [],path.dirname(path.resolve(src)),sha(readFileSync(src)));
+      put('S5',state.errors.length ? 'INCONSISTENT':'CONSISTENT',state.errors.join('; ') || 'approved snapshot content and Human assembly references match');
+    } catch(e) { put('S5','INCONSISTENT',e.message); }
+  }
   const rp_ = rc.review_pending || [];
   put('S4', rp_.length ? 'UNKNOWN' : 'CONSISTENT', rp_.length ? `${rp_.length} group(s) pending Human review [${rp_.map(x => x.group).join(',')}]` : 'no group pending Human review');
   put('S7', rc.outputs?.png ? 'CONSISTENT' : 'UNKNOWN', rc.outputs?.png ? 'png recorded in receipt' : 'no PNG produced; image READ unverifiable (DEC-071)');

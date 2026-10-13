@@ -1,10 +1,10 @@
 # 명시되지 않은 유형, Human 결정, 보류
 
-**읽는 때**: 요청이 네 유형 밖이거나 판정할 수 없을 때(경우 2·3), `finalize`가 `STATUS REVIEW_PENDING`을 냈을 때, L0 동의를 받을 때, Human이 보류했을 때.
+**읽는 때**: 요청이 네 관계 유형 밖이거나 판정할 수 없을 때(경우 2·3), `finalize`가 `STATUS REVIEW_PENDING`을 냈을 때, 새 Workflow Unit을 실제 Human 검토에 올릴 때, Human이 보류했을 때.
 
 ## 묶음 검토 (DEC-095·097·132·133·143)
 
-1. 표현을 위한 묶음·추상화는 Agent가 먼저 정해 **L0을 먼저** 그려 Human 검토를 받은 뒤 L1을 그린다. L0에는 묶음이 접힌 상자로 보이므로 무엇이 어떤 이름으로 묶였는지 Human이 그림으로 판단한다.
+1. 표현을 위한 묶음·추상화는 Agent가 먼저 정해 Human 검토를 받는다. 새 Workflow Unit의 순서와 시각 범위는 [workflow-units.md](workflow-units.md)를 따른다. Function_Definition과 Process_Summary는 E2E 입출력만 보이고 접지 않는다. Process_Core와 Process_Full은 접힌 상태로 시작한다. 이전 `l0_summary/l1_partial/l1_full` 동작은 레거시 호환 계약이다.
 2. `STATUS REVIEW_PENDING`: `source`가 `request`도 아니고 유효한 Human 결정(`human` + `decision_ref`)도 아닌 묶음은 막히지 않고 실선으로(점선은 원천이 미정이라고 표현한 경우만, DEC-141) 그리고, 검토 대기는 REVIEW 보고 글로 알린다 (DEC-133). 출력된 `REVIEW <group-id>` 블록(비교 그림 `candidates/index.html` 경로 포함)을 최종 보고에 그대로 넣는다.
 3. Human 답을 `decisions.json`에 기록한다(형식은 [cli.md](cli.md)). "이대로 묶음"이면 `source:"human"` + `decision_ref:<결정 id>`, "묶지 않음"이면 IR에서 묶음을 뺀다, "보류"면 아래 보류 규칙.
 4. 실제 Human 답이나 명시 요청 없이 `source`를 `human`/`request`로 쓰지 않는다. Agent가 정한 묶음을 Human이 승인한 것처럼 보고하지 않는다. 검토 대기는 REVIEW 보고에만 남기고 Human 미결 목록에 넣지 않는다(DEC-128·136).
@@ -51,3 +51,6 @@ Human이 고른 선택지가 Agent의 권고였는지도 보고에 남긴다(DEC
 결정: Agent(위임) — 3개. 근거: …  검증: …
 보류: 그룹 개수 — 다음 행동: 장단점 정리 후 재요청
 ```
+# 부분 승인과 취합 결정
+
+새 Workflow에서 `partial_approval`은 승인 대상 파일 해시·버전을, `assemble_full`은 Human이 취합하도록 선택한 부분 해시 목록을 기록한다. 두 개 이상이면 Agent가 제안할 수 있을 뿐 자동 생성하지 않는다. 기존 묶음 승인과 별개이며 [workflow.md](workflow.md)를 따른다.

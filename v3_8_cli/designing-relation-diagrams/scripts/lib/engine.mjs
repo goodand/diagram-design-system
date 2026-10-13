@@ -2,6 +2,8 @@
 import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
+import { validateWorkflow } from './workflow.mjs';
+import { runtimeType, runtimeIr } from './workflow-units.mjs';
 const require = createRequire(import.meta.url);
 globalThis.window = globalThis;
 export const DDS_PATH = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', 'dds.js');
@@ -12,12 +14,38 @@ export const isGroup = (n) => !!n.drawRegion || n.expandAt !== undefined;
 export function loadIr(text, A) {
   let ir; try { ir = JSON.parse(text); } catch (e) { return { bad: `cannot read IR JSON: ${e.message}` }; }
   if (!ir || !Array.isArray(ir.nodes) || !Array.isArray(ir.edges)) return { bad: 'IR must have "nodes" and "edges" arrays' };
+  try { validateWorkflow(ir); } catch (e) { return { bad:e.message }; }
+  const type = runtimeType(ir.diagram_type);
+  if (A.level == null) A.level = ir.diagram_type ? (type === 'l0_summary' ? 0 : 1) : 2;
+  if (!Number.isInteger(A.level) || A.level < 0) return { bad:'level must be a nonnegative integer' };
+  if (ir.diagram_type && A.focus) return { bad:'typed diagrams use partial-membership Hover; omit legacy --focus' };
+  if (type === 'l0_summary' && (A.expand.length || A.collapse.length || A.focus || A.level !== 0)) return { bad:'Function/Summary has level 0 and no folding/focus' };
+  if (ir.diagram_type === 'Process_Summary_Router') {
+    // Topological layers keep parallel alternatives distinct; no new semantic nodes.
+    const depths = new Map([[ir.e2e.inputs[0],0]]);
+    for (let i=0;i<ir.nodes.length;i++) for (const e of ir.edges) if (depths.has(e.from)) depths.set(e.to,Math.max(depths.get(e.to)||0,depths.get(e.from)+1));
+    for (const n of ir.nodes) {
+      const peers=ir.nodes.filter(p=>depths.get(p.id)===depths.get(n.id));
+      if (n.x == null) n.x=400+(peers.indexOf(n)-(peers.length-1)/2)*240;
+      if (n.y == null) n.y=70+depths.get(n.id)*120;
+    }
+  } else if (type === 'l0_summary') {
+    const order = [ir.e2e.inputs[0]];
+    while (order.at(-1) !== ir.e2e.outputs[0]) order.push(ir.edges.find(e => e.from === order.at(-1)).to);
+    ir.nodes.forEach(n => { if (n.x == null) n.x = 240; if (n.y == null) n.y = 70 + order.indexOf(n.id) * 120; });
+  }
+  if (ir.diagram_type && ir.diagram_type !== type) {
+    const boxes=ir.nodes.map(n=>({n,p:n.pos?.[A.level]||n.pos?.[2]||n.pos?.[1]||n.pos?.[0]||[n.x,n.y]})).filter(({p})=>p.every(Number.isFinite));
+    if (ir.h == null) ir.h = Math.max(400,...boxes.map(({n,p})=>p[1]+(n.h||44)/2+24));
+    if (ir.w == null) ir.w = Math.max(780,...boxes.map(({n,p})=>p[0]+(n.w||176)/2+24));
+  }
   const ids = new Set(ir.nodes.map(n => n.id));
   const dang = ir.edges.filter(e => !ids.has(e.from) || !ids.has(e.to));
   if (dang.length) return { bad: 'edges refer to unknown nodes: ' + dang.map(e => `${e.from}->${e.to}`).join(', ') };
   const unk = [...A.expand, ...A.collapse].filter(id => !ids.has(id));
   if (unk.length) return { bad: `--expand/--collapse refer to unknown nodes: ${unk.join(', ')}` };
-  const v = DDS.view(ir, A.level, { expand: A.expand, collapse: A.collapse });
+  let v; try { v = DDS.view(runtimeIr(ir), A.level, { expand: A.expand, collapse: A.collapse }); }
+  catch(e) { return { bad:`cannot construct view: ${e.message}` }; }
   if (A.focus && !v.nodes.some(n => n.id === A.focus)) return { bad: `--focus node "${A.focus}" is not visible in this view. Visible: ${v.nodes.map(n => n.id).join(', ')}` };
   return { ir, view: v };
 }
@@ -32,14 +60,20 @@ export function validDecisionRef(decs, ref) {
 }
 // Run all gates (undecided groups are listed in `groups`, not rejected; DEC-095). Returns {rules, rejects:[{s,code,reason,fix}], status, exit, warns, checks, focus}.
 export function gates(ir, v, decs, A) {
+  const declaredType = ir.diagram_type;
+  ir = runtimeIr(ir);
   const r = DDS.validate(v, ir), rejects = [], groups = [];
+  if (ir.diagram_type === 'l1_full') {
+    const count = r.results.find(x => x.code === 'VB-MAIN-COUNT');
+    if (count) { count.ok = true; count.level = 'info'; count.evidence = `${declaredType}: ${v.nodes.length} visible nodes; more than nine is allowed`; }
+  }
   const warns = r.results.filter(x => !x.ok && x.level === 'warn').map(x => x.code);
   const fails = r.results.filter(x => !x.ok && x.level !== 'warn');
   fails.forEach(x => rejects.push({ s: 'S2', code: x.code, reason: x.evidence, fix: x.fix }));
   const bad = ir.nodes.filter(isGroup).filter(n => !(n.source === 'request' || (n.source === 'human' && validDecisionRef(decs, n.decision_ref))));
   bad.forEach(n => groups.push(n.id));
   const focus = A.focus ? focusVerdict(v, A.focus) : null;
-  const infoOk = decs.some(d => d.topic === 'info_amount' && humanOk(d)) || (focus && (focus.verdict === 'effective' || focus.verdict === 'not_needed'));
+  const infoOk = ir.diagram_type === 'l1_full' || decs.some(d => d.topic === 'info_amount' && humanOk(d)) || (focus && (focus.verdict === 'effective' || focus.verdict === 'not_needed'));
   const mc = r.results.find(x => x.code === 'VB-MAIN-COUNT' && !x.ok && x.level === 'warn');
   if (mc && !infoOk) rejects.push({ s: 'S3', code: 'VB-MAIN-COUNT', reason: mc.evidence, fix: 'record a Human info_amount decision, or pass --focus <id> that makes Main <= 9, or split the diagram' });
   const has = (s) => rejects.some(x => x.s === s);
@@ -47,6 +81,6 @@ export function gates(ir, v, decs, A) {
   const checks = [
     { code: 'S2', state: has('S2') ? 'INCONSISTENT' : 'CONSISTENT', evidence: has('S2') ? fails.map(x => x.code).join(',') : `${r.results.length} rules checked, no error` },
     { code: 'S4', state: groups.length ? 'UNKNOWN' : 'CONSISTENT', evidence: groups.length ? `${groups.length} group(s) pending Human review [${groups.join(',')}]` : `${ir.nodes.filter(isGroup).length} group(s), all request/Human-decided` },
-    { code: 'S3', state: has('S3') ? 'INCONSISTENT' : 'CONSISTENT', evidence: mc ? (infoOk ? 'VB-MAIN-COUNT warn handled by Human info_amount decision or effective focus' : mc.evidence) : 'Main count within limit' }];
+    { code: 'S3', state: has('S3') ? 'INCONSISTENT' : 'CONSISTENT', evidence: ir.diagram_type === 'l1_full' ? `${declaredType} has no nine-node gate` : mc ? (infoOk ? 'VB-MAIN-COUNT warn handled by Human info_amount decision or effective focus' : mc.evidence) : 'Main count within limit' }];
   return { groups, results: r.results, rejects, status, exit, warns, checks, focus };
 }

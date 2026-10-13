@@ -6,9 +6,14 @@
 node scripts/drd.mjs finalize <ir.json> --out <dir> [--decisions f] [--level N] [--expand a,b] [--collapse a,b] [--focus id]
 node scripts/drd.mjs verify <dir> [--ir <ir.json>]
 node scripts/drd.mjs check <ir.json> [옵션 동일]   # 진단만, 아무것도 쓰지 않음
+node scripts/drd.mjs version
+node scripts/drd.mjs context [diagram_type]
+node scripts/drd.mjs schema [diagram_type]
+node scripts/drd.mjs workflow <ir.json> [--decisions f]
 ```
 
-- `--level N`: 추상화 단계 L0–L2(Z0–Z2와 같은 뜻). `--expand`/`--collapse`: 특정 전체 node만 펼치거나 접는다. 그룹을 하나씩 펼치는 화면을 만들 때 쓴다.
+- `version`은 실행 중인 DDS candidate 버전을 출력한다. v3.92-cli의 `context`와 `schema`는 생략 시 `Function_Definition`을 기본값으로 쓴다. 새 Unit의 실제 type 및 순서는 [workflow-units.md](workflow-units.md)를 따른다.
+- `--level N`: 보기 추상화 깊이. 새 Unit은 Function/Summary 기본 0, Core/Full 기본 1이다. 이전 typed IR은 `l0_summary` 0, partial/full 1, untyped legacy는 2를 유지한다. `--expand`/`--collapse`는 새 Unit에서 Core부터 지원한다. 이전 typed IR은 [workflow.md](workflow.md)의 동작을 따른다.
 - `--decisions` 기본값은 IR 옆 `decisions.json`(없으면 결정 없음).
 - 실행 기록은 스크립트가 남긴다. 따로 기록하지 않는다. Node.js 18 이상.
 
@@ -18,7 +23,7 @@ node scripts/drd.mjs check <ir.json> [옵션 동일]   # 진단만, 아무것도
 |---|---|---|---|
 | 0 | `CONSISTENT` | 산출물 기록됨(자기 일관성만 확인) | 이미지 READ, 아래 "exit 0 이후" |
 | 0 | `REVIEW_PENDING` | 산출물 기록됨, Human이 정하지 않은 묶음은 실선으로(점선은 원천이 미정이라고 표현한 경우만, DEC-141) 그리고, 검토 대기는 REVIEW 보고 글로 알린다 (DEC-133) | `REVIEW` 블록을 최종 보고에 넣음 → [human-decisions.md](human-decisions.md) |
-| 1 | `INCONSISTENT` | VB-* 규칙 위반(S2) | `REJECT` 줄의 fix대로 IR 수정 |
+| 1 | `INCONSISTENT` | VB-* 규칙 위반(S2) 또는 승인본·취합 계약 위반(S5) | `REJECT` 줄의 fix대로 IR 수정 |
 | 2 | `BAD_INPUT` | JSON 오류, 끊긴 edge, 모르는 id, 잘못된 decisions.json | 입력 수정 |
 | 4 | `NEEDS_ADJUSTMENT` | `VB-MAIN-COUNT`, Human 결정도 유효한 `--focus`도 없음(S3) | [information-amount.md](information-amount.md) |
 
