@@ -10,7 +10,9 @@ import { candidates } from './lib/candidates.mjs';
 import { toPng } from './lib/png.mjs';
 import { context, schema, workflowState } from './lib/workflow.mjs';
 import { runtimeIr, runtimeType } from './lib/workflow-units.mjs';
-const VERSION = 'v3.93-cli';
+import { routingCache } from './lib/routing-cache.mjs';
+import { composeLinkedDiagrams } from './lib/linked-diagrams.mjs';
+const VERSION = 'v3.95-cli';
 const FUNCTION_GUIDE = '반복이 하나의 Process 내부에서 완결되는 기능은 Linear Summary로 표현하고, Core에서 Cycle을 구체화한다. Summary에서는 반복 수행을 하나의 Process로 취급하고, 별도 Process에 반복 종료 여부를 판정하는 Gate를 둘 수 있다.';
 const TAIL = 'SELF-CHECK ONLY — NOT DONE. Final status is decided by the external judge.';
 const OUTS = ['diagram.svg', 'diagram.html', 'diagram.png', 'ir.json', 'receipt.json'];
@@ -39,8 +41,11 @@ function prepare(irPath) {
   const D = loadDecisions(irPath); if (D.bad) bad(D.bad);
   let workflow; try { workflow = workflowState(L.ir, D.decs, path.dirname(path.resolve(irPath)),sha(Buffer.from(text))); } catch (e) { bad(e.message); }
   if (L.ir.diagram_type === 'Function_Definition' && workflow) workflow.summary_guidance = FUNCTION_GUIDE;
-  const presentation = workflow?.l0_refs?.length ? { ...L.ir, l0_refs:workflow.l0_refs,
+  let presentation = workflow?.l0_refs?.length ? { ...L.ir, l0_refs:workflow.l0_refs,
     ...(runtimeType(L.ir.diagram_type) === 'l1_partial' ? {l0_ref:workflow.l0_refs[0]} : {}) } : L.ir;
+  if (L.ir.linked_diagrams !== undefined) {
+    try { presentation = composeLinkedDiagrams(L.ir,path.dirname(path.resolve(irPath)),D.decs); } catch(e) { bad(e.message); }
+  }
   let view; try { view = DDS.view(runtimeIr(presentation), A.level, {expand:A.expand,collapse:A.collapse}); } catch(e) { bad(e.message); }
   const g = gates(L.ir, view, D.decs, A);
   if (workflow?.errors.length) { g.rejects.push(...workflow.errors.map(reason => ({s:'S5',code:'WORKFLOW',reason,fix:'restore approved content or obtain the matching Human decision'}))); g.status = 'INCONSISTENT'; g.exit = 1; }
@@ -68,6 +73,10 @@ if (cmd === 'version' || cmd === '--version') {
     done([`STATUS ${g.status}`, ...rejLines(g)], g.exit);
   }
   mkdirSync(out, { recursive: true });
+  if (P.ir.edge_routing === 'libavoid') {
+    try { P.presentation.routing_cache = await routingCache(runtimeIr(P.presentation),DDS,A.level); }
+    catch(e) { bad(`edge routing failed: ${e.message}`); }
+  }
   let svg; try { svg = renderSvg(P.presentation, A); } catch (e) { console.error(`render failed: ${e.message}`); process.exit(1); }
   const files = { ir: ['ir.json', P.text], svg: ['diagram.svg', svg], html: ['diagram.html', renderHtml(svg, JSON.stringify(P.presentation), A)] };
   const outputs = {};
@@ -105,7 +114,9 @@ if (cmd === 'version' || cmd === '--version') {
       if (!src || !existsSync(src)) throw Error('source IR unavailable for approval verification');
       const bytes = rc.decisions_source ? readFileSync(rc.decisions_source) : null;
       if ((bytes ? sha(bytes) : null) !== rc.decisions_sha256) throw Error('decisions changed since finalize');
-      const state = workflowState(JSON.parse(readFileSync(src,'utf8')),bytes ? JSON.parse(bytes).decisions : [],path.dirname(path.resolve(src)),sha(readFileSync(src)));
+      const sourceIr=JSON.parse(readFileSync(src,'utf8')), decisions=bytes ? JSON.parse(bytes).decisions : [];
+      const state = workflowState(sourceIr,decisions,path.dirname(path.resolve(src)),sha(readFileSync(src)));
+      if (sourceIr.linked_diagrams !== undefined) composeLinkedDiagrams(sourceIr,path.dirname(path.resolve(src)),decisions);
       put('S5',state.errors.length ? 'INCONSISTENT':'CONSISTENT',state.errors.join('; ') || 'approved snapshot content and Human assembly references match');
     } catch(e) { put('S5','INCONSISTENT',e.message); }
   }

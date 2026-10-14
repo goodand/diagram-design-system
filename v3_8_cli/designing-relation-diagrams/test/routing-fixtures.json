@@ -1,0 +1,158 @@
+{
+  "collapsed": {
+    "nodes": [
+      {
+        "id": "experiment-input",
+        "x": 330,
+        "y": 30,
+        "w": 640,
+        "h": 60
+      },
+      {
+        "id": "cycle-result",
+        "x": 330,
+        "y": 850,
+        "w": 640,
+        "h": 60
+      },
+      {
+        "id": "dev-gold",
+        "x": 995,
+        "y": 480,
+        "w": 370,
+        "h": 60
+      },
+      {
+        "id": "__l0fold:16:experiment-cycle",
+        "x": 246,
+        "y": 392,
+        "w": 620,
+        "h": 60
+      }
+    ],
+    "edges": [
+      {
+        "id": "0",
+        "from": "experiment-input",
+        "to": "__l0fold:16:experiment-cycle"
+      },
+      {
+        "id": "1",
+        "from": "dev-gold",
+        "to": "__l0fold:16:experiment-cycle"
+      },
+      {
+        "id": "2",
+        "from": "__l0fold:16:experiment-cycle",
+        "to": "cycle-result"
+      }
+    ]
+  },
+  "expanded": {
+    "nodes": [
+      {
+        "id": "experiment-input",
+        "x": 330,
+        "y": 30,
+        "w": 640,
+        "h": 60
+      },
+      {
+        "id": "build",
+        "x": 485,
+        "y": 170,
+        "w": 330,
+        "h": 60
+      },
+      {
+        "id": "rank",
+        "x": 485,
+        "y": 320,
+        "w": 330,
+        "h": 60
+      },
+      {
+        "id": "dev-eval",
+        "x": 485,
+        "y": 480,
+        "w": 330,
+        "h": 60
+      },
+      {
+        "id": "improve",
+        "x": 15,
+        "y": 320,
+        "w": 330,
+        "h": 60
+      },
+      {
+        "id": "freeze",
+        "x": 485,
+        "y": 670,
+        "w": 330,
+        "h": 60
+      },
+      {
+        "id": "cycle-result",
+        "x": 330,
+        "y": 850,
+        "w": 640,
+        "h": 60
+      },
+      {
+        "id": "dev-gold",
+        "x": 995,
+        "y": 480,
+        "w": 370,
+        "h": 60
+      }
+    ],
+    "edges": [
+      {
+        "id": "0",
+        "from": "experiment-input",
+        "to": "build"
+      },
+      {
+        "id": "1",
+        "from": "build",
+        "to": "rank"
+      },
+      {
+        "id": "2",
+        "from": "rank",
+        "to": "dev-eval"
+      },
+      {
+        "id": "3",
+        "from": "dev-gold",
+        "to": "dev-eval"
+      },
+      {
+        "id": "4",
+        "from": "dev-eval",
+        "to": "improve"
+      },
+      {
+        "id": "5",
+        "from": "improve",
+        "to": "build"
+      },
+      {
+        "id": "6",
+        "from": "dev-eval",
+        "to": "freeze"
+      },
+      {
+        "id": "7",
+        "from": "freeze",
+        "to": "cycle-result"
+      },
+      {
+        "id": "8",
+        "from": "improve",
+        "to": "freeze"
+      }
+    ]
+  }
+}

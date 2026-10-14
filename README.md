@@ -1,10 +1,13 @@
 # Diagram Design System
 
-현재 PC의 DDS 자료를 다른 PC의 원격 저장소와 비교·계속 작업하기 위한 **2026-10-07 부분 스냅샷**입니다. 이 작업 트리는 `v3.8-cli` 기반을 보존하면서 Summary의 Process 2–3개 계약과 상태 토큰을 적용하고 Function 안내를 추가한 `v3.93-cli`입니다. 원격 저장소의 최신 버전이나 배포 확정본을 뜻하지 않으며, 최종 버전은 다른 PC 자료와 비교한 뒤 Human이 결정합니다.
+현재 PC의 DDS 자료를 다른 PC의 원격 저장소와 비교·계속 작업하기 위한 **2026-10-07 부분 스냅샷**입니다. 이 작업 트리는 `v3.8-cli` 기반을 보존하면서 Summary의 Process 2–3개 계약과 상태 토큰을 적용하고 Function 안내와 하위 Full 연동을 추가한 `v3.95-cli`입니다. 원격 저장소의 최신 버전이나 배포 확정본을 뜻하지 않으며, 최종 버전은 다른 PC 자료와 비교한 뒤 Human이 결정합니다.
 
 ## 현재 상태
 
-- **v3.93-cli:** Function 실행 결과에 내부 반복을 Linear Summary와 Core로 표현하는 안내를 추가했습니다. 새 사용자는 `designing-relation-diagrams-v3.93-cli.skill`을 사용하세요.
+- **v3.95-cli:** 승인된 별도 Full을 한 단계 연결하고 접기 상태별 Hover 합집합을 적용합니다. [검증과 제한](docs/verification/v3.95-linked-20261013.md). 패키지: `designing-relation-diagrams-v3.95-cli.skill`.
+
+- **v3.94-cli:** `edge_routing: "libavoid"` 옵션으로 자동 화살표 경로를 계산합니다. [검증과 제한](docs/verification/v3.94-routing-20261013.md). 패키지: `designing-relation-diagrams-v3.94-cli.skill`.
+- **v3.93-cli:** Function 실행 결과에 내부 반복을 Linear Summary와 Core로 표현하는 안내를 추가했습니다. 이전 패키지는 보존합니다.
 - **v3.92-cli:** Semantic Flow Token에 `animation_states`를 추가하고 구간당 이동을 1.8초로 늦췄습니다. 이전 패키지는 그대로 보존합니다. [최종 검증](docs/verification/v3.92-token-20261013.md), [전체 Workflow E2E](docs/verification/v3.91-e2e-20261013.md).
 
 - **로컬 후보 (v3.91-cli):** Function은 Process 1개, Summary는 명시한 Linear/Router 타입에서 Process 2–3개로 구분합니다. 기존 v3.9 패키지는 보존합니다. [수정·검증 기록](docs/verification/v3.91-summary-20261013.md).

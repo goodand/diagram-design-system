@@ -33,12 +33,12 @@ test('canonical Function_Definition CLI preserves source type and renders static
   assert.notEqual(run('finalize',src,'--out',out).status,0); assert.equal(existsSync(path.join(out,'diagram.html')),false);
  } finally {rmSync(dir,{recursive:true,force:true});}
 });
-test('context and schema default to Function_Definition; version is v3.93-cli',()=>{
+test('context and schema default to Function_Definition; version is v3.95-cli',()=>{
  const context=run('context'); assert.equal(context.status,0,context.stdout+context.stderr);
  assert.equal(JSON.parse(context.stdout).diagram_type,'Function_Definition');
  const schema=run('schema'); assert.equal(schema.status,0,schema.stdout+schema.stderr);
  assert.equal(JSON.parse(schema.stdout).properties.diagram_type.const,'Function_Definition');
- assert.match(run('version').stdout,/v3\.93-cli/);
+ assert.match(run('version').stdout,/v3\.95-cli/);
 });
 function coreWithCount(count) {
  const nodes=Array.from({length:count},(_,i)=>({id:'n'+i,role:i===0||i===count-1?'entity':'process',label:'Node '+i,x:200,y:50+i*100}));

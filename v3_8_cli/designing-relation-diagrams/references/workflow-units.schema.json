@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:diagram-design-system:workflow-units:v3.92-cli",
-  "title": "DDS v3.92-cli Workflow Unit IR",
+  "$id": "urn:diagram-design-system:workflow-units:v3.95-cli",
+  "title": "DDS v3.95-cli Workflow Unit IR",
   "description": "Structural schema for Function_Definition, Process_Summary_Linear/Router, Process_Core, and Process_Full. Cross-file hashes, graph topology, approvals, and stage progression are checked by the CLI.",
   "oneOf": [
     { "$ref": "#/$defs/functionDefinition" },
@@ -11,6 +11,7 @@
     { "$ref": "#/$defs/processFull" }
   ],
   "allOf": [
+    { "if": { "required": ["linked_diagrams"] }, "then": { "properties": { "diagram_type": { "const": "Process_Full" } } } },
     { "if": { "properties": { "diagram_type": { "const": "Function_Definition" } }, "required": ["diagram_type"] }, "then": { "properties": { "workflow_unit": { "const": "Function_Definition" } } } },
     { "if": { "properties": { "diagram_type": { "const": "Process_Summary_Linear" } }, "required": ["diagram_type"] }, "then": { "properties": { "workflow_unit": { "const": "Process_Summary_Linear" } } } },
     { "if": { "properties": { "diagram_type": { "const": "Process_Summary_Router" } }, "required": ["diagram_type"] }, "then": { "properties": { "workflow_unit": { "const": "Process_Summary_Router" } } } },
@@ -147,6 +148,18 @@
       },
       "additionalProperties": true
     },
+    "linkedDiagram": {
+      "type": "object",
+      "required": ["node_id", "definition_ref", "full_ref", "decision_ref", "boundary_map"],
+      "properties": {
+        "node_id": { "$ref": "#/$defs/id" },
+        "definition_ref": { "$ref": "#/$defs/definitionRef" },
+        "full_ref": { "$ref": "#/$defs/fullSummaryRef" },
+        "decision_ref": { "$ref": "#/$defs/id" },
+        "boundary_map": { "type": "object", "minProperties": 2, "additionalProperties": { "$ref": "#/$defs/id" } }
+      },
+      "additionalProperties": false
+    },
     "approvedPartial": {
       "type": "object",
       "required": ["id", "version", "path", "sha256", "decision_ref"],
@@ -248,7 +261,8 @@
             "summary_ref": { "$ref": "#/$defs/fullSummaryRef" },
             "partials": { "type": "array", "minItems": 2, "maxItems": 3, "items": { "$ref": "#/$defs/partial" } },
             "approved_partials": { "type": "array", "minItems": 2, "maxItems": 3, "items": { "$ref": "#/$defs/approvedPartial" } },
-            "assembly_decision_ref": { "$ref": "#/$defs/id" }
+            "assembly_decision_ref": { "$ref": "#/$defs/id" },
+            "linked_diagrams": { "type": "array", "items": { "$ref": "#/$defs/linkedDiagram" } }
           }
         }
       ]

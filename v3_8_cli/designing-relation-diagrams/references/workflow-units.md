@@ -94,3 +94,7 @@ node scripts/drd.mjs verify <output-dir>
 Function_Definition and both Process_Summary types have no folding or token animation. Process_Core and Process_Full start collapsed. Full folding is a view operation and retains Inter-Core data. Semantic Flow Token playback is available only in Process_Full: Hover/focus on the initial E2E input starts the finite flow, each transformation uses its `flow` label, and leaving the input or moving to another Hover cancels it. Normal playback has no Play/Stop controls; a separate control is reserved for an explicitly supplied example animation.
 
 Use the renderer to produce SVG/HTML/PNG; do not hand-edit those outputs. Revisions create a new JSON version and preserve prior artifacts. If Full review reveals a faulty Core boundary, revise and review that Core, then rebuild Full against the new exact hash. Do not copy an earlier approval to changed content.
+
+## Optional automatic routing (v3.94)
+
+Set top-level `edge_routing: "libavoid"` before `finalize` to keep node positions and compute non-overlapping orthogonal routes for every fold state. This overrides manual edge route/busX geometry. At most eight fold groups are supported. Invalid routing fails explicitly; generated HTML works offline. Token animation follows the rendered routes. Edge crossings and universal label collision avoidance are not guaranteed.
