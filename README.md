@@ -4,6 +4,8 @@
 
 ## 현재 상태
 
+- **2026-10-14 로컬 정리 체크포인트:** v3.95 이후 라우팅 안전성 변경을 포함하므로 현재 소스와 보존된 v3.95 패키지는 일치하지 않습니다. 현재 소스의 단위 테스트는 119/119 통과했지만 새 브라우저·Human Workflow E2E를 실행한 결과는 아닙니다. [검증 범위](docs/verification/cleanup-checkpoint-20261014.md). 사용자 지정 표현 기준선은 v3.92이며, 후속 ELK·Diamond 격리 실험은 이번 저장소에 채택하지 않았습니다.
+
 - **v3.95-cli:** 승인된 별도 Full을 한 단계 연결하고 접기 상태별 Hover 합집합을 적용합니다. [검증과 제한](docs/verification/v3.95-linked-20261013.md). 패키지: `designing-relation-diagrams-v3.95-cli.skill`.
 
 - **v3.94-cli:** `edge_routing: "libavoid"` 옵션으로 자동 화살표 경로를 계산합니다. [검증과 제한](docs/verification/v3.94-routing-20261013.md). 패키지: `designing-relation-diagrams-v3.94-cli.skill`.
