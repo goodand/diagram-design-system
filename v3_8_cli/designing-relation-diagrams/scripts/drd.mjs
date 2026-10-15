@@ -5,7 +5,7 @@ import { createHash } from 'node:crypto';
 import path from 'node:path';
 import { parseArgs } from './_args.mjs';
 import { loadIr, gates, DDS } from './lib/engine.mjs';
-import { renderSvg, renderHtml } from './lib/render.mjs';
+import { renderSvg, renderHtml, renderIndependentCoreSvg } from './lib/render.mjs';
 import { candidates } from './lib/candidates.mjs';
 import { toPng } from './lib/png.mjs';
 import { context, schema, workflowState } from './lib/workflow.mjs';
@@ -58,6 +58,19 @@ if (cmd === 'version' || cmd === '--version') {
   try { console.log(JSON.stringify((cmd === 'schema' ? schema : context)(A.pos[0]),null,2)); } catch(e) { bad(e.message); }
 } else if (cmd === 'workflow') {
   const P = prepare(A.pos[0]); console.log(JSON.stringify(P.workflow || {stage:'legacy',next_actions:['author_l0_summary']},null,2)); process.exit(P.g.exit);
+} else if (cmd === 'independent-core') {
+  const out=val(outIdx);
+  if (!A.pos[0] || !out) bad('independent-core <Core.json> --out <new-directory>');
+  if (existsSync(out)) bad('independent-core requires a new output directory to preserve earlier artifacts');
+  const P=prepare(A.pos[0]);
+  if(P.g.exit) done([`STATUS ${P.g.status}`,...rejLines(P.g)],P.g.exit);
+  let svg;try {svg=await renderIndependentCoreSvg(P.ir);}catch(e){bad(e.message);}
+  mkdirSync(out,{recursive:true});
+  writeFileSync(path.join(out,'diagram.svg'),svg);
+  writeFileSync(path.join(out,'ir.json'),P.text);
+  const png=toPng(path.join(out,'diagram.svg'),path.join(out,'diagram.png'));
+  writeFileSync(path.join(out,'receipt.json'),JSON.stringify({author:'chatgpt_gpt6',view:'Independent_Core_View',audience:'ToolUsingAgent',source:path.resolve(A.pos[0]),source_sha256:sha(Buffer.from(P.text)),svg_sha256:sha(Buffer.from(svg)),png_sha256:png.ok?sha(readFileSync(path.join(out,'diagram.png'))):null,png_attempts:png.attempts,image_read_status:'PENDING',html:false},null,2));
+  done([`STATUS ${png.ok?'GENERATED_IMAGE_READ_REQUIRED':'PNG_CONVERSION_FAILED'}`,`wrote ${out}`],png.ok?0:1);
 } else if (cmd === 'finalize') {
   const out = val(outIdx); if (!A.pos[0] || !out) { console.error(usage); process.exit(2); }
   // macOS: cwd is reported as /private/var/..; prefer the equivalent /var/.. form the caller used.
