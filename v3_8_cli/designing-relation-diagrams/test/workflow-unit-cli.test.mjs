@@ -27,10 +27,11 @@ test('canonical Function_Definition CLI preserves source type and renders static
   assert.equal(JSON.parse(run('workflow',src).stdout).summary_guidance,receipt.workflow.summary_guidance);
   assert.match(run('check',src).stdout,/GUIDE 반복이 하나의 Process/);
   assert.equal(receipt.workflow.stage,'Function_Definition'); assert.equal(receipt.options.level,0);
-  const html=readFileSync(path.join(out,'diagram.html'),'utf8'); assert.match(html,/"diagram_type":"l0_summary"/);
+  assert.equal(receipt.outputs.html.path,'function.common.html');
+  const html=readFileSync(path.join(out,receipt.outputs.html.path),'utf8'); assert.match(html,/"diagram_type":"l0_summary"/);
   assert.equal(run('verify',out).status,0);
   ir.nodes.push({id:'extra',role:'process',label:'Too early'}); writeFileSync(src,JSON.stringify(ir));
-  assert.notEqual(run('finalize',src,'--out',out).status,0); assert.equal(existsSync(path.join(out,'diagram.html')),false);
+  assert.notEqual(run('finalize',src,'--out',out).status,0); assert.equal(existsSync(path.join(out,receipt.outputs.html.path)),false);
  } finally {rmSync(dir,{recursive:true,force:true});}
 });
 test('context and schema default to Function_Definition; version is v3.95-cli',()=>{

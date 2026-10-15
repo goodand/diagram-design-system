@@ -9,5 +9,5 @@
    - 재현: 실행한 명령과 사용한 IR
    - 기대한 결과
    - 임시 대응과 그 결과
-4. **임시 대응은 IR 쪽에서만 한다.** 예: 좌표를 옮기거나 여백을 넓힌다. 임시 대응 후 `finalize`를 다시 돌리고 `diagram.png`를 다시 READ해 식별·대조가 유지되는지 확인한다.
+4. **임시 대응은 IR 쪽에서만 한다.** 예: 좌표를 옮기거나 여백을 넓힌다. 임시 대응 후 `finalize`를 다시 돌리고 receipt에 기록된 PNG를 다시 READ해 식별·대조가 유지되는지 확인한다.
 5. 임시 대응으로도 식별·대조가 지켜지지 않으면, 그 부분은 보류로 두고 그 이유를 notes에 적는다([references/human-decisions.md](../references/human-decisions.md)).

@@ -1,3 +1,4 @@
+import {outputPath} from './output-path.mjs';
 // Real-browser check against the generated project fixture. Author: chatgpt_gpt6.
 import { createRequire } from 'node:module';
 import { pathToFileURL } from 'node:url';
@@ -10,7 +11,7 @@ const page=await browser.newPage({viewport:{width:1200,height:1200}}), errors=[]
 page.on('pageerror',e=>errors.push(e.message));
 const node=id=>page.locator(`.dds-node[data-id="${id}"]`);
 try {
-  await page.goto(pathToFileURL(path.join(dir,'L1-full/diagram.html')).href);
+  await page.goto(pathToFileURL(outputPath(path.join(dir,'L1-full'),'html')).href);
   assert.equal(await page.getByRole('button',{name:/재생/}).count(),0);
   assert.equal(await page.locator('.dds-node').count(),11);
   const original = await page.locator('.dds-node').evaluateAll(ns=>ns.map(n=>[n.dataset.id,n.textContent]));
@@ -28,7 +29,7 @@ try {
   assert.equal(await page.locator('.dds-node').count(),11);
   assert.deepEqual(await page.locator('.dds-node').evaluateAll(ns=>ns.map(n=>[n.dataset.id,n.textContent])),original);
 
-  await page.goto(pathToFileURL(path.join(dir,'L1-partial/diagram.html')).href);
+  await page.goto(pathToFileURL(outputPath(path.join(dir,'L1-partial'),'html')).href);
   assert.equal(await page.locator('.dds-node').count(),3);
   assert.equal(await page.getByRole('button',{name:'펼치기: 사업정보 분석',exact:true}).count(),1);
   await page.getByRole('button',{name:'펼치기: 사업정보 분석',exact:true}).click();
@@ -46,7 +47,7 @@ try {
   await page.getByRole('button',{name:'펼치기: 사업정보 분석',exact:true}).click();
   assert.equal(await page.locator('.dds-node').count(),7);
 
-  await page.goto(pathToFileURL(path.join(dir,'L0/diagram.html')).href);
+  await page.goto(pathToFileURL(outputPath(path.join(dir,'L0'),'html')).href);
   assert.equal(await page.locator('.dds-node').count(),3);
   assert.equal(await page.getByRole('button',{name:/접기|펼치기/}).count(),0);
   assert.equal(await page.getByRole('button').count(),0);

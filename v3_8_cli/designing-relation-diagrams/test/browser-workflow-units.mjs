@@ -1,3 +1,4 @@
+import {outputPath} from './output-path.mjs';
 // Main-run browser check for the actual v3.9 budget example. Author: chatgpt_gpt6.
 import {createRequire} from 'node:module';
 import {pathToFileURL} from 'node:url';
@@ -10,7 +11,7 @@ const browser=await chromium.launch({headless:true,...(process.env.DDS_BROWSER?{
 try {
  const page=await browser.newPage({viewport:{width:1100,height:1200}});
  page.on('pageerror',e=>errors.push(e.message)); await page.clock.install();
- const open=async name=>page.goto(pathToFileURL(path.join(dir,name,'diagram.html')).href);
+ const open=async name=>page.goto(pathToFileURL(outputPath(path.join(dir,name),'html')).href);
  const node=id=>page.locator(`.dds-node[data-id="${id}"]`);
  for(const [name,count] of [['Function_Definition',3],['Process_Summary',4]]) {
   await open(name); assert.equal(await page.locator('.dds-node').count(),count);

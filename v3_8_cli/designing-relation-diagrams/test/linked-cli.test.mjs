@@ -16,7 +16,9 @@ test('CLI composes presentation only and verify rejects changed child bytes',()=
  const out=path.join(x.dir,'out'),result=run('finalize',x.parentPath,'--out',out);
  assert.equal(result.status,0,result.stdout+result.stderr);
  assert.equal(readFileSync(path.join(out,'ir.json'),'utf8'),readFileSync(x.parentPath,'utf8'));
- assert.match(readFileSync(path.join(out,'diagram.html'),'utf8'),/"linked_detail":true/);
+ const receipt=JSON.parse(readFileSync(path.join(out,'receipt.json')));
+ assert.equal(receipt.outputs.html.path,'full.human.html');
+ assert.match(readFileSync(path.join(out,receipt.outputs.html.path),'utf8'),/"linked_detail":true/);
  assert.equal(run('verify',out).status,0);
  const child=path.join(x.dir,x.child.fullRef.path);writeFileSync(child,readFileSync(child,'utf8')+' ');
  const invalid=run('verify',out);assert.notEqual(invalid.status,0);assert.match(invalid.stdout,/SHA-256 mismatch/);
