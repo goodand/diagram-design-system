@@ -37,7 +37,7 @@ export async function captureCore({html,out,width=1200,height=900,channel=proces
    if(errors.length)throw Error(errors.join('\n'));
    const observed=await page.evaluate(()=>({nodes:[...document.querySelectorAll('#host .dds-node')].map(n=>n.dataset.id),buttons:[...document.querySelectorAll('button')].map(n=>n.textContent),tokens:document.querySelectorAll('.dds-token').length,focus:!!document.querySelector('svg.is-focus'),scale:visualViewport?.scale||1,svgViewBox:document.querySelector('#host svg').getAttribute('viewBox')}));
    if(observed.tokens||observed.focus)throw Error('Static capture has residual animation/focus');
-   const image=`${state}.png`;await page.screenshot({path:path.join(out,image)});
+   const image=`core.human.${state}.png`;await page.screenshot({path:path.join(out,image)});
    m.states.push({state,image,sha256:sha(fs.readFileSync(path.join(out,image))),...observed});
   }
   if(sha(fs.readFileSync(html))!==m.sourceSha256)throw Error('HTML changed while capturing');

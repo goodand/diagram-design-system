@@ -12,10 +12,11 @@ import { context, schema, workflowState } from './lib/workflow.mjs';
 import { runtimeIr, runtimeType } from './lib/workflow-units.mjs';
 import { routingCache } from './lib/routing-cache.mjs';
 import { composeLinkedDiagrams } from './lib/linked-diagrams.mjs';
+import { viewStem, viewOutputNames } from './lib/view-names.mjs';
 const VERSION = 'v3.95-cli';
 const FUNCTION_GUIDE = '반복이 하나의 Process 내부에서 완결되는 기능은 Linear Summary로 표현하고, Core에서 Cycle을 구체화한다. Summary에서는 반복 수행을 하나의 Process로 취급하고, 별도 Process에 반복 종료 여부를 판정하는 Gate를 둘 수 있다.';
 const TAIL = 'SELF-CHECK ONLY — NOT DONE. Final status is decided by the external judge.';
-const OUTS = ['diagram.svg', 'diagram.html', 'diagram.png', 'ir.json', 'receipt.json'];
+const OUTS = [...viewOutputNames, 'ir.json', 'receipt.json'];
 const sha = (b) => createHash('sha256').update(b).digest('hex');
 const done = (lines, code) => { console.log([...lines, TAIL].join('\n')); process.exit(code); };
 const [cmd, ...rest] = process.argv.slice(2);
@@ -66,10 +67,11 @@ if (cmd === 'version' || cmd === '--version') {
   if(P.g.exit) done([`STATUS ${P.g.status}`,...rejLines(P.g)],P.g.exit);
   let svg;try {svg=await renderIndependentCoreSvg(P.ir);}catch(e){bad(e.message);}
   mkdirSync(out,{recursive:true});
-  writeFileSync(path.join(out,'diagram.svg'),svg);
+  const stem=viewStem(P.ir.diagram_type,'agent');
+  writeFileSync(path.join(out,`${stem}.svg`),svg);
   writeFileSync(path.join(out,'ir.json'),P.text);
-  const png=toPng(path.join(out,'diagram.svg'),path.join(out,'diagram.png'));
-  writeFileSync(path.join(out,'receipt.json'),JSON.stringify({author:'chatgpt_gpt6',view:'Independent_Core_View',audience:'ToolUsingAgent',source:path.resolve(A.pos[0]),source_sha256:sha(Buffer.from(P.text)),svg_sha256:sha(Buffer.from(svg)),png_sha256:png.ok?sha(readFileSync(path.join(out,'diagram.png'))):null,png_attempts:png.attempts,image_read_status:'PENDING',html:false},null,2));
+  const png=toPng(path.join(out,`${stem}.svg`),path.join(out,`${stem}.png`));
+  writeFileSync(path.join(out,'receipt.json'),JSON.stringify({author:'chatgpt_gpt6',view:stem,audience:'agent',source:path.resolve(A.pos[0]),source_sha256:sha(Buffer.from(P.text)),svg:{path:`${stem}.svg`,sha256:sha(Buffer.from(svg))},png:png.ok?{path:`${stem}.png`,sha256:sha(readFileSync(path.join(out,`${stem}.png`)))}:null,png_attempts:png.attempts,image_read_status:'PENDING',html:false},null,2));
   done([`STATUS ${png.ok?'GENERATED_IMAGE_READ_REQUIRED':'PNG_CONVERSION_FAILED'}`,`wrote ${out}`],png.ok?0:1);
 } else if (cmd === 'finalize') {
   const out = val(outIdx); if (!A.pos[0] || !out) { console.error(usage); process.exit(2); }
@@ -91,11 +93,12 @@ if (cmd === 'version' || cmd === '--version') {
     catch(e) { bad(`edge routing failed: ${e.message}`); }
   }
   let svg; try { svg = renderSvg(P.presentation, A); } catch (e) { console.error(`render failed: ${e.message}`); process.exit(1); }
-  const files = { ir: ['ir.json', P.text], svg: ['diagram.svg', svg], html: ['diagram.html', renderHtml(svg, JSON.stringify(P.presentation), A)] };
+  const stem=viewStem(P.ir.diagram_type);
+  const files = { ir: ['ir.json', P.text], svg: [`${stem}.svg`, svg], html: [`${stem}.html`, renderHtml(svg, JSON.stringify(P.presentation), A)] };
   const outputs = {};
   for (const [k, [n, c]] of Object.entries(files)) { writeFileSync(path.join(out, n), c); outputs[k] = { path: n, sha256: sha(Buffer.from(c)) }; }
-  const pp = path.join(out, 'diagram.png'), png = toPng(path.join(out, 'diagram.svg'), pp);
-  outputs.png = png.ok ? { path: 'diagram.png', sha256: sha(readFileSync(pp)) } : null;
+  const pp = path.join(out, `${stem}.png`), png = toPng(path.join(out, `${stem}.svg`), pp);
+  outputs.png = png.ok ? { path: `${stem}.png`, sha256: sha(readFileSync(pp)) } : null;
   const C = g.groups.length ? candidates(P.ir, g.groups, A, outAbs, out, svg) : { review_pending: [], lines: [] };
   const receipt = { schema: 'drd-receipt-v1', dds_version:VERSION, created_at: new Date().toISOString(), ir_source: irPath, ir_sha256: sha(Buffer.from(P.text)), decisions_sha256: P.sha,
     options: { level: A.level, expand: A.expand, collapse: A.collapse, focus: A.focus }, workflow:P.workflow, decisions_source:P.decisions_source, outputs, png_attempts: png.attempts, checks: g.checks, warnings: g.warns, review_pending: C.review_pending };
@@ -116,9 +119,9 @@ if (cmd === 'version' || cmd === '--version') {
   const bads = [], miss = [];
   for (const [k, o] of Object.entries(rc.outputs || {})) { if (!o) continue; const p = path.join(dir, o.path); if (!existsSync(p)) miss.push(o.path); else if (sha(readFileSync(p)) !== o.sha256) bads.push(o.path); }
   put('S6', bads.length || miss.length ? 'INCONSISTENT' : 'CONSISTENT', bads.length || miss.length ? `sha mismatch [${bads}] missing [${miss}] -> rerun finalize` : 'every receipt output exists and sha256 matches');
-  const sp = path.join(dir, 'diagram.svg'), hp = path.join(dir, 'diagram.html');
+  const sp = path.join(dir, rc.outputs?.svg?.path || 'diagram.svg'), hp = path.join(dir, rc.outputs?.html?.path || 'diagram.html');
   const emb = existsSync(sp) && existsSync(hp) && readFileSync(hp, 'utf8').includes(readFileSync(sp, 'utf8'));
-  put('S8', emb ? 'CONSISTENT' : 'INCONSISTENT', emb ? 'diagram.svg found verbatim in diagram.html' : 'diagram.svg not found verbatim in diagram.html -> rerun finalize');
+  put('S8', emb ? 'CONSISTENT' : 'INCONSISTENT', emb ? 'receipt SVG found verbatim in receipt HTML' : 'receipt SVG not found verbatim in receipt HTML -> rerun finalize');
   const src = val(irIdx) || rc.ir_source;
   if (!src || !existsSync(src)) put('S1', 'UNKNOWN', `source IR not found: ${src}`);
   else { const same = sha(readFileSync(src)) === rc.ir_sha256; put('S1', same ? 'CONSISTENT' : 'INCONSISTENT', same ? 'source IR sha256 equals receipt.ir_sha256' : `source IR ${src} changed since finalize -> rerun finalize`); }

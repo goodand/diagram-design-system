@@ -5,6 +5,8 @@ description: Draws node-link diagrams in the Version B visual language for four 
 
 # Designing relation diagrams
 
+현재 출력 파일명은 [View 산출물 명명 계약](references/view-artifacts.md)을 따른다. 과거 예시의 `diagram.*` 대신 해당 View 이름과 receipt의 경로를 사용한다.
+
 > **경고: 요청한 관계 유형이 이 skill에 없을 수 있다.**
 > 이 skill은 네 가지 관계 유형만 규칙으로 정의한다. 그리기 전에 반드시 요청의 관계 유형부터 판정한다.
 
@@ -14,13 +16,13 @@ Agent는 **IR(JSON)과 `decisions.json`만 쓴다.** SVG·HTML·PNG는 `node scr
 
 ### Core Human_View의 선택적 상태 이미지
 
-Human 피드백 또는 UX 평가가 필요할 때 `node scripts/capture-core.mjs --html <diagram.html> --out <새 디렉터리> [--width 1200 --height 900]`를 호출한다. 실제 HTML을 브라우저에서 열고 UI 버튼으로 접힘·펼침을 만든 viewport 이미지 `collapsed.png`, `expanded.png` 및 `capture.json`을 저장한다. JSON으로 별도 재렌더하지 않는다. 두 이미지를 직접 READ하고 수정 대상이 내용인지 표현인지 판단한다. 기본 finalize에서는 실행하지 않는다.
+Human 피드백 또는 UX 평가가 필요할 때 `node scripts/capture-core.mjs --html <core.human.html> --out <새 디렉터리> [--width 1200 --height 900]`를 호출한다. 실제 HTML을 브라우저에서 열고 UI 버튼으로 접힘·펼침을 만든 viewport 이미지 `core.human.collapsed.png`, `core.human.expanded.png` 및 `capture.json`을 저장한다. JSON으로 별도 재렌더하지 않는다. 두 이미지를 직접 READ하고 수정 대상이 내용인지 표현인지 판단한다. 기본 finalize에서는 실행하지 않는다.
 
 실행 환경에 Playwright와 Chromium이 필요하다. 설치된 Playwright 경로는 `DRD_PLAYWRIGHT_MODULE`, 브라우저 채널은 `DRD_CAPTURE_CHANNEL`로 지정할 수 있다. 캡처 실패는 INCOMPLETE로 기록되며 이미지 생성 성공도 UX 합격이나 IMAGE READ 완료가 아니다. 현재 Core 양끝 상태만 지원하며 Full/중첩 전체 상태 열거·애니메이션 검토는 포함하지 않는다. 외부 HTTP(S) 리소스를 차단하므로 self-contained DDS HTML을 사용한다.
 
 ### Independent Core 실행
 
-Core JSON 작성·수정 후 `node scripts/drd.mjs independent-core <Core.json> --out <새 디렉터리>`를 실행하고 `diagram.png`를 직접 IMAGE READ한다. 이는 Human UI를 펼친 캡처가 아니라 Core 원본을 직접 렌더한 독립 View다. SVG·PNG·원본 IR·출처 해시 receipt를 생성하며 HTML, 접기 버튼, Hover, 애니메이션은 없다. 관찰한 문제는 원본 JSON에서 수정하고 새 디렉터리에 재생성한다. 이미지 생성 성공은 검토 완료를 뜻하지 않는다. 이후 Human 검토·Full 취합 절차는 별도로 유지한다.
+Core JSON 작성·수정 후 `node scripts/drd.mjs independent-core <Core.json> --out <새 디렉터리>`를 실행하고 `core.agent.png`를 직접 IMAGE READ한다. 이는 Human UI를 펼친 캡처가 아니라 Core 원본을 직접 렌더한 독립 View다. SVG·PNG·원본 IR·출처 해시 receipt를 생성하며 HTML, 접기 버튼, Hover, 애니메이션은 없다. 관찰한 문제는 원본 JSON에서 수정하고 새 디렉터리에 재생성한다. 이미지 생성 성공은 검토 완료를 뜻하지 않는다. 이후 Human 검토·Full 취합 절차는 별도로 유지한다.
 
 현재 입력은 `Process_Core`이며 명시적 `parent`/`expandAt`/linked hierarchy는 의미를 임의 제거하지 않도록 거부한다. Summary 참조에서 생성하던 UI 자동 접기는 독립 렌더에 적용하지 않는다. PNG 변환 실패는 명령 실패로 보고한다.
 
@@ -64,7 +66,7 @@ Core JSON 작성·수정 후 `node scripts/drd.mjs independent-core <Core.json> 
    node scripts/drd.mjs finalize diagram.json --out out/L0 --level 0
    ```
 
-3. exit 0이면 `out/L0/diagram.png`를 **이미지로 직접 READ**해 식별·대조를 판정하고, 이미지가 실제 내용과 같은 뜻인지 의미 정합 대조표로 평가하고([cli.md](references/cli.md) "exit 0 이후" 2), 렌더링을 Human에게 보여 피드백을 받는다. Human이 고치라고 하면 IR을 고쳐 L0부터 다시 그린다. 관계 유형마다 규칙이 다르다(유형 파일). PNG가 없으면 S7 UNKNOWN(이미지 READ 보류)으로 이유와 함께 보고한다.
+3. exit 0이면 `out/L0/function.common.png`를 **이미지로 직접 READ**해 식별·대조를 판정하고, 이미지가 실제 내용과 같은 뜻인지 의미 정합 대조표로 평가하고([cli.md](references/cli.md) "exit 0 이후" 2), 렌더링을 Human에게 보여 피드백을 받는다. Human이 고치라고 하면 IR을 고쳐 L0부터 다시 그린다. 관계 유형마다 규칙이 다르다(유형 파일). PNG가 없으면 S7 UNKNOWN(이미지 READ 보류)으로 이유와 함께 보고한다.
 4. 이전 작업의 `l0_summary/l1_partial/l1_full` 입력을 유지보수할 때만 [workflow.md](references/workflow.md)를 따른다. 레거시 파일의 렌더 계약은 새 Workflow Unit의 단계 진행·승인을 충족하지 않는다.
 5. `STATUS REVIEW_PENDING`이면 Human 검토를 기다리는 Agent의 묶음 결정이 있다는 뜻이다. Human의 보류·미결정으로 기록하지 않는다(DEC-136). 그 묶음은 실선으로(점선은 원천이 미정이라고 표현한 경우만, DEC-141) 그리고, 검토 대기는 REVIEW 보고 글로 알린다 (DEC-133). 출력된 `REVIEW` 블록을 최종 보고에 그대로 넣어 Human 검토를 받는다. Human 답에 따라 `source:"human"` + `decision_ref`를 넣거나 묶음을 지우고 다시 그린다.
 6. IR을 고쳤다면 마지막 IR로 `finalize`부터 다시 돌린다.
