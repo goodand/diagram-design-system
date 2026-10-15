@@ -22,6 +22,8 @@ Human 피드백 또는 UX 평가가 필요할 때 `node scripts/capture-core.mjs
 
 ### Independent Core 실행
 
+Full의 선택적 이미지 출력은 `node scripts/capture-full.mjs --html <full.human.html> --out <새 디렉터리> [--width 1200 --height 900]`를 사용한다. 중첩 없는 1–3개 접기 대상의 전체 조합을 실제 HTML UI 클릭으로 생성한다. `full.human.state-00.png` 등의 이미지와 `capture.json`에 펼친 node ID 목록·전체 예상 상태 수를 기록한다. 기본 finalize에서는 실행하지 않는다. Depth/linked 중첩은 다음 버전으로 보류하며 현재 명령은 거부한다. 이미지 생성 후 Agent가 직접 READ해야 한다.
+
 Core JSON 작성·수정 후 `node scripts/drd.mjs independent-core <Core.json> --out <새 디렉터리>`를 실행하고 `core.agent.png`를 직접 IMAGE READ한다. 이는 Human UI를 펼친 캡처가 아니라 Core 원본을 직접 렌더한 독립 View다. SVG·PNG·원본 IR·출처 해시 receipt를 생성하며 HTML, 접기 버튼, Hover, 애니메이션은 없다. 관찰한 문제는 원본 JSON에서 수정하고 새 디렉터리에 재생성한다. 이미지 생성 성공은 검토 완료를 뜻하지 않는다. 이후 Human 검토·Full 취합 절차는 별도로 유지한다.
 
 현재 입력은 `Process_Core`이며 명시적 `parent`/`expandAt`/linked hierarchy는 의미를 임의 제거하지 않도록 거부한다. Summary 참조에서 생성하던 UI 자동 접기는 독립 렌더에 적용하지 않는다. PNG 변환 실패는 명령 실패로 보고한다.
