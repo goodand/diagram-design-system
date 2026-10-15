@@ -10,7 +10,8 @@ export async function routingCache(ir, DDS, level=1) {
     const view=DDS.view(source,level,{expand,collapse});
     const key=DDS.routingKey(view);
     if(cache[key]) continue;
-    const input={nodes:view.nodes.map(n=>({id:n.id,...DDS.box(n)})),edges:view.edges.map((e,i)=>({id:String(i),from:e.from,to:e.to}))};
+    const input={nodes:view.nodes.map(n=>({id:n.id,...DDS.box(n)})),edges:view.edges.map((e,i)=>({id:String(i),from:e.from,to:e.to,
+      ...(e.fromSide!==undefined?{fromSide:e.fromSide}:{}),...(e.toSide!==undefined?{toSide:e.toSide}:{})}))};
     const routes=await routeView(input);
     cache[key]=view.edges.map((_,i)=>({pts:routes[String(i)].map(p=>[p.x,p.y])}));
     if(cache[key].some(r=>r.pts.length<2||r.pts.some(p=>p.some(v=>!Number.isFinite(v))))) throw Error('Invalid libavoid routing result');

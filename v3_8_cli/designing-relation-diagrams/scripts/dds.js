@@ -144,7 +144,7 @@
   }
   function pathD(r) { return r.d || ('M' + r.pts.map(function (p) { return p.join(','); }).join(' L')); }
   function routingKey(v) {
-    return JSON.stringify([v.nodes.map(function(n){var b=box(n);return [n.id,b.x,b.y,b.w,b.h];}),v.edges.map(function(e){return [e.id,e.from,e.to];})]);
+    return JSON.stringify([v.nodes.map(function(n){var b=box(n);return [n.id,b.x,b.y,b.w,b.h];}),v.edges.map(function(e){var key=[e.id,e.from,e.to];if(e.fromSide!==undefined||e.toSide!==undefined)key.push(e.fromSide||null,e.toSide||null);return key;})]);
   }
   function longestSeg(pts) {
     var best = 0, bi = 0;
