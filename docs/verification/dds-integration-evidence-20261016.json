@@ -1,0 +1,1488 @@
+{
+  "recorded_on": "2026-10-16",
+  "subject": "Tool Developer Agent",
+  "human_approval": false,
+  "scope": "Local implementation and regression evidence; not universal UX approval",
+  "items": [
+    {
+      "workspace_path": "outputs/dds-boundary-product-check-20261016/topology/checks.json",
+      "sha256": "0fb00d36a5c199269389ccaec64575645c85210b4e3f246804066aed650d7d1c",
+      "evidence": {
+        "scope": "CLI and structural regression; not Human UX approval",
+        "cases": 9,
+        "states": 36,
+        "passed": true,
+        "failures": []
+      }
+    },
+    {
+      "workspace_path": "outputs/dds-boundary-product-check-20261016/interactions.json",
+      "sha256": "5e9f2565179a6367e0832e9d14ed05ec39e461f4b041747115f56cd17f25c344",
+      "evidence": {
+        "passed": true,
+        "scope": "Browser behavior; visual quality requires IMAGE READ",
+        "rows": [
+          {
+            "id": "pair-linear-then-linear",
+            "sharedUnion": true,
+            "exactMembership": true,
+            "expectedUnique": [
+              "pair-linear-then-linear-a-in",
+              "pair-linear-then-linear-a-mid",
+              "pair-linear-then-linear-a-p1",
+              "pair-linear-then-linear-a-p2",
+              "pair-linear-then-linear-b-out",
+              "pair-linear-then-linear-boundary"
+            ],
+            "actualUnique": [
+              "pair-linear-then-linear-a-in",
+              "pair-linear-then-linear-a-mid",
+              "pair-linear-then-linear-a-p1",
+              "pair-linear-then-linear-a-p2",
+              "pair-linear-then-linear-b-out",
+              "pair-linear-then-linear-boundary"
+            ],
+            "uniqueNotWhole": true,
+            "tokenStarted": true,
+            "tokenStopped": true,
+            "leaveCleared": true,
+            "foldCleared": true,
+            "shared": [
+              {
+                "id": "pair-linear-then-linear-a-in",
+                "on": true
+              },
+              {
+                "id": "pair-linear-then-linear-a-p1",
+                "on": true
+              },
+              {
+                "id": "pair-linear-then-linear-a-mid",
+                "on": true
+              },
+              {
+                "id": "pair-linear-then-linear-a-p2",
+                "on": true
+              },
+              {
+                "id": "pair-linear-then-linear-boundary",
+                "on": true
+              },
+              {
+                "id": "pair-linear-then-linear-b-p1",
+                "on": true
+              },
+              {
+                "id": "pair-linear-then-linear-b-mid",
+                "on": true
+              },
+              {
+                "id": "pair-linear-then-linear-b-p2",
+                "on": true
+              },
+              {
+                "id": "pair-linear-then-linear-b-out",
+                "on": true
+              }
+            ],
+            "unique": [
+              {
+                "id": "pair-linear-then-linear-a-in",
+                "on": true
+              },
+              {
+                "id": "pair-linear-then-linear-a-p1",
+                "on": true
+              },
+              {
+                "id": "pair-linear-then-linear-a-mid",
+                "on": true
+              },
+              {
+                "id": "pair-linear-then-linear-a-p2",
+                "on": true
+              },
+              {
+                "id": "pair-linear-then-linear-boundary",
+                "on": true
+              },
+              {
+                "id": "pair-linear-then-linear-b-p1",
+                "on": false
+              },
+              {
+                "id": "pair-linear-then-linear-b-mid",
+                "on": false
+              },
+              {
+                "id": "pair-linear-then-linear-b-p2",
+                "on": false
+              },
+              {
+                "id": "pair-linear-then-linear-b-out",
+                "on": true
+              }
+            ],
+            "errors": []
+          },
+          {
+            "id": "pair-linear-then-diamond",
+            "sharedUnion": true,
+            "exactMembership": true,
+            "expectedUnique": [
+              "pair-linear-then-diamond-a-in",
+              "pair-linear-then-diamond-a-mid",
+              "pair-linear-then-diamond-a-p1",
+              "pair-linear-then-diamond-a-p2",
+              "pair-linear-then-diamond-b-out",
+              "pair-linear-then-diamond-boundary"
+            ],
+            "actualUnique": [
+              "pair-linear-then-diamond-a-in",
+              "pair-linear-then-diamond-a-mid",
+              "pair-linear-then-diamond-a-p1",
+              "pair-linear-then-diamond-a-p2",
+              "pair-linear-then-diamond-b-out",
+              "pair-linear-then-diamond-boundary"
+            ],
+            "uniqueNotWhole": true,
+            "tokenStarted": true,
+            "tokenStopped": true,
+            "leaveCleared": true,
+            "foldCleared": true,
+            "shared": [
+              {
+                "id": "pair-linear-then-diamond-a-in",
+                "on": true
+              },
+              {
+                "id": "pair-linear-then-diamond-a-p1",
+                "on": true
+              },
+              {
+                "id": "pair-linear-then-diamond-a-mid",
+                "on": true
+              },
+              {
+                "id": "pair-linear-then-diamond-a-p2",
+                "on": true
+              },
+              {
+                "id": "pair-linear-then-diamond-boundary",
+                "on": true
+              },
+              {
+                "id": "pair-linear-then-diamond-b-split",
+                "on": true
+              },
+              {
+                "id": "pair-linear-then-diamond-b-left",
+                "on": true
+              },
+              {
+                "id": "pair-linear-then-diamond-b-right",
+                "on": true
+              },
+              {
+                "id": "pair-linear-then-diamond-b-join",
+                "on": true
+              },
+              {
+                "id": "pair-linear-then-diamond-b-out",
+                "on": true
+              }
+            ],
+            "unique": [
+              {
+                "id": "pair-linear-then-diamond-a-in",
+                "on": true
+              },
+              {
+                "id": "pair-linear-then-diamond-a-p1",
+                "on": true
+              },
+              {
+                "id": "pair-linear-then-diamond-a-mid",
+                "on": true
+              },
+              {
+                "id": "pair-linear-then-diamond-a-p2",
+                "on": true
+              },
+              {
+                "id": "pair-linear-then-diamond-boundary",
+                "on": true
+              },
+              {
+                "id": "pair-linear-then-diamond-b-split",
+                "on": false
+              },
+              {
+                "id": "pair-linear-then-diamond-b-left",
+                "on": false
+              },
+              {
+                "id": "pair-linear-then-diamond-b-right",
+                "on": false
+              },
+              {
+                "id": "pair-linear-then-diamond-b-join",
+                "on": false
+              },
+              {
+                "id": "pair-linear-then-diamond-b-out",
+                "on": true
+              }
+            ],
+            "errors": []
+          },
+          {
+            "id": "pair-linear-then-cycle",
+            "sharedUnion": true,
+            "exactMembership": true,
+            "expectedUnique": [
+              "pair-linear-then-cycle-a-in",
+              "pair-linear-then-cycle-a-mid",
+              "pair-linear-then-cycle-a-p1",
+              "pair-linear-then-cycle-a-p2",
+              "pair-linear-then-cycle-b-out",
+              "pair-linear-then-cycle-boundary"
+            ],
+            "actualUnique": [
+              "pair-linear-then-cycle-a-in",
+              "pair-linear-then-cycle-a-mid",
+              "pair-linear-then-cycle-a-p1",
+              "pair-linear-then-cycle-a-p2",
+              "pair-linear-then-cycle-b-out",
+              "pair-linear-then-cycle-boundary"
+            ],
+            "uniqueNotWhole": true,
+            "tokenStarted": true,
+            "tokenStopped": true,
+            "leaveCleared": true,
+            "foldCleared": true,
+            "shared": [
+              {
+                "id": "pair-linear-then-cycle-a-in",
+                "on": true
+              },
+              {
+                "id": "pair-linear-then-cycle-a-p1",
+                "on": true
+              },
+              {
+                "id": "pair-linear-then-cycle-a-mid",
+                "on": true
+              },
+              {
+                "id": "pair-linear-then-cycle-a-p2",
+                "on": true
+              },
+              {
+                "id": "pair-linear-then-cycle-boundary",
+                "on": true
+              },
+              {
+                "id": "pair-linear-then-cycle-b-generate",
+                "on": true
+              },
+              {
+                "id": "pair-linear-then-cycle-b-candidate",
+                "on": true
+              },
+              {
+                "id": "pair-linear-then-cycle-b-evaluate",
+                "on": true
+              },
+              {
+                "id": "pair-linear-then-cycle-b-evidence",
+                "on": true
+              },
+              {
+                "id": "pair-linear-then-cycle-b-judge",
+                "on": true
+              },
+              {
+                "id": "pair-linear-then-cycle-b-out",
+                "on": true
+              }
+            ],
+            "unique": [
+              {
+                "id": "pair-linear-then-cycle-a-in",
+                "on": true
+              },
+              {
+                "id": "pair-linear-then-cycle-a-p1",
+                "on": true
+              },
+              {
+                "id": "pair-linear-then-cycle-a-mid",
+                "on": true
+              },
+              {
+                "id": "pair-linear-then-cycle-a-p2",
+                "on": true
+              },
+              {
+                "id": "pair-linear-then-cycle-boundary",
+                "on": true
+              },
+              {
+                "id": "pair-linear-then-cycle-b-generate",
+                "on": false
+              },
+              {
+                "id": "pair-linear-then-cycle-b-candidate",
+                "on": false
+              },
+              {
+                "id": "pair-linear-then-cycle-b-evaluate",
+                "on": false
+              },
+              {
+                "id": "pair-linear-then-cycle-b-evidence",
+                "on": false
+              },
+              {
+                "id": "pair-linear-then-cycle-b-judge",
+                "on": false
+              },
+              {
+                "id": "pair-linear-then-cycle-b-out",
+                "on": true
+              }
+            ],
+            "errors": []
+          },
+          {
+            "id": "pair-diamond-then-linear",
+            "sharedUnion": true,
+            "exactMembership": true,
+            "expectedUnique": [
+              "pair-diamond-then-linear-a-in",
+              "pair-diamond-then-linear-a-join",
+              "pair-diamond-then-linear-a-left",
+              "pair-diamond-then-linear-a-right",
+              "pair-diamond-then-linear-a-split",
+              "pair-diamond-then-linear-b-out",
+              "pair-diamond-then-linear-boundary"
+            ],
+            "actualUnique": [
+              "pair-diamond-then-linear-a-in",
+              "pair-diamond-then-linear-a-join",
+              "pair-diamond-then-linear-a-left",
+              "pair-diamond-then-linear-a-right",
+              "pair-diamond-then-linear-a-split",
+              "pair-diamond-then-linear-b-out",
+              "pair-diamond-then-linear-boundary"
+            ],
+            "uniqueNotWhole": true,
+            "tokenStarted": true,
+            "tokenStopped": true,
+            "leaveCleared": true,
+            "foldCleared": true,
+            "shared": [
+              {
+                "id": "pair-diamond-then-linear-a-in",
+                "on": true
+              },
+              {
+                "id": "pair-diamond-then-linear-a-split",
+                "on": true
+              },
+              {
+                "id": "pair-diamond-then-linear-a-left",
+                "on": true
+              },
+              {
+                "id": "pair-diamond-then-linear-a-right",
+                "on": true
+              },
+              {
+                "id": "pair-diamond-then-linear-a-join",
+                "on": true
+              },
+              {
+                "id": "pair-diamond-then-linear-boundary",
+                "on": true
+              },
+              {
+                "id": "pair-diamond-then-linear-b-p1",
+                "on": true
+              },
+              {
+                "id": "pair-diamond-then-linear-b-mid",
+                "on": true
+              },
+              {
+                "id": "pair-diamond-then-linear-b-p2",
+                "on": true
+              },
+              {
+                "id": "pair-diamond-then-linear-b-out",
+                "on": true
+              }
+            ],
+            "unique": [
+              {
+                "id": "pair-diamond-then-linear-a-in",
+                "on": true
+              },
+              {
+                "id": "pair-diamond-then-linear-a-split",
+                "on": true
+              },
+              {
+                "id": "pair-diamond-then-linear-a-left",
+                "on": true
+              },
+              {
+                "id": "pair-diamond-then-linear-a-right",
+                "on": true
+              },
+              {
+                "id": "pair-diamond-then-linear-a-join",
+                "on": true
+              },
+              {
+                "id": "pair-diamond-then-linear-boundary",
+                "on": true
+              },
+              {
+                "id": "pair-diamond-then-linear-b-p1",
+                "on": false
+              },
+              {
+                "id": "pair-diamond-then-linear-b-mid",
+                "on": false
+              },
+              {
+                "id": "pair-diamond-then-linear-b-p2",
+                "on": false
+              },
+              {
+                "id": "pair-diamond-then-linear-b-out",
+                "on": true
+              }
+            ],
+            "errors": []
+          },
+          {
+            "id": "pair-diamond-then-diamond",
+            "sharedUnion": true,
+            "exactMembership": true,
+            "expectedUnique": [
+              "pair-diamond-then-diamond-a-in",
+              "pair-diamond-then-diamond-a-join",
+              "pair-diamond-then-diamond-a-left",
+              "pair-diamond-then-diamond-a-right",
+              "pair-diamond-then-diamond-a-split",
+              "pair-diamond-then-diamond-b-out",
+              "pair-diamond-then-diamond-boundary"
+            ],
+            "actualUnique": [
+              "pair-diamond-then-diamond-a-in",
+              "pair-diamond-then-diamond-a-join",
+              "pair-diamond-then-diamond-a-left",
+              "pair-diamond-then-diamond-a-right",
+              "pair-diamond-then-diamond-a-split",
+              "pair-diamond-then-diamond-b-out",
+              "pair-diamond-then-diamond-boundary"
+            ],
+            "uniqueNotWhole": true,
+            "tokenStarted": true,
+            "tokenStopped": true,
+            "leaveCleared": true,
+            "foldCleared": true,
+            "shared": [
+              {
+                "id": "pair-diamond-then-diamond-a-in",
+                "on": true
+              },
+              {
+                "id": "pair-diamond-then-diamond-a-split",
+                "on": true
+              },
+              {
+                "id": "pair-diamond-then-diamond-a-left",
+                "on": true
+              },
+              {
+                "id": "pair-diamond-then-diamond-a-right",
+                "on": true
+              },
+              {
+                "id": "pair-diamond-then-diamond-a-join",
+                "on": true
+              },
+              {
+                "id": "pair-diamond-then-diamond-boundary",
+                "on": true
+              },
+              {
+                "id": "pair-diamond-then-diamond-b-split",
+                "on": true
+              },
+              {
+                "id": "pair-diamond-then-diamond-b-left",
+                "on": true
+              },
+              {
+                "id": "pair-diamond-then-diamond-b-right",
+                "on": true
+              },
+              {
+                "id": "pair-diamond-then-diamond-b-join",
+                "on": true
+              },
+              {
+                "id": "pair-diamond-then-diamond-b-out",
+                "on": true
+              }
+            ],
+            "unique": [
+              {
+                "id": "pair-diamond-then-diamond-a-in",
+                "on": true
+              },
+              {
+                "id": "pair-diamond-then-diamond-a-split",
+                "on": true
+              },
+              {
+                "id": "pair-diamond-then-diamond-a-left",
+                "on": true
+              },
+              {
+                "id": "pair-diamond-then-diamond-a-right",
+                "on": true
+              },
+              {
+                "id": "pair-diamond-then-diamond-a-join",
+                "on": true
+              },
+              {
+                "id": "pair-diamond-then-diamond-boundary",
+                "on": true
+              },
+              {
+                "id": "pair-diamond-then-diamond-b-split",
+                "on": false
+              },
+              {
+                "id": "pair-diamond-then-diamond-b-left",
+                "on": false
+              },
+              {
+                "id": "pair-diamond-then-diamond-b-right",
+                "on": false
+              },
+              {
+                "id": "pair-diamond-then-diamond-b-join",
+                "on": false
+              },
+              {
+                "id": "pair-diamond-then-diamond-b-out",
+                "on": true
+              }
+            ],
+            "errors": []
+          },
+          {
+            "id": "pair-diamond-then-cycle",
+            "sharedUnion": true,
+            "exactMembership": true,
+            "expectedUnique": [
+              "pair-diamond-then-cycle-a-in",
+              "pair-diamond-then-cycle-a-join",
+              "pair-diamond-then-cycle-a-left",
+              "pair-diamond-then-cycle-a-right",
+              "pair-diamond-then-cycle-a-split",
+              "pair-diamond-then-cycle-b-out",
+              "pair-diamond-then-cycle-boundary"
+            ],
+            "actualUnique": [
+              "pair-diamond-then-cycle-a-in",
+              "pair-diamond-then-cycle-a-join",
+              "pair-diamond-then-cycle-a-left",
+              "pair-diamond-then-cycle-a-right",
+              "pair-diamond-then-cycle-a-split",
+              "pair-diamond-then-cycle-b-out",
+              "pair-diamond-then-cycle-boundary"
+            ],
+            "uniqueNotWhole": true,
+            "tokenStarted": true,
+            "tokenStopped": true,
+            "leaveCleared": true,
+            "foldCleared": true,
+            "shared": [
+              {
+                "id": "pair-diamond-then-cycle-a-in",
+                "on": true
+              },
+              {
+                "id": "pair-diamond-then-cycle-a-split",
+                "on": true
+              },
+              {
+                "id": "pair-diamond-then-cycle-a-left",
+                "on": true
+              },
+              {
+                "id": "pair-diamond-then-cycle-a-right",
+                "on": true
+              },
+              {
+                "id": "pair-diamond-then-cycle-a-join",
+                "on": true
+              },
+              {
+                "id": "pair-diamond-then-cycle-boundary",
+                "on": true
+              },
+              {
+                "id": "pair-diamond-then-cycle-b-generate",
+                "on": true
+              },
+              {
+                "id": "pair-diamond-then-cycle-b-candidate",
+                "on": true
+              },
+              {
+                "id": "pair-diamond-then-cycle-b-evaluate",
+                "on": true
+              },
+              {
+                "id": "pair-diamond-then-cycle-b-evidence",
+                "on": true
+              },
+              {
+                "id": "pair-diamond-then-cycle-b-judge",
+                "on": true
+              },
+              {
+                "id": "pair-diamond-then-cycle-b-out",
+                "on": true
+              }
+            ],
+            "unique": [
+              {
+                "id": "pair-diamond-then-cycle-a-in",
+                "on": true
+              },
+              {
+                "id": "pair-diamond-then-cycle-a-split",
+                "on": true
+              },
+              {
+                "id": "pair-diamond-then-cycle-a-left",
+                "on": true
+              },
+              {
+                "id": "pair-diamond-then-cycle-a-right",
+                "on": true
+              },
+              {
+                "id": "pair-diamond-then-cycle-a-join",
+                "on": true
+              },
+              {
+                "id": "pair-diamond-then-cycle-boundary",
+                "on": true
+              },
+              {
+                "id": "pair-diamond-then-cycle-b-generate",
+                "on": false
+              },
+              {
+                "id": "pair-diamond-then-cycle-b-candidate",
+                "on": false
+              },
+              {
+                "id": "pair-diamond-then-cycle-b-evaluate",
+                "on": false
+              },
+              {
+                "id": "pair-diamond-then-cycle-b-evidence",
+                "on": false
+              },
+              {
+                "id": "pair-diamond-then-cycle-b-judge",
+                "on": false
+              },
+              {
+                "id": "pair-diamond-then-cycle-b-out",
+                "on": true
+              }
+            ],
+            "errors": []
+          },
+          {
+            "id": "pair-cycle-then-linear",
+            "sharedUnion": true,
+            "exactMembership": true,
+            "expectedUnique": [
+              "pair-cycle-then-linear-a-candidate",
+              "pair-cycle-then-linear-a-evaluate",
+              "pair-cycle-then-linear-a-evidence",
+              "pair-cycle-then-linear-a-generate",
+              "pair-cycle-then-linear-a-in",
+              "pair-cycle-then-linear-a-judge",
+              "pair-cycle-then-linear-b-out",
+              "pair-cycle-then-linear-boundary"
+            ],
+            "actualUnique": [
+              "pair-cycle-then-linear-a-candidate",
+              "pair-cycle-then-linear-a-evaluate",
+              "pair-cycle-then-linear-a-evidence",
+              "pair-cycle-then-linear-a-generate",
+              "pair-cycle-then-linear-a-in",
+              "pair-cycle-then-linear-a-judge",
+              "pair-cycle-then-linear-b-out",
+              "pair-cycle-then-linear-boundary"
+            ],
+            "uniqueNotWhole": true,
+            "tokenStarted": true,
+            "tokenStopped": true,
+            "leaveCleared": true,
+            "foldCleared": true,
+            "shared": [
+              {
+                "id": "pair-cycle-then-linear-a-in",
+                "on": true
+              },
+              {
+                "id": "pair-cycle-then-linear-a-generate",
+                "on": true
+              },
+              {
+                "id": "pair-cycle-then-linear-a-candidate",
+                "on": true
+              },
+              {
+                "id": "pair-cycle-then-linear-a-evaluate",
+                "on": true
+              },
+              {
+                "id": "pair-cycle-then-linear-a-evidence",
+                "on": true
+              },
+              {
+                "id": "pair-cycle-then-linear-a-judge",
+                "on": true
+              },
+              {
+                "id": "pair-cycle-then-linear-boundary",
+                "on": true
+              },
+              {
+                "id": "pair-cycle-then-linear-b-p1",
+                "on": true
+              },
+              {
+                "id": "pair-cycle-then-linear-b-mid",
+                "on": true
+              },
+              {
+                "id": "pair-cycle-then-linear-b-p2",
+                "on": true
+              },
+              {
+                "id": "pair-cycle-then-linear-b-out",
+                "on": true
+              }
+            ],
+            "unique": [
+              {
+                "id": "pair-cycle-then-linear-a-in",
+                "on": true
+              },
+              {
+                "id": "pair-cycle-then-linear-a-generate",
+                "on": true
+              },
+              {
+                "id": "pair-cycle-then-linear-a-candidate",
+                "on": true
+              },
+              {
+                "id": "pair-cycle-then-linear-a-evaluate",
+                "on": true
+              },
+              {
+                "id": "pair-cycle-then-linear-a-evidence",
+                "on": true
+              },
+              {
+                "id": "pair-cycle-then-linear-a-judge",
+                "on": true
+              },
+              {
+                "id": "pair-cycle-then-linear-boundary",
+                "on": true
+              },
+              {
+                "id": "pair-cycle-then-linear-b-p1",
+                "on": false
+              },
+              {
+                "id": "pair-cycle-then-linear-b-mid",
+                "on": false
+              },
+              {
+                "id": "pair-cycle-then-linear-b-p2",
+                "on": false
+              },
+              {
+                "id": "pair-cycle-then-linear-b-out",
+                "on": true
+              }
+            ],
+            "errors": []
+          },
+          {
+            "id": "pair-cycle-then-diamond",
+            "sharedUnion": true,
+            "exactMembership": true,
+            "expectedUnique": [
+              "pair-cycle-then-diamond-a-candidate",
+              "pair-cycle-then-diamond-a-evaluate",
+              "pair-cycle-then-diamond-a-evidence",
+              "pair-cycle-then-diamond-a-generate",
+              "pair-cycle-then-diamond-a-in",
+              "pair-cycle-then-diamond-a-judge",
+              "pair-cycle-then-diamond-b-out",
+              "pair-cycle-then-diamond-boundary"
+            ],
+            "actualUnique": [
+              "pair-cycle-then-diamond-a-candidate",
+              "pair-cycle-then-diamond-a-evaluate",
+              "pair-cycle-then-diamond-a-evidence",
+              "pair-cycle-then-diamond-a-generate",
+              "pair-cycle-then-diamond-a-in",
+              "pair-cycle-then-diamond-a-judge",
+              "pair-cycle-then-diamond-b-out",
+              "pair-cycle-then-diamond-boundary"
+            ],
+            "uniqueNotWhole": true,
+            "tokenStarted": true,
+            "tokenStopped": true,
+            "leaveCleared": true,
+            "foldCleared": true,
+            "shared": [
+              {
+                "id": "pair-cycle-then-diamond-a-in",
+                "on": true
+              },
+              {
+                "id": "pair-cycle-then-diamond-a-generate",
+                "on": true
+              },
+              {
+                "id": "pair-cycle-then-diamond-a-candidate",
+                "on": true
+              },
+              {
+                "id": "pair-cycle-then-diamond-a-evaluate",
+                "on": true
+              },
+              {
+                "id": "pair-cycle-then-diamond-a-evidence",
+                "on": true
+              },
+              {
+                "id": "pair-cycle-then-diamond-a-judge",
+                "on": true
+              },
+              {
+                "id": "pair-cycle-then-diamond-boundary",
+                "on": true
+              },
+              {
+                "id": "pair-cycle-then-diamond-b-split",
+                "on": true
+              },
+              {
+                "id": "pair-cycle-then-diamond-b-left",
+                "on": true
+              },
+              {
+                "id": "pair-cycle-then-diamond-b-right",
+                "on": true
+              },
+              {
+                "id": "pair-cycle-then-diamond-b-join",
+                "on": true
+              },
+              {
+                "id": "pair-cycle-then-diamond-b-out",
+                "on": true
+              }
+            ],
+            "unique": [
+              {
+                "id": "pair-cycle-then-diamond-a-in",
+                "on": true
+              },
+              {
+                "id": "pair-cycle-then-diamond-a-generate",
+                "on": true
+              },
+              {
+                "id": "pair-cycle-then-diamond-a-candidate",
+                "on": true
+              },
+              {
+                "id": "pair-cycle-then-diamond-a-evaluate",
+                "on": true
+              },
+              {
+                "id": "pair-cycle-then-diamond-a-evidence",
+                "on": true
+              },
+              {
+                "id": "pair-cycle-then-diamond-a-judge",
+                "on": true
+              },
+              {
+                "id": "pair-cycle-then-diamond-boundary",
+                "on": true
+              },
+              {
+                "id": "pair-cycle-then-diamond-b-split",
+                "on": false
+              },
+              {
+                "id": "pair-cycle-then-diamond-b-left",
+                "on": false
+              },
+              {
+                "id": "pair-cycle-then-diamond-b-right",
+                "on": false
+              },
+              {
+                "id": "pair-cycle-then-diamond-b-join",
+                "on": false
+              },
+              {
+                "id": "pair-cycle-then-diamond-b-out",
+                "on": true
+              }
+            ],
+            "errors": []
+          },
+          {
+            "id": "pair-cycle-then-cycle",
+            "sharedUnion": true,
+            "exactMembership": true,
+            "expectedUnique": [
+              "pair-cycle-then-cycle-a-candidate",
+              "pair-cycle-then-cycle-a-evaluate",
+              "pair-cycle-then-cycle-a-evidence",
+              "pair-cycle-then-cycle-a-generate",
+              "pair-cycle-then-cycle-a-in",
+              "pair-cycle-then-cycle-a-judge",
+              "pair-cycle-then-cycle-b-out",
+              "pair-cycle-then-cycle-boundary"
+            ],
+            "actualUnique": [
+              "pair-cycle-then-cycle-a-candidate",
+              "pair-cycle-then-cycle-a-evaluate",
+              "pair-cycle-then-cycle-a-evidence",
+              "pair-cycle-then-cycle-a-generate",
+              "pair-cycle-then-cycle-a-in",
+              "pair-cycle-then-cycle-a-judge",
+              "pair-cycle-then-cycle-b-out",
+              "pair-cycle-then-cycle-boundary"
+            ],
+            "uniqueNotWhole": true,
+            "tokenStarted": true,
+            "tokenStopped": true,
+            "leaveCleared": true,
+            "foldCleared": true,
+            "shared": [
+              {
+                "id": "pair-cycle-then-cycle-a-in",
+                "on": true
+              },
+              {
+                "id": "pair-cycle-then-cycle-a-generate",
+                "on": true
+              },
+              {
+                "id": "pair-cycle-then-cycle-a-candidate",
+                "on": true
+              },
+              {
+                "id": "pair-cycle-then-cycle-a-evaluate",
+                "on": true
+              },
+              {
+                "id": "pair-cycle-then-cycle-a-evidence",
+                "on": true
+              },
+              {
+                "id": "pair-cycle-then-cycle-a-judge",
+                "on": true
+              },
+              {
+                "id": "pair-cycle-then-cycle-boundary",
+                "on": true
+              },
+              {
+                "id": "pair-cycle-then-cycle-b-generate",
+                "on": true
+              },
+              {
+                "id": "pair-cycle-then-cycle-b-candidate",
+                "on": true
+              },
+              {
+                "id": "pair-cycle-then-cycle-b-evaluate",
+                "on": true
+              },
+              {
+                "id": "pair-cycle-then-cycle-b-evidence",
+                "on": true
+              },
+              {
+                "id": "pair-cycle-then-cycle-b-judge",
+                "on": true
+              },
+              {
+                "id": "pair-cycle-then-cycle-b-out",
+                "on": true
+              }
+            ],
+            "unique": [
+              {
+                "id": "pair-cycle-then-cycle-a-in",
+                "on": true
+              },
+              {
+                "id": "pair-cycle-then-cycle-a-generate",
+                "on": true
+              },
+              {
+                "id": "pair-cycle-then-cycle-a-candidate",
+                "on": true
+              },
+              {
+                "id": "pair-cycle-then-cycle-a-evaluate",
+                "on": true
+              },
+              {
+                "id": "pair-cycle-then-cycle-a-evidence",
+                "on": true
+              },
+              {
+                "id": "pair-cycle-then-cycle-a-judge",
+                "on": true
+              },
+              {
+                "id": "pair-cycle-then-cycle-boundary",
+                "on": true
+              },
+              {
+                "id": "pair-cycle-then-cycle-b-generate",
+                "on": false
+              },
+              {
+                "id": "pair-cycle-then-cycle-b-candidate",
+                "on": false
+              },
+              {
+                "id": "pair-cycle-then-cycle-b-evaluate",
+                "on": false
+              },
+              {
+                "id": "pair-cycle-then-cycle-b-evidence",
+                "on": false
+              },
+              {
+                "id": "pair-cycle-then-cycle-b-judge",
+                "on": false
+              },
+              {
+                "id": "pair-cycle-then-cycle-b-out",
+                "on": true
+              }
+            ],
+            "errors": []
+          }
+        ]
+      }
+    },
+    {
+      "workspace_path": "outputs/dds-boundary-product-check-20261016/core-hover-before/browser-check.json",
+      "sha256": "7b151ed489dd96110fc4308a8bfd3c7cd1eaca1c6eff2a0230926795834b161d",
+      "evidence": {
+        "passed": false,
+        "checks": [
+          {
+            "state": "collapsed",
+            "selector": ".dds-node",
+            "clean": false
+          },
+          {
+            "state": "collapsed",
+            "selector": ".dds-edge",
+            "clean": false
+          },
+          {
+            "state": "expanded",
+            "selector": ".dds-node",
+            "clean": false
+          },
+          {
+            "state": "expanded",
+            "selector": ".dds-edge",
+            "clean": false
+          },
+          {
+            "foldRoundTrip": true
+          }
+        ]
+      }
+    },
+    {
+      "workspace_path": "outputs/dds-boundary-product-check-20261016/core-hover-after/browser-check.json",
+      "sha256": "096797402619e86738c1f3c238c164a214dd1bddf4f4799804c301d88fc8618c",
+      "evidence": {
+        "passed": true,
+        "checks": [
+          {
+            "state": "collapsed",
+            "selector": ".dds-node",
+            "clean": true
+          },
+          {
+            "state": "collapsed",
+            "selector": ".dds-edge",
+            "clean": true
+          },
+          {
+            "state": "expanded",
+            "selector": ".dds-node",
+            "clean": true
+          },
+          {
+            "state": "expanded",
+            "selector": ".dds-edge",
+            "clean": true
+          },
+          {
+            "foldRoundTrip": true
+          }
+        ]
+      }
+    },
+    {
+      "workspace_path": "outputs/dds-boundary-product-check-20261016/package-smoke-v2/manifest.json",
+      "sha256": "5d82819ef5d6957e3d5e49cabca10accf782824abc0eb42cc43cf762ae095fd7",
+      "evidence": {
+        "development_only": true,
+        "published": false,
+        "files": [
+          {
+            "path": "designing-relation-diagrams/issue/script_defects.md",
+            "sha256": "fb2102fdbb27bed51914831184c55e7d46eba0de39012789325e56ad3ce86fc4"
+          },
+          {
+            "path": "designing-relation-diagrams/references/cli.md",
+            "sha256": "c6ee8fe886d31cd9954c6a26450b79ac91c942eb280a4f02f3d215b67dd8f340"
+          },
+          {
+            "path": "designing-relation-diagrams/references/expression-rules.md",
+            "sha256": "04a7570fb9a1a06d239988a1ff8d8969608b3264f56d8a7686e370a140a59a60"
+          },
+          {
+            "path": "designing-relation-diagrams/references/human-decisions.md",
+            "sha256": "dbb7b0b91a6fe6b8245c85aa844bb1e15e88661560abebc975dfd6dc61bc6600"
+          },
+          {
+            "path": "designing-relation-diagrams/references/information-amount.md",
+            "sha256": "3a560774474d3ea7e0c267cacba483a686c6698c58169a1f91109b8009c92cd2"
+          },
+          {
+            "path": "designing-relation-diagrams/references/ir.md",
+            "sha256": "6f98f1513a2b7df304d50ecb4f6c2d41116bf4b8a13291fbb5446f19318b6437"
+          },
+          {
+            "path": "designing-relation-diagrams/references/linked-diagrams.md",
+            "sha256": "fd10c1904fec538cc4f48caa8afda355268b67f28548388386b8777b0a4d5146"
+          },
+          {
+            "path": "designing-relation-diagrams/references/naming-dependency-audit.md",
+            "sha256": "93950589b3a594ebdb06e8840ce275c13aafc102d211ff01eff0715ceab382fd"
+          },
+          {
+            "path": "designing-relation-diagrams/references/view-artifacts.md",
+            "sha256": "7b12575133930a098900c438199d417bee26a5b4b10f1feae02af15d3a840437"
+          },
+          {
+            "path": "designing-relation-diagrams/references/workflow-units.md",
+            "sha256": "12c020a9d683a425fbf960d3b70fce8c794f8a4863de98129f93b5d24df1ff94"
+          },
+          {
+            "path": "designing-relation-diagrams/references/workflow-units.schema.json",
+            "sha256": "93028bcdacc46882d6f6f213326b1ec9046b7c9d5ad1043940d79f7f2f39f30c"
+          },
+          {
+            "path": "designing-relation-diagrams/references/workflow.md",
+            "sha256": "70f0a88550bae83d6158608ba6be5a1e3df574bb18807bc31e58bad84cf4cb6f"
+          },
+          {
+            "path": "designing-relation-diagrams/references/workflow.schema.json",
+            "sha256": "1d0633be814ec5f15f1caeae0ea2340263ca64c147ca568c2b8d92ea1117a829"
+          },
+          {
+            "path": "designing-relation-diagrams/relation_types/execution_flow.md",
+            "sha256": "059519c181710a5d5e665bfb8ad5a1d881a3bf3e0c71559bee64bb005d59b1d4"
+          },
+          {
+            "path": "designing-relation-diagrams/relation_types/goal_means.md",
+            "sha256": "6f93578e3496e06a98c6b94d48f24b3cc708bb79de4aa9be542c869a859a7802"
+          },
+          {
+            "path": "designing-relation-diagrams/relation_types/is_a.md",
+            "sha256": "a23c2b09d1948f8344fae8f36a5ae37999c28bc95478676f0e0f5d9b8ddd0e86"
+          },
+          {
+            "path": "designing-relation-diagrams/relation_types/whole_part.md",
+            "sha256": "08c136ebd1226fea84b9bf9df7bcf66896dcddf804f12b3a33e579a95e32a856"
+          },
+          {
+            "path": "designing-relation-diagrams/rules/design-system.md",
+            "sha256": "2c97645774c913f0d980445dcba01cd6ecd996f60a6f057df3e0fcb03dfee11a"
+          },
+          {
+            "path": "designing-relation-diagrams/scripts/_args.mjs",
+            "sha256": "f7a5038aff5554135c4ca28ee615921487973e82b3e46639bdc3952a98e5111a"
+          },
+          {
+            "path": "designing-relation-diagrams/scripts/_log.mjs",
+            "sha256": "a22ca552940231c3057e7d3e3b81b5764c1aedf81a350279287f251506a5a019"
+          },
+          {
+            "path": "designing-relation-diagrams/scripts/capture-core.mjs",
+            "sha256": "792ab15994f92b4e37e84fdaccfcae68bd2776564cd3739a6421eb5725bdbebe"
+          },
+          {
+            "path": "designing-relation-diagrams/scripts/capture-full.mjs",
+            "sha256": "9400a06bd824f36ead326ddc260271d9720f7c85323ce7c61f6b6b5c3bb5cc70"
+          },
+          {
+            "path": "designing-relation-diagrams/scripts/dds.js",
+            "sha256": "3638444f95709e6cb98db3b531ce3baa07b2f3efda1ddbc0ab4c19f9042a3ef7"
+          },
+          {
+            "path": "designing-relation-diagrams/scripts/drd.mjs",
+            "sha256": "593c33b237aadb373010b4b3a35e137d7f2c9019ef5c27368b8ee201c2d472de"
+          },
+          {
+            "path": "designing-relation-diagrams/scripts/lib/auto-layout.mjs",
+            "sha256": "8e9b6f21c920d299ff0f5ed0fcb608b64718c4698bebb48442966d30842306b5"
+          },
+          {
+            "path": "designing-relation-diagrams/scripts/lib/avoid-router.mjs",
+            "sha256": "b165a661d8f6a1907c08f9a35bf489ea8b1e5de7043259928c565c2ab76a7f28"
+          },
+          {
+            "path": "designing-relation-diagrams/scripts/lib/candidates.mjs",
+            "sha256": "8a02e0fa0461411c78c1c5d855a8302524a4eac6c1a2cd253525dbf5bea62194"
+          },
+          {
+            "path": "designing-relation-diagrams/scripts/lib/capture-core.mjs",
+            "sha256": "f1647b0dcf35b4e59ae05d2ebb9371f9b39eea9f261c25885b6441b8ba15154b"
+          },
+          {
+            "path": "designing-relation-diagrams/scripts/lib/engine.mjs",
+            "sha256": "80cad316b45b00252972e79b47b3407155cbf6eb017bab81ab2fe9cb4a509494"
+          },
+          {
+            "path": "designing-relation-diagrams/scripts/lib/layout/avoid-router.mjs",
+            "sha256": "bc897b1b9b07bdbe72a77fdec295d1c7cb836ce7fe8a74329a26a0929d6d6ce8"
+          },
+          {
+            "path": "designing-relation-diagrams/scripts/lib/layout/dds-elk.mjs",
+            "sha256": "1f9144b811c62a88ea8a00cea4046c85fd9e116bee53df2ad3844d6477272dc3"
+          },
+          {
+            "path": "designing-relation-diagrams/scripts/lib/layout/layout-adapter.mjs",
+            "sha256": "2f36ad117816fd6bcc24b833188b04d1e7ad4f307a7aeb97bba91ca1f9635f82"
+          },
+          {
+            "path": "designing-relation-diagrams/scripts/lib/linked-diagrams.mjs",
+            "sha256": "59b4a77f3d6cd382a6f8495f42cd4fea71cd7dcf1f368e8739cfeb22bb7021cb"
+          },
+          {
+            "path": "designing-relation-diagrams/scripts/lib/png.mjs",
+            "sha256": "a5188110c7b5fd60014b455abeddf6f8765d47bc076c9e5be7cba70f5932d30f"
+          },
+          {
+            "path": "designing-relation-diagrams/scripts/lib/render.mjs",
+            "sha256": "0fe958ca6749b08930d2ca44006202d51d0bf9efc03f6d8de093e380563463ef"
+          },
+          {
+            "path": "designing-relation-diagrams/scripts/lib/route-candidates.mjs",
+            "sha256": "d057009e59d4951f5d3fa917fb5c23b4465956c63309906098da8113d179b288"
+          },
+          {
+            "path": "designing-relation-diagrams/scripts/lib/routing-cache.mjs",
+            "sha256": "a75c02bc82cfbdf6e977af2e616a3b6521c341138d800d20fcd23cde0cb89bc7"
+          },
+          {
+            "path": "designing-relation-diagrams/scripts/lib/view-names.mjs",
+            "sha256": "1a9ffaf701532d804a518280ebbedcd1aa1d42267d59138a857f4308b437658c"
+          },
+          {
+            "path": "designing-relation-diagrams/scripts/lib/workflow-units.mjs",
+            "sha256": "0949880c72aa5e15c9a27d2a712b246579ac2f49c504cec6037239a40c06a465"
+          },
+          {
+            "path": "designing-relation-diagrams/scripts/lib/workflow.mjs",
+            "sha256": "3e2ef939859c97c327204b10f3def93f2bd97f147570695eea77e29c69f2ee4f"
+          },
+          {
+            "path": "designing-relation-diagrams/scripts/vendor/elkjs/elk.bundled.js",
+            "sha256": "1222e44f953ce7746af23801e723708f8e6f436b8b377a6a5fc7552f34a307b3"
+          },
+          {
+            "path": "designing-relation-diagrams/scripts/vendor/elkjs/LICENSE.md",
+            "sha256": "637e81f4a1b6b4079535c499fca05e238cf7605c1ff5b76d60d7da7ce96700c9"
+          },
+          {
+            "path": "designing-relation-diagrams/scripts/vendor/elkjs/package.json",
+            "sha256": "4614a8db12f1c46a1d988d55e92012286c5a25dde3ea69be7695013f4d23cf02"
+          },
+          {
+            "path": "designing-relation-diagrams/scripts/vendor/libavoid/index-node.mjs",
+            "sha256": "7c15e8ea6e2559c546c0a19cbed6a7f31a19c872ad9eee1febedeed7bc4c509c"
+          },
+          {
+            "path": "designing-relation-diagrams/scripts/vendor/libavoid/libavoid.wasm",
+            "sha256": "d17aa83a84896e65b15f4453913dac00953f4f698c7c271d43c5e93ea9ac16ac"
+          },
+          {
+            "path": "designing-relation-diagrams/scripts/vendor/libavoid/LICENSE",
+            "sha256": "6da7ddf40cfea6f568961825b14478e879875f6ad033fad57889ae5bd52103f4"
+          },
+          {
+            "path": "designing-relation-diagrams/scripts/vendor/libavoid/NOTICE.md",
+            "sha256": "f875d3472af86b3139f6a0c1759bfb3b564571130355cac3813c02998a8a1562"
+          },
+          {
+            "path": "designing-relation-diagrams/scripts/view-controls.js",
+            "sha256": "a29864a99bcb2989c2b5a06f5915773acfbf06c0b1c428017a1ed53f82ed1cb0"
+          },
+          {
+            "path": "designing-relation-diagrams/scripts/workflow-runtime.js",
+            "sha256": "76fcc4b61b0031787d9b1d5b99789f20d0f7f2d25c7f15b4d9b56c23cc6cc6fa"
+          },
+          {
+            "path": "designing-relation-diagrams/SKILL.md",
+            "sha256": "3df4ac59310389cf76e972c446a3e9d4175442aa9d8e2991215c61524e75e74a"
+          }
+        ],
+        "package_sha256": "33603eb70c786246572b7b24b3d1320838686bfbfb3ea74acc1b303f18ac47ca",
+        "runs": [
+          {
+            "command": "context",
+            "exit_code": 0
+          },
+          {
+            "command": "finalize",
+            "exit_code": 0
+          },
+          {
+            "command": "verify",
+            "exit_code": 0
+          }
+        ]
+      }
+    },
+    {
+      "workspace_path": "outputs/dds-boundary-product-check-20261016/long-label-branch/results.json",
+      "sha256": "d08ef0f364271b49cdc183cfecb23e528dd53333d7851dc1816c02d395e48273",
+      "evidence": {
+        "scope": "Direct renderer; same labels, responsive SVG fit; not Human approval",
+        "results": [
+          {
+            "width": 1203,
+            "height": 884,
+            "nodes": [
+              {
+                "label": "예산서 원문",
+                "displayedTextHeight": 29.000003814697266,
+                "contained": true
+              },
+              {
+                "label": "검토 경로 분기",
+                "displayedTextHeight": 29.000015258789062,
+                "contained": true
+              },
+              {
+                "label": "사업별 예산·지원 대상 정보 추출",
+                "displayedTextHeight": 28.999969482421875,
+                "contained": true
+              },
+              {
+                "label": "유사 사업 후보와 중복 지원 근거 검토",
+                "displayedTextHeight": 28.999969482421875,
+                "contained": true
+              },
+              {
+                "label": "검토 결과 취합",
+                "displayedTextHeight": 28.99993896484375,
+                "contained": true
+              },
+              {
+                "label": "유사 사업 검색·중복 지원 검토 결과",
+                "displayedTextHeight": 29,
+                "contained": true
+              }
+            ]
+          },
+          {
+            "width": 700,
+            "height": 884,
+            "nodes": [
+              {
+                "label": "예산서 원문",
+                "displayedTextHeight": 20,
+                "contained": true
+              },
+              {
+                "label": "검토 경로 분기",
+                "displayedTextHeight": 20,
+                "contained": true
+              },
+              {
+                "label": "사업별 예산·지원 대상 정보 추출",
+                "displayedTextHeight": 20,
+                "contained": true
+              },
+              {
+                "label": "유사 사업 후보와 중복 지원 근거 검토",
+                "displayedTextHeight": 20,
+                "contained": true
+              },
+              {
+                "label": "검토 결과 취합",
+                "displayedTextHeight": 20,
+                "contained": true
+              },
+              {
+                "label": "유사 사업 검색·중복 지원 검토 결과",
+                "displayedTextHeight": 20,
+                "contained": true
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

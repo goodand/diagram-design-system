@@ -28,7 +28,7 @@ node scripts/drd.mjs check diagram.json --focus <강조할 node id>
 ```
 
 - `FOCUS <id>: ineffective`(흐려지는 node가 없음) 또는 `still_over`(강조 후에도 Main 9개 초과)가 나오면 강조로는 해결되지 않는다 → 3)으로 간다.
-- 요청이 **HTML이면 정적 출력이 아니다.** 강조가 유효하면 hover로 낸다. `finalize`가 만드는 `diagram.html`이 `scripts/dds.js`의 `DDS.attachHover`로 hover를 연결한다. HTML을 손으로 쓰거나 고치지 않는다.
+- 요청이 **HTML이면 정적 출력이 아니다.** 강조가 유효하면 hover로 낸다. `finalize`가 만드는 receipt에 기록된 HTML이 `scripts/dds.js`의 `DDS.attachHover`로 hover를 연결한다. HTML을 손으로 쓰거나 고치지 않는다.
 - 정적 출력(이미지·인쇄·PDF처럼 hover·애니메이션·화면 전환을 쓸 수 없는 출력)은 강조할 흐름 후보 2~3개를 Human에게 제시해 하나를 고르게 하고, 그 흐름을 강조한 한 장으로 낸다(`finalize … --focus <node id>`). Human이 더 요청하면 흐름별 여러 장으로 낸다.
 
 **3) 분할.** 앞 단계로 정보량을 조정할 수 없으면 여러 장으로 나누는 기준 후보 2~3개를 Human에게 제시해 고르게 한다(예: 내부/외부, 실시간/배치). 표현 묶음의 사후 검토와 여러 장 분할의 선택을 구분한다.

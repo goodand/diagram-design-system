@@ -1,0 +1,296 @@
+{
+  "author": "chatgpt_gpt6",
+  "version": "v3.93-cli",
+  "base_commit": "26575aefbadbda48eeed04a3f2f71a48662d99c8",
+  "development_only": true,
+  "line_endings": "LF (Git clean-filter representation)",
+  "package": "designing-relation-diagrams-v3.93-cli.skill",
+  "package_sha256": "69134fab7a2ea8bb40af6edae8e111fda771e2cd2fecffe4a13962deafc3176b",
+  "files": [
+    {
+      "path": "v3_8_cli/designing-relation-diagrams/issue/script_defects.md",
+      "sha256": "a2598ac916bf7a75deb41f931c3f2ff6cc800c31809b041172db1b8766563242",
+      "git_blob_sha1": "8067117005577b7653bfd99a7af3ad271fafda0a"
+    },
+    {
+      "path": "v3_8_cli/designing-relation-diagrams/references/cli.md",
+      "sha256": "7e3ce1e17777bccf9cff98a2d513bff53cf5c927cc39d5d1d4fab7a87df1b767",
+      "git_blob_sha1": "69967fab7e0a9a36fa599926a2cd950448257d6b"
+    },
+    {
+      "path": "v3_8_cli/designing-relation-diagrams/references/expression-rules.md",
+      "sha256": "8a4f683bd5916e9d9e9c2e22e17583a62fb133e4ac4cd01961c6a1da2abec0da",
+      "git_blob_sha1": "608daf0e6e920c140636b613dcf42dd128f77722"
+    },
+    {
+      "path": "v3_8_cli/designing-relation-diagrams/references/human-decisions.md",
+      "sha256": "988f0062c67f68bf841f48871ceddfd0f542cb2b90681c0279bfeed901a3d553",
+      "git_blob_sha1": "9e13ece5f9c99c58587fdea4a4ef8703b655e8d8"
+    },
+    {
+      "path": "v3_8_cli/designing-relation-diagrams/references/information-amount.md",
+      "sha256": "ee0da1325c74908d932d38bdf37490f9c234b0b772c3ff608fe411b63857ba94",
+      "git_blob_sha1": "48b0de2af9cf48b5fb0a208941ed9cf9877f947e"
+    },
+    {
+      "path": "v3_8_cli/designing-relation-diagrams/references/ir.md",
+      "sha256": "d623d223131f38384257afce0c7b26d1f968ffd98c52783222cea950dbad1cd9",
+      "git_blob_sha1": "c87e41e2dad582e3d3e202e4384780195bf71dbf"
+    },
+    {
+      "path": "v3_8_cli/designing-relation-diagrams/references/workflow-units.md",
+      "sha256": "5b02bd54881bbede81da8d973256d85b671e814adc7a215ebd7bd962516fcbd4",
+      "git_blob_sha1": "f28fcdac7e720733e5f7954b9e2052dac27340a2"
+    },
+    {
+      "path": "v3_8_cli/designing-relation-diagrams/references/workflow-units.schema.json",
+      "sha256": "ca191c1d2339dfe2cee12e66e5fdde703e2ff529731fe5da734d9e6e8195d76c",
+      "git_blob_sha1": "f75738f9dad826dcd81628b7b575e8393bae451a"
+    },
+    {
+      "path": "v3_8_cli/designing-relation-diagrams/references/workflow.md",
+      "sha256": "7d941b40a2108eb2b9c5db7f8348e193b72f52b924f31161bf762d03416333f1",
+      "git_blob_sha1": "533bd9d172304603cb3611dee62b6c53a4a3c159"
+    },
+    {
+      "path": "v3_8_cli/designing-relation-diagrams/references/workflow.schema.json",
+      "sha256": "1d0633be814ec5f15f1caeae0ea2340263ca64c147ca568c2b8d92ea1117a829",
+      "git_blob_sha1": "bee96841928e686e4e3b63fedc8326b727a98f0b"
+    },
+    {
+      "path": "v3_8_cli/designing-relation-diagrams/relation_types/execution_flow.md",
+      "sha256": "a988c0d2b746f5af2810883c5a4fb1c1cacdc39fec5ac690689b28b1e6e3678c",
+      "git_blob_sha1": "4a171b51b40989acf7e1926931a70c4675b1dac0"
+    },
+    {
+      "path": "v3_8_cli/designing-relation-diagrams/relation_types/goal_means.md",
+      "sha256": "ffc9166d9bd92125f51fa5f44faee96643b051b747d7687b3ef5e0942071c910",
+      "git_blob_sha1": "2dca2fe9df3ad68add75b749c9ffab8845690ee0"
+    },
+    {
+      "path": "v3_8_cli/designing-relation-diagrams/relation_types/is_a.md",
+      "sha256": "989b1e1999a21963671ad989a2c5aa075941ed965d80bcaea72f8c4ea62d52df",
+      "git_blob_sha1": "6aeb36a18a6ab4d936ad10e63cc74116a3853b79"
+    },
+    {
+      "path": "v3_8_cli/designing-relation-diagrams/relation_types/whole_part.md",
+      "sha256": "1ad69d715d4df382eead5f25821bf3f5fef4b0df334a5b29f166992ce7c44738",
+      "git_blob_sha1": "6532cac8f3d5608897ae3d962e90dd79e495a04c"
+    },
+    {
+      "path": "v3_8_cli/designing-relation-diagrams/rules/design-system.md",
+      "sha256": "e19daaef57c1651071d2f94813dca7387157af02882c8852b2760944aa7535f2",
+      "git_blob_sha1": "f4906bf7e96e00fe7f20a1f884e55922985e0657"
+    },
+    {
+      "path": "v3_8_cli/designing-relation-diagrams/scripts/_args.mjs",
+      "sha256": "6959b6a74b41a91f23af8fa0a9d472aac017c460a260e45e259ee5b08a6d0ace",
+      "git_blob_sha1": "9df7834f1ed340e83f9becb0c81407be4cf0df48"
+    },
+    {
+      "path": "v3_8_cli/designing-relation-diagrams/scripts/_log.mjs",
+      "sha256": "a61d1c2e2f892ae766dfe038a237a9ac4c22def8921f6f68284a938a40210af9",
+      "git_blob_sha1": "ee26cf065c7491e06b9e479baabd011dbd9d8a82"
+    },
+    {
+      "path": "v3_8_cli/designing-relation-diagrams/scripts/dds.js",
+      "sha256": "aaaccd13869ef69f69ba07ceff597beb0108e0d8977ac8bcfa72ad7a74ea1e7d",
+      "git_blob_sha1": "ef2aec90bc350868c98db1754ca6a6bc6fc8eaf9"
+    },
+    {
+      "path": "v3_8_cli/designing-relation-diagrams/scripts/drd.mjs",
+      "sha256": "3d8c54aae545cf318b30fc5cbd4f84cee5108576098e706c20e6185e66acba57",
+      "git_blob_sha1": "f308f2bab499325b1e9d393287cbc2c8233814bb"
+    },
+    {
+      "path": "v3_8_cli/designing-relation-diagrams/scripts/lib/candidates.mjs",
+      "sha256": "e22f4a91288716695eaf5b62ab2cc098a58902befab42c1d1eba586f5223abe1",
+      "git_blob_sha1": "489af772e24d98c8b01efe8deb3b898bbe170fb3"
+    },
+    {
+      "path": "v3_8_cli/designing-relation-diagrams/scripts/lib/engine.mjs",
+      "sha256": "16de781ce6eee1b4fe60eabddcc39b9ec2eb11a6a1dda8d56a75c8553abcba52",
+      "git_blob_sha1": "e136783515e7794ff62d6bb2d736980fd6e5850a"
+    },
+    {
+      "path": "v3_8_cli/designing-relation-diagrams/scripts/lib/png.mjs",
+      "sha256": "4c43385f58ab62539624c57d2e61898f48031b47ccd49d3f700d2d08e6874fc2",
+      "git_blob_sha1": "d4e4e4a650325f0294f80023e1963a84e497dc6d"
+    },
+    {
+      "path": "v3_8_cli/designing-relation-diagrams/scripts/lib/render.mjs",
+      "sha256": "a48808bbe83de7e6b81909dfd561e7198d5ab6e0077089b2fa0a5c0399ae09c0",
+      "git_blob_sha1": "6162850bd88ccd3c965e45b35c3794738347d0c3"
+    },
+    {
+      "path": "v3_8_cli/designing-relation-diagrams/scripts/lib/workflow-units.mjs",
+      "sha256": "a040c80f99bbd4ea2c3e34e832f983bf5549fd7581148cecd5e33092987118a1",
+      "git_blob_sha1": "065b84070338ec6954e758b10954bb8f586757f6"
+    },
+    {
+      "path": "v3_8_cli/designing-relation-diagrams/scripts/lib/workflow.mjs",
+      "sha256": "499ccfcda4f65962bf63992299a318350f6d6a7a3754382bf99308bb5a2feca0",
+      "git_blob_sha1": "50a5461413229bafd43d280a73d93905aba593b8"
+    },
+    {
+      "path": "v3_8_cli/designing-relation-diagrams/scripts/workflow-runtime.js",
+      "sha256": "a5a501ca961a770346b77b0b6827501c4b9696d41a893f20d926399b2bfa84d9",
+      "git_blob_sha1": "029e0c133e31c58c9471aaf3e109c8917e0fd877"
+    },
+    {
+      "path": "v3_8_cli/designing-relation-diagrams/SKILL.md",
+      "sha256": "1f374e20390d83913a333875b3d5986db0a5958e62945273e7c4f7487b375da5",
+      "git_blob_sha1": "8562ef8eccbcee2dec4cc9ef70eac7a16b42227e"
+    },
+    {
+      "path": "v3_8_cli/designing-relation-diagrams/test/auto-fold.test.mjs",
+      "sha256": "0aaa3f2a1c1061f9d51fd5ad4d1f014f7a8af16a7c88ee938bb6d423e6dc05f5",
+      "git_blob_sha1": "7bfa4c37da22501b0243075952e95704e9bdb1a1"
+    },
+    {
+      "path": "v3_8_cli/designing-relation-diagrams/test/browser-auto-fold.mjs",
+      "sha256": "3fb048f4b3fe297c7d2a4c3948ab49027f6005d51ab5898353a65bd4c5f3dde2",
+      "git_blob_sha1": "33f6ae32b961ddbb5d1f633886b4b583e8142338"
+    },
+    {
+      "path": "v3_8_cli/designing-relation-diagrams/test/browser-workflow-units.mjs",
+      "sha256": "8d59ed50a1e4b3001e1c2530939506bb5c69fd665c79de81b6b74077ff4325d5",
+      "git_blob_sha1": "ddc16ac9766be304047aa050adb1715f7d3dd5e1"
+    },
+    {
+      "path": "v3_8_cli/designing-relation-diagrams/test/browser-workflow.mjs",
+      "sha256": "999df7190adc19b6581268a1e458ebbef4e75bb93c41523b44e6b8f2dacb63c5",
+      "git_blob_sha1": "70b3589182b1439c8e4750ed42306d24817ac3b8"
+    },
+    {
+      "path": "v3_8_cli/designing-relation-diagrams/test/cli.test.mjs",
+      "sha256": "755ef716be0e4e5f47f715e72e9d86efbb517f5f7beb15fb8f06967dfb8af2fe",
+      "git_blob_sha1": "20845fc154eb4ae4fd018284c728672530709b8f"
+    },
+    {
+      "path": "v3_8_cli/designing-relation-diagrams/test/fixtures/bad_palette.json",
+      "sha256": "a6e0c61518e42960925953b897e182c56e74acfb161315a8aa488cdca21db3b7",
+      "git_blob_sha1": "e96b7744642ed32daf686142615ea87b5fd60d4f"
+    },
+    {
+      "path": "v3_8_cli/designing-relation-diagrams/test/fixtures/broken.json",
+      "sha256": "9fbb598035820d400aacfff5a976fbc4c90e7ee58fea3a2c68fa73936a1138c7",
+      "git_blob_sha1": "b877aec48372ca081e939017d15bf8dcc50ca918"
+    },
+    {
+      "path": "v3_8_cli/designing-relation-diagrams/test/fixtures/dangling.json",
+      "sha256": "ec83a59c4277d374ba97f1ab28b362b38b645c65204d6e8c7d0eb4315107b5b0",
+      "git_blob_sha1": "a68e97824abd45018e7a4e848e81a0cf90097739"
+    },
+    {
+      "path": "v3_8_cli/designing-relation-diagrams/test/fixtures/decisions_agent.json",
+      "sha256": "179e4cbd8ebc22a2a147620ad0aaf5515f44388a4561a5962f6ec24d602f75db",
+      "git_blob_sha1": "ac32f3ad4fc858a0a224ddd595dc1becf23979fd"
+    },
+    {
+      "path": "v3_8_cli/designing-relation-diagrams/test/fixtures/decisions_deferred.json",
+      "sha256": "9861b7e7b39c3606b731203379399c1aa34da2f3cd1d39485202884aa8346984",
+      "git_blob_sha1": "69c1b898dc6fce83fd64050d7dfe622f3bbc25ab"
+    },
+    {
+      "path": "v3_8_cli/designing-relation-diagrams/test/fixtures/decisions_empty_answer.json",
+      "sha256": "01a8d476fa06c30b21aecf210abd252ed09785f57275e8a6823401fbf95fa164",
+      "git_blob_sha1": "e2414ccfffc6b39b6410d94b1470e62fbb4e8de3"
+    },
+    {
+      "path": "v3_8_cli/designing-relation-diagrams/test/fixtures/decisions_human.json",
+      "sha256": "a4ab5d8060ba7b8374fb49d0de4f2c12a4cdd53e2b8be033ff78af620252f920",
+      "git_blob_sha1": "d8780060b579af8d345f5270a98f4dd09dee9a9d"
+    },
+    {
+      "path": "v3_8_cli/designing-relation-diagrams/test/fixtures/decisions_info.json",
+      "sha256": "0cb67fae4c1e7b8020e0ae6c0ca3c97f9ae98baabff31903406c7361b237963e",
+      "git_blob_sha1": "bc1438cb434fae5fb333b6803f4e081311c3b8c3"
+    },
+    {
+      "path": "v3_8_cli/designing-relation-diagrams/test/fixtures/decisions_info_agent.json",
+      "sha256": "e2c1dd27c9e412c3fa9147986a4f3c4634602d6f400db0bd4bb20aa794bb136c",
+      "git_blob_sha1": "ab32981fbc6620733bf6daab38dc15be61f62738"
+    },
+    {
+      "path": "v3_8_cli/designing-relation-diagrams/test/fixtures/decisions_no_answered_at.json",
+      "sha256": "8196139adca12084e7bec1b9afa2cfc9c2f54c8f7349b9b8748f70fb716ed97d",
+      "git_blob_sha1": "788d1ffd1c69cd4c169f90305f149fe69ab0d5fd"
+    },
+    {
+      "path": "v3_8_cli/designing-relation-diagrams/test/fixtures/group_agent.json",
+      "sha256": "0cb76b46f50f1bb370742e989e514b5def55c4e08f38b8ef112a0619205abad4",
+      "git_blob_sha1": "a3dfc3a86ca219843886b937fa55b4b78ca0854b"
+    },
+    {
+      "path": "v3_8_cli/designing-relation-diagrams/test/fixtures/group_expandat_only.json",
+      "sha256": "9c177a6f6bf199cfd5e87b2e9f05ed90dd6c8579082c8dc10a583481de4c4622",
+      "git_blob_sha1": "e794d7fed84cd58cd15306f3587a2b0dcbdaa583"
+    },
+    {
+      "path": "v3_8_cli/designing-relation-diagrams/test/fixtures/group_human_badref.json",
+      "sha256": "c5fe33031a497ffc5e5a658984db8c1e47f62138a803935a75ff8a0444356057",
+      "git_blob_sha1": "4c420aef2194183e5d975a1fb792099a591cb8e1"
+    },
+    {
+      "path": "v3_8_cli/designing-relation-diagrams/test/fixtures/group_human_noref.json",
+      "sha256": "50afc9aadfe17219704101203171b3616ae4f691c37ef77a41692c63d70bf09f",
+      "git_blob_sha1": "0c8042e7d6f19de8175fbd13ff396edc00104139"
+    },
+    {
+      "path": "v3_8_cli/designing-relation-diagrams/test/fixtures/group_human_ref.json",
+      "sha256": "3fbe722e453434a97230dfce106933da564ce853578b55989ff206c4faff93c8",
+      "git_blob_sha1": "c6c52aa6bdf6027ccb86200f80864ad7aa5643ec"
+    },
+    {
+      "path": "v3_8_cli/designing-relation-diagrams/test/fixtures/group_nosource.json",
+      "sha256": "20f64dfe5ce6968a6193ea4609287c7cbdb50d33c339e97084b32b321d911625",
+      "git_blob_sha1": "a944d9c0f5a9952f3f02923a41400a5e5ee3cc8d"
+    },
+    {
+      "path": "v3_8_cli/designing-relation-diagrams/test/fixtures/group_request.json",
+      "sha256": "ce3714eedf894a008a3be7141da8068e19586f8a5215e6711be55ebaf767e48e",
+      "git_blob_sha1": "f24f65f257042bac4b07124c678814b3c335c041"
+    },
+    {
+      "path": "v3_8_cli/designing-relation-diagrams/test/fixtures/group_two_mixed.json",
+      "sha256": "f8b20913062b634b3841be4cd3b9a780cfadc44ba60b2925a59edfb016c34aeb",
+      "git_blob_sha1": "43bb241f09a7ebf7f74b86f13a8ede9260037887"
+    },
+    {
+      "path": "v3_8_cli/designing-relation-diagrams/test/fixtures/many.json",
+      "sha256": "e80dc0575ca7688106c0b69a7fdfa4ff5a798e8ec6e4ec63bb1fab6a442d40bf",
+      "git_blob_sha1": "9e61e66fd163b63ffe94e334aad5e41bafbac371"
+    },
+    {
+      "path": "v3_8_cli/designing-relation-diagrams/test/fixtures/ok.json",
+      "sha256": "6f376a9ffcdf9ed42318a4368bd353b82502867a0199b0d2dc6fb193f4a61773",
+      "git_blob_sha1": "93e4806521a2ea47c3017950147856331f0bf7be"
+    },
+    {
+      "path": "v3_8_cli/designing-relation-diagrams/test/workflow-fixture.mjs",
+      "sha256": "70d6fbbc29af2d7b3a998e689b8b111122f0348219a6ba82630ebf79848ed091",
+      "git_blob_sha1": "9796d2f2df43ebd49a2b9d228837d10c859b5809"
+    },
+    {
+      "path": "v3_8_cli/designing-relation-diagrams/test/workflow-summary-count.test.mjs",
+      "sha256": "b41c36c22680edd70ae832e09760b79454ad9ce784630405e98797be70636b86",
+      "git_blob_sha1": "f142c7c09a0c14b892c84bf030b1972a7de84417"
+    },
+    {
+      "path": "v3_8_cli/designing-relation-diagrams/test/workflow-unit-cli.test.mjs",
+      "sha256": "b7f7e948689a7317cfdc53adb4319a12cadfd91e35ffcb7fd155d3e960cf428d",
+      "git_blob_sha1": "36cb393538f772f41376b7fd0ae25f0896f3bfa3"
+    },
+    {
+      "path": "v3_8_cli/designing-relation-diagrams/test/workflow-units.test.mjs",
+      "sha256": "260b965340e28f7d9f9c03cc29b6b4b93c4c64572e1cb1bb86089e36484dbedb",
+      "git_blob_sha1": "84fdb1871c078047f0366fcd70bb31d70be3da06"
+    },
+    {
+      "path": "v3_8_cli/designing-relation-diagrams/test/workflow.test.mjs",
+      "sha256": "37fd1a49e7d8e7b436c74ac1223beabe54b6f6cfa064abdeb89d62cf4c2c66cb",
+      "git_blob_sha1": "e2b23c3407ceb95082076e0d53af6ec7e47f6fcd"
+    }
+  ]
+}

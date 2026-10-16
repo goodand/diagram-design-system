@@ -1,0 +1,37 @@
+{
+  "rows": [
+    {
+      "id": "pair-diamond-then-diamond-expanded-live",
+      "before": 11,
+      "focus": 1,
+      "collapsed": 5,
+      "expanded": 11,
+      "pass": true
+    },
+    {
+      "id": "pair-cycle-then-cycle-expanded-live",
+      "before": 13,
+      "focus": 1,
+      "collapsed": 5,
+      "expanded": 13,
+      "pass": true
+    },
+    {
+      "id": "hover-pair-diamond-then-cycle-task-a",
+      "before": 8,
+      "focus": 1,
+      "collapsed": 5,
+      "expanded": 12,
+      "pass": true
+    },
+    {
+      "id": "hover-pair-cycle-then-diamond-task-a",
+      "before": 9,
+      "focus": 1,
+      "collapsed": 5,
+      "expanded": 12,
+      "pass": true
+    }
+  ],
+  "errors": []
+}

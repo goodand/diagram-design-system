@@ -15,7 +15,15 @@
     var edgeIds = Array.isArray(id) ? id : [id];
     var represented = new Set([id]);
     if (kind === 'node') ir.nodes.forEach(function (n) { var parent = n.parent; while (parent) { if (parent === id) { represented.add(n.id); break; } var p = ir.nodes.find(function (x) { return x.id === parent; }); parent = p && p.parent; } });
-    (ir.partials || []).filter(function (p) { return kind === 'node' ? p.nodes.some(function (n) { return represented.has(n); }) : edgeIds.some(function (edge) { return p.edges.includes(edge); }); }).forEach(function (p) {
+    var candidates = (ir.partials || []).filter(function (p) { return kind === 'node' ? p.nodes.some(function (n) { return represented.has(n); }) : edgeIds.some(function (edge) { return p.edges.includes(edge); }); });
+    var hovered = kind === 'node' && ir.nodes.find(function(n){return n.id === id;});
+    // A root fold represents the whole parent Core. A detailed target/leaf uses
+    // its child memberships, suppressing only their own ancestor (not peers).
+    if (!(hovered && hovered.autoFold)) {
+      var ancestors = new Set(candidates.map(function(p){return p.parent_partial_id;}).filter(Boolean));
+      candidates = candidates.filter(function(p){return !ancestors.has(p.id);});
+    }
+    candidates.forEach(function (p) {
       p.nodes.forEach(function (x) { ns.add(x); }); p.edges.forEach(function (x) { es.add(x); });
     });
     if (!ns.size) { if (kind === 'node') ns.add(id); else edgeIds.forEach(function (id) { var edge = ir.edges.find(function (e) { return e.id === id; }); if (edge) { ns.add(edge.from); ns.add(edge.to); es.add(id); } }); }
@@ -87,7 +95,8 @@
     }
     function bind() {
       svg = host.querySelector('svg'); rendered = global.DDS.view(ir,level,{expand:expanded,collapse:collapsed});
-      svg.querySelectorAll('.dds-node,.dds-edge').forEach(function (el) {
+      // Core retains folding controls; focus scope and tokens belong to Full.
+      if (ir.diagram_type === 'l1_full') svg.querySelectorAll('.dds-node,.dds-edge').forEach(function (el) {
         var node = el.classList.contains('dds-node'), edge = node ? null : rendered.edges[Number(el.dataset.i)];
         var id = node ? el.dataset.id : ir.edges.filter(function (e) { return project(e.from) === edge.from && project(e.to) === edge.to; }).map(function (e) { return e.id; });
         el.setAttribute('tabindex','0');
@@ -112,7 +121,13 @@
       host.innerHTML = global.DDS.render(ir,{level:level,expand:expanded,collapse:collapsed,fit:true,pad:24}).svg; bind();
     }
     var foldNodes = ir.nodes.filter(function (n) { return n.expandAt !== undefined; });
-    if (foldNodes.length > 1) {
+    if (foldNodes.length > 1 || (foldNodes.length && ir.diagram_type === 'l1_full')) {
+      var expandAll = document.createElement('button'); expandAll.textContent = '모두 펼치기';
+      expandAll.onclick = function () {
+        var ids = foldNodes.map(function(n){return n.id;});
+        collapsed = collapsed.filter(function(id){return !ids.includes(id);});
+        expanded = Array.from(new Set(expanded.concat(ids))); redraw();
+      }; controls.append(expandAll);
       var collapseAll = document.createElement('button'); collapseAll.textContent = '모두 접기';
       collapseAll.onclick = function () {
         var ids = foldNodes.map(function (n) { return n.id; });

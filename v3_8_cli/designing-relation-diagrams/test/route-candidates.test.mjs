@@ -1,0 +1,14 @@
+import {test} from 'node:test';import assert from 'node:assert/strict';
+import {selectRouteCandidate,sideCandidates} from '../scripts/lib/route-candidates.mjs';
+const nodes=[{id:'a',x:24,y:24,w:176,h:44},{id:'b',x:24,y:140,w:176,h:44},{id:'o',x:80,y:82,w:64,h:44}];
+const graph={nodes,edges:['e1','e2'].map(id=>({id,from:'a',to:'b'}))};
+const candidate=(id,sides)=>({id,edges:graph.edges.map((e,i)=>({...e,fromSide:sides[i][0],toSide:sides[i][1]}))});
+const blocked=candidate('blocked',[['bottom','top'],['right','right']]);
+const clear=candidate('clear',[['left','left'],['right','right']]);
+test('rejects obstructed candidate and chooses valid existing router geometry',async()=>{const before=JSON.stringify(graph);const r=await selectRouteCandidate(graph,[blocked,clear]);assert.equal(r.id,'clear');assert.equal(r.evaluations.find(e=>e.id==='blocked').valid,false);assert.equal(JSON.stringify(graph),before);});
+test('no valid candidates must fail instead of emitting obstructed paths',async()=>{await assert.rejects(()=>selectRouteCandidate(graph,[blocked]),/No valid route candidate/);});
+test('candidate cannot change edge identity or direction',async()=>{const bad=structuredClone(clear);bad.edges[0].to='a';await assert.rejects(()=>selectRouteCandidate(graph,[bad]),/changed topology/);});
+test('candidate cannot inject semantic metadata while preserving endpoints',async()=>{const bad=structuredClone(clear);bad.edges[0].meaning='changed meaning';await assert.rejects(()=>selectRouteCandidate(graph,[bad]),/changed topology/);});
+test('bounded search reports incomplete coverage instead of implying impossibility',()=>{const candidates=sideCandidates(graph,2);assert.equal(candidates.search.exhaustive,false);assert.equal(candidates.search.truncated,true);assert.equal(candidates.search.generated,2);});
+test('single-edge exhaustive coverage can be distinguished from truncation',()=>{const candidates=sideCandidates({edges:[graph.edges[0]]},32);assert.equal(candidates.search.exhaustive,true);assert.equal(candidates.search.fullAssignments,'16');});
+test('route failure exposes inspected candidates without claiming no route exists',async()=>{await assert.rejects(()=>selectRouteCandidate(graph,[blocked]),error=>error.code==='NO_VALID_INSPECTED_ROUTE'&&error.search.exhaustive===false&&error.evaluations.length===1);});

@@ -1,0 +1,12 @@
+✔ l1_partial: folding and focus policy in actual HTML (771.6272ms)
+✔ l1_full: folding and focus policy in actual HTML (715.6612ms)
+✔ Full shared boundary uses union; either unique Process preserves exact membership (664.8412ms)
+✔ Full 100% view preserves scale across folding and exposes output by scrolling (735.8511ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4439.1428

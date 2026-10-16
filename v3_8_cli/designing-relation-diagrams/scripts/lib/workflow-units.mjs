@@ -8,13 +8,92 @@ const TYPE_MAP = {Function_Definition:'l0_summary',Process_Summary_Linear:'l0_su
 const hash = bytes => createHash('sha256').update(bytes).digest('hex');
 const canonical=x=>Array.isArray(x)?x.map(canonical):x&&typeof x==='object'?Object.fromEntries(Object.keys(x).sort().map(k=>[k,canonical(x[k])])):x;
 const same = (a,b) => JSON.stringify(canonical(a)) === JSON.stringify(canonical(b));
-const human = (decs,id,topic,allowSimulation=false) => decs.find(d=>d.id===id&&d.topic===topic&&d.subject==='Human'&&d.status==='decided'&&typeof d.answer==='string'&&d.answer.trim()&&d.answered_at&&(!d.simulated||allowSimulation));
+const human = (decs,id,topic,allowSimulation=false) => decs.filter(d=>d.id===id).length===1 ? decs.find(d=>d.id===id&&d.topic===topic&&d.subject==='Human'&&d.status==='decided'&&d.outcome==='approved'&&typeof d.answer==='string'&&d.answer.trim()&&d.answered_at&&(!d.simulated||allowSimulation)) : undefined;
 const layoutKeys=new Set(['x','y','w','h','pos','parent','expandAt','route','busX','midY','sdx','tdx','bend','labelAt']);
 const semantic=x=>Object.fromEntries(Object.entries(x).filter(([key])=>!layoutKeys.has(key)));
 
+function boundaryMeaning(node) {
+  const {id,...rest}=node;
+  return semantic(rest);
+}
+
+function assertProjectionAcyclic(nodes,edges) {
+  const state=new Map(),outgoing=new Map(nodes.map(n=>[n.id,[]]));
+  for(const edge of edges)if(!edge.loop)outgoing.get(edge.from)?.push(edge.to);
+  const visit=id=>{
+    if(state.get(id)===1)fail('Full boundary identity would introduce an unmarked cycle; keep separate boundary nodes');
+    if(state.get(id)===2)return;
+    state.set(id,1);for(const next of outgoing.get(id)||[])visit(next);state.set(id,2);
+  };
+  nodes.forEach(node=>visit(node.id));
+}
+
+/**
+ * Make a render-only Full projection. A declared inter-Core connection is a
+ * direct Entity-to-Entity continuation, so both endpoint nodes denote the same
+ * carried Entity in the composed view. The input IR and approved Cores remain
+ * untouched; source IDs are retained in boundary_projection for traceability.
+ */
+export function projectFullBoundaries(ir) {
+  if(ir?.diagram_type!=='Process_Full'||!Array.isArray(ir.connections)||!ir.connections.length) return structuredClone(ir);
+  const out=structuredClone(ir), byId=new Map(out.nodes.map(n=>[n.id,n]));
+  const parent=new Map(out.nodes.map(n=>[n.id,n.id]));
+  const find=id=>{let root=id;while(parent.get(root)!==root)root=parent.get(root);while(parent.get(id)!==id){const next=parent.get(id);parent.set(id,root);id=next;}return root;};
+  const union=(sourceId,targetId)=>{const source=find(sourceId),target=find(targetId);if(source!==target)parent.set(target,source);};
+  const connectionIds=new Set(out.connections), removed=[], sourceCounts=new Map(), targetCounts=new Map();
+  for(const id of connectionIds) {
+    const edge=out.edges.find(e=>e.id===id), source=edge&&byId.get(edge.from), target=edge&&byId.get(edge.to);
+    if(!edge||edge.meaning!=='execution_flow'||edge.loop||source?.role!=='entity'||target?.role!=='entity') fail(`Full boundary identity needs a non-loop Entity-to-Entity execution connection: ${id}`);
+    if(Object.keys(edge).some(key=>!['id','from','to','meaning'].includes(key)&&!(key==='loop'&&edge.loop===false)&&!layoutKeys.has(key))) fail(`Full boundary identity connection has additional edge semantics: ${id}`);
+    if(!same(boundaryMeaning(source),boundaryMeaning(target))) fail(`Full boundary identity has conflicting Entity semantics: ${edge.from} -> ${edge.to}`);
+    if(source.parent||source.expandAt!==undefined||target.parent||target.expandAt!==undefined) fail(`Full boundary identity endpoints must be top-level entities: ${edge.from} -> ${edge.to}`);
+    if([...out.e2e.inputs,...out.e2e.outputs].includes(source.id)||[...out.e2e.inputs,...out.e2e.outputs].includes(target.id)) fail(`Full boundary identity cannot absorb an E2E endpoint: ${edge.from} -> ${edge.to}`);
+    sourceCounts.set(edge.from,(sourceCounts.get(edge.from)||0)+1); targetCounts.set(edge.to,(targetCounts.get(edge.to)||0)+1);
+    if(sourceCounts.get(edge.from)>1||targetCounts.get(edge.to)>1) fail('Full boundary identity connections must be one-to-one; fan-in and fan-out are ambiguous');
+    union(edge.from,edge.to); removed.push(id);
+  }
+  const groups=new Map();
+  for(const id of byId.keys()){const root=find(id);if(!groups.has(root))groups.set(root,[]);groups.get(root).push(id);}
+  const connectionSources=new Set([...connectionIds].map(id=>out.edges.find(e=>e.id===id)?.from).filter(Boolean));
+  const nodeOrder=new Map(out.nodes.map((n,index)=>[n.id,index]));
+  const aliases=Object.create(null);
+  for(const members of groups.values()) {
+    if(members.length<2)continue;
+    if(members.length!==2)fail('Full boundary identity must form isolated one-to-one endpoint pairs');
+    const sources=members.filter(id=>connectionSources.has(id));
+    const candidates=sources.length?sources:members;
+    const display=candidates.slice().sort((a,b)=>nodeOrder.get(a)-nodeOrder.get(b))[0];
+    for(const id of members)if(id!==display)aliases[id]=display;
+  }
+  if(!Object.keys(aliases).length) return out;
+  const map=id=>Object.hasOwn(aliases,id)?aliases[id]:id;
+  const remainingEdges=out.edges.filter(e=>!connectionIds.has(e.id));
+  for(const edge of remainingEdges) {
+    const originalFrom=edge.from,originalTo=edge.to;
+    edge.from=map(edge.from); edge.to=map(edge.to);
+    if(edge.from===edge.to&&originalFrom!==originalTo) fail(`Full boundary identity would collapse another edge into a self-loop: ${edge.id}`);
+  }
+  out.nodes=out.nodes.filter(n=>!Object.hasOwn(aliases,n.id));
+  assertProjectionAcyclic(out.nodes,remainingEdges);
+  out.edges=remainingEdges;
+  out.flow=Object.fromEntries(Object.entries(out.flow||{}).filter(([id])=>!connectionIds.has(id)));
+  if(out.animation_states) out.animation_states=Object.fromEntries(Object.entries(out.animation_states).filter(([id])=>!connectionIds.has(id)));
+  out.partials=(out.partials||[]).map(partial=>({...partial,
+    nodes:[...new Set(partial.nodes.map(map))], edges:partial.edges.filter(id=>!connectionIds.has(id))}));
+  out.l0_refs=(out.l0_refs||[]).map(ref=>({...ref,partial:{...ref.partial,
+    nodes:[...new Set((ref.partial?.nodes||[]).map(map))], edges:(ref.partial?.edges||[]).filter(id=>!connectionIds.has(id)),
+    ...(ref.partial?.e2e?{e2e:{...ref.partial.e2e,inputs:ref.partial.e2e.inputs.map(map),outputs:ref.partial.e2e.outputs.map(map)}}:{})}}));
+  out.connections=[];
+  out.boundary_projection={schema:'dds-full-boundary-projection/v1',aliases,removed_connection_edges:removed,
+    removed_connection_metadata:Object.fromEntries(removed.map(id=>{const edge=ir.edges.find(e=>e.id===id);return [id,{edge:structuredClone(edge),flow:ir.flow?.[id],animation_state:ir.animation_states?.[id]}];}))};
+  // The projection changes visible topology, so never reuse source layout caches.
+  delete out.visible_layout_cache; delete out.visible_layout_signature; delete out.routing_cache;
+  return out;
+}
+
 export function runtimeType(type) { return TYPE_MAP[type] || type; }
 export function runtimeIr(ir) {
-  const out=structuredClone(ir);
+  const out=ir?.diagram_type==='Process_Full'?projectFullBoundaries(ir):structuredClone(ir);
   if (TYPE_MAP[out.diagram_type]) { out.diagram_type=TYPE_MAP[out.diagram_type]; delete out.workflow_unit; }
   if (out.definition_ref?.snapshot) out.definition_ref.snapshot=runtimeIr(out.definition_ref.snapshot);
   if (out.summary_ref?.snapshot) out.summary_ref.snapshot=runtimeIr(out.summary_ref.snapshot);
@@ -41,7 +120,7 @@ function graph(ir) {
     if(['x','y','w','h'].some(k=>n[k]!==undefined&&!Number.isFinite(n[k]))) fail('workflow unit node geometry must be finite');
     if(n.pos&&(!Object.keys(n.pos).length||Object.values(n.pos).some(p=>!Array.isArray(p)||p.length!==2||p.some(v=>!Number.isFinite(v))))) fail('workflow unit pos must contain coordinate pairs');
     if(n.expandAt!==undefined&&(!Number.isFinite(n.expandAt)||!Number.isInteger(n.expandAt))) fail('workflow unit expandAt must be an integer');
-    if(['Process_Core','Process_Full'].includes(ir.diagram_type)&&!n.pos&&(!Number.isFinite(n.x)||!Number.isFinite(n.y))&&n.expandAt===undefined) fail('Process_Core and Process_Full nodes need layout coordinates');
+    // Coordinates are optional input; CLI validates generated geometry separately.
     if(n.parent!==undefined&&typeof n.parent!=='string') fail('workflow unit parent must reference a node ID');
   }
   for(const n of ir.nodes){const seen=new Set([n.id]);let p=n.parent;while(p){if(!nodes.has(p)||seen.has(p))fail('workflow unit has a missing or cyclic parent');seen.add(p);p=nodes.get(p).parent;}}
@@ -81,6 +160,7 @@ export function validateWorkflowUnit(ir) {
     if(processes.length<2||processes.length>3||ir.nodes.length!==processes.length+2||edges.some(e=>e.label||e.loop)||ir.nodes.some(n=>n.parent||n.expandAt!==undefined)) fail('Process_Summary requires 2..3 processes, E2E entities only, no edge labels, loops, or folding');
     refShape(ir.definition_ref,true);
     if(type==='Process_Summary_Linear') {
+      if(Object.prototype.hasOwnProperty.call(ir,'routing')) fail('Process_Summary_Linear does not accept routing');
       if(edges.length!==processes.length+1||edges.some(e=>e.meaning!=='execution_flow')) fail('Process_Summary_Linear must be a single chain');
       for(const n of ir.nodes) if(edges.filter(e=>e.to===n.id).length!==(n.id===inputs[0]?0:1)||edges.filter(e=>e.from===n.id).length!==(n.id===outputs[0]?0:1)) fail('Process_Summary_Linear must be a single chain');
     } else {
@@ -175,7 +255,10 @@ function verifyChain(ir,baseDir,decs=[],allowSimulation=false,seen=new Set(),dep
     if(!same((ir.connections||[]).slice().sort(),added.map(e=>e.id).sort())) fail('Process_Full connections must list exactly the added inter-Core edges');
     for(const e of added) {
       const from=cores.find(c=>c.e2e.outputs.includes(e.from)), to=cores.find(c=>c.e2e.inputs.includes(e.to));
-      if(e.meaning!=='execution_flow'||!from||!to||from===to||ir.nodes.find(n=>n.id===e.from)?.role!=='entity'||ir.nodes.find(n=>n.id===e.to)?.role!=='entity'||ir.nodes.find(n=>n.id===e.from)?.label!==ir.nodes.find(n=>n.id===e.to)?.label) fail(`Process_Full connection must join matching distinct Core data boundaries: ${e.id}`);
+      const source=ir.nodes.find(n=>n.id===e.from),target=ir.nodes.find(n=>n.id===e.to);
+      if(e.meaning!=='execution_flow'||e.loop||!from||!to||from===to||source?.role!=='entity'||target?.role!=='entity'||source.label!==target.label) fail(`Process_Full connection must join matching distinct Core data boundaries without a loop: ${e.id}`);
+      if(!same(boundaryMeaning(source),boundaryMeaning(target))) fail(`Process_Full connection has conflicting boundary Entity semantics: ${e.id}`);
+      if(source.parent||source.expandAt!==undefined||target.parent||target.expandAt!==undefined) fail(`Process_Full connection boundary entities must be top-level: ${e.id}`);
     }
     const relations=new Set();
     for(const a of cores)for(const b of cores)if(a!==b) {
@@ -184,6 +267,7 @@ function verifyChain(ir,baseDir,decs=[],allowSimulation=false,seen=new Set(),dep
     }
     const expected=s.edges.filter(e=>s.nodes.find(n=>n.id===e.from)?.role==='process'&&s.nodes.find(n=>n.id===e.to)?.role==='process').map(e=>`${e.from}->${e.to}`);
     if(!same([...relations].sort(),expected.sort()))fail('Process_Full Core connections must reproduce the Summary process relation graph');
+    projectFullBoundaries(ir); // fail the workflow gate for ambiguous or lossy render-time contractions
   }
   seen.delete(key);
 }
@@ -199,7 +283,7 @@ export function workflowUnitState(ir,decs=[],baseDir='.',sourceHash=null) {
   } catch(e) { errors.push(e.message); }
   const approved=ir.diagram_type==='Process_Full'?ir.approved_partials||[]:[];
   const indexedCores=[];
-  if(ir.diagram_type==='Process_Core'&&errors.length===0) for(const d of decs.filter(x=>x.topic==='partial_approval'&&x.subject==='Human'&&x.status==='decided')) {
+  if(ir.diagram_type==='Process_Core'&&errors.length===0) for(const d of decs.filter(x=>human(decs,x.id,'partial_approval',ir.simulation===true))) {
     if(d.simulated&&ir.simulation!==true) continue;
     if(!d.ir_path) continue;
     try {

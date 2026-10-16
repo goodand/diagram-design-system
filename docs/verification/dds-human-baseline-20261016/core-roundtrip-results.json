@@ -1,0 +1,551 @@
+{
+  "scope": "9 ordered pairs; assembled and render-projected Full; 18 original Cores",
+  "rows": [
+    {
+      "fixture": "pair-cycle-then-cycle",
+      "stage": "assembled",
+      "core": "pair-cycle-then-cycle-core-a",
+      "equivalent": true,
+      "rejected": [
+        "node_missing",
+        "label_changed",
+        "direction_reversed",
+        "edge_missing",
+        "state_changed",
+        "membership_changed",
+        "edge_added"
+      ]
+    },
+    {
+      "fixture": "pair-cycle-then-cycle",
+      "stage": "assembled",
+      "core": "pair-cycle-then-cycle-core-b",
+      "equivalent": true,
+      "rejected": [
+        "node_missing",
+        "label_changed",
+        "direction_reversed",
+        "edge_missing",
+        "state_changed",
+        "membership_changed",
+        "edge_added"
+      ]
+    },
+    {
+      "fixture": "pair-cycle-then-cycle",
+      "stage": "projected",
+      "core": "pair-cycle-then-cycle-core-a",
+      "equivalent": true,
+      "rejected": [
+        "node_missing",
+        "label_changed",
+        "direction_reversed",
+        "edge_missing",
+        "state_changed",
+        "membership_changed",
+        "edge_added"
+      ]
+    },
+    {
+      "fixture": "pair-cycle-then-cycle",
+      "stage": "projected",
+      "core": "pair-cycle-then-cycle-core-b",
+      "equivalent": true,
+      "rejected": [
+        "node_missing",
+        "label_changed",
+        "direction_reversed",
+        "edge_missing",
+        "state_changed",
+        "membership_changed",
+        "edge_added"
+      ]
+    },
+    {
+      "fixture": "pair-cycle-then-diamond",
+      "stage": "assembled",
+      "core": "pair-cycle-then-diamond-core-a",
+      "equivalent": true,
+      "rejected": [
+        "node_missing",
+        "label_changed",
+        "direction_reversed",
+        "edge_missing",
+        "state_changed",
+        "membership_changed",
+        "edge_added"
+      ]
+    },
+    {
+      "fixture": "pair-cycle-then-diamond",
+      "stage": "assembled",
+      "core": "pair-cycle-then-diamond-core-b",
+      "equivalent": true,
+      "rejected": [
+        "node_missing",
+        "label_changed",
+        "direction_reversed",
+        "edge_missing",
+        "state_changed",
+        "membership_changed",
+        "edge_added"
+      ]
+    },
+    {
+      "fixture": "pair-cycle-then-diamond",
+      "stage": "projected",
+      "core": "pair-cycle-then-diamond-core-a",
+      "equivalent": true,
+      "rejected": [
+        "node_missing",
+        "label_changed",
+        "direction_reversed",
+        "edge_missing",
+        "state_changed",
+        "membership_changed",
+        "edge_added"
+      ]
+    },
+    {
+      "fixture": "pair-cycle-then-diamond",
+      "stage": "projected",
+      "core": "pair-cycle-then-diamond-core-b",
+      "equivalent": true,
+      "rejected": [
+        "node_missing",
+        "label_changed",
+        "direction_reversed",
+        "edge_missing",
+        "state_changed",
+        "membership_changed",
+        "edge_added"
+      ]
+    },
+    {
+      "fixture": "pair-cycle-then-linear",
+      "stage": "assembled",
+      "core": "pair-cycle-then-linear-core-a",
+      "equivalent": true,
+      "rejected": [
+        "node_missing",
+        "label_changed",
+        "direction_reversed",
+        "edge_missing",
+        "state_changed",
+        "membership_changed",
+        "edge_added"
+      ]
+    },
+    {
+      "fixture": "pair-cycle-then-linear",
+      "stage": "assembled",
+      "core": "pair-cycle-then-linear-core-b",
+      "equivalent": true,
+      "rejected": [
+        "node_missing",
+        "label_changed",
+        "direction_reversed",
+        "edge_missing",
+        "state_changed",
+        "membership_changed",
+        "edge_added"
+      ]
+    },
+    {
+      "fixture": "pair-cycle-then-linear",
+      "stage": "projected",
+      "core": "pair-cycle-then-linear-core-a",
+      "equivalent": true,
+      "rejected": [
+        "node_missing",
+        "label_changed",
+        "direction_reversed",
+        "edge_missing",
+        "state_changed",
+        "membership_changed",
+        "edge_added"
+      ]
+    },
+    {
+      "fixture": "pair-cycle-then-linear",
+      "stage": "projected",
+      "core": "pair-cycle-then-linear-core-b",
+      "equivalent": true,
+      "rejected": [
+        "node_missing",
+        "label_changed",
+        "direction_reversed",
+        "edge_missing",
+        "state_changed",
+        "membership_changed",
+        "edge_added"
+      ]
+    },
+    {
+      "fixture": "pair-diamond-then-cycle",
+      "stage": "assembled",
+      "core": "pair-diamond-then-cycle-core-a",
+      "equivalent": true,
+      "rejected": [
+        "node_missing",
+        "label_changed",
+        "direction_reversed",
+        "edge_missing",
+        "state_changed",
+        "membership_changed",
+        "edge_added"
+      ]
+    },
+    {
+      "fixture": "pair-diamond-then-cycle",
+      "stage": "assembled",
+      "core": "pair-diamond-then-cycle-core-b",
+      "equivalent": true,
+      "rejected": [
+        "node_missing",
+        "label_changed",
+        "direction_reversed",
+        "edge_missing",
+        "state_changed",
+        "membership_changed",
+        "edge_added"
+      ]
+    },
+    {
+      "fixture": "pair-diamond-then-cycle",
+      "stage": "projected",
+      "core": "pair-diamond-then-cycle-core-a",
+      "equivalent": true,
+      "rejected": [
+        "node_missing",
+        "label_changed",
+        "direction_reversed",
+        "edge_missing",
+        "state_changed",
+        "membership_changed",
+        "edge_added"
+      ]
+    },
+    {
+      "fixture": "pair-diamond-then-cycle",
+      "stage": "projected",
+      "core": "pair-diamond-then-cycle-core-b",
+      "equivalent": true,
+      "rejected": [
+        "node_missing",
+        "label_changed",
+        "direction_reversed",
+        "edge_missing",
+        "state_changed",
+        "membership_changed",
+        "edge_added"
+      ]
+    },
+    {
+      "fixture": "pair-diamond-then-diamond",
+      "stage": "assembled",
+      "core": "pair-diamond-then-diamond-core-a",
+      "equivalent": true,
+      "rejected": [
+        "node_missing",
+        "label_changed",
+        "direction_reversed",
+        "edge_missing",
+        "state_changed",
+        "membership_changed",
+        "edge_added"
+      ]
+    },
+    {
+      "fixture": "pair-diamond-then-diamond",
+      "stage": "assembled",
+      "core": "pair-diamond-then-diamond-core-b",
+      "equivalent": true,
+      "rejected": [
+        "node_missing",
+        "label_changed",
+        "direction_reversed",
+        "edge_missing",
+        "state_changed",
+        "membership_changed",
+        "edge_added"
+      ]
+    },
+    {
+      "fixture": "pair-diamond-then-diamond",
+      "stage": "projected",
+      "core": "pair-diamond-then-diamond-core-a",
+      "equivalent": true,
+      "rejected": [
+        "node_missing",
+        "label_changed",
+        "direction_reversed",
+        "edge_missing",
+        "state_changed",
+        "membership_changed",
+        "edge_added"
+      ]
+    },
+    {
+      "fixture": "pair-diamond-then-diamond",
+      "stage": "projected",
+      "core": "pair-diamond-then-diamond-core-b",
+      "equivalent": true,
+      "rejected": [
+        "node_missing",
+        "label_changed",
+        "direction_reversed",
+        "edge_missing",
+        "state_changed",
+        "membership_changed",
+        "edge_added"
+      ]
+    },
+    {
+      "fixture": "pair-diamond-then-linear",
+      "stage": "assembled",
+      "core": "pair-diamond-then-linear-core-a",
+      "equivalent": true,
+      "rejected": [
+        "node_missing",
+        "label_changed",
+        "direction_reversed",
+        "edge_missing",
+        "state_changed",
+        "membership_changed",
+        "edge_added"
+      ]
+    },
+    {
+      "fixture": "pair-diamond-then-linear",
+      "stage": "assembled",
+      "core": "pair-diamond-then-linear-core-b",
+      "equivalent": true,
+      "rejected": [
+        "node_missing",
+        "label_changed",
+        "direction_reversed",
+        "edge_missing",
+        "state_changed",
+        "membership_changed",
+        "edge_added"
+      ]
+    },
+    {
+      "fixture": "pair-diamond-then-linear",
+      "stage": "projected",
+      "core": "pair-diamond-then-linear-core-a",
+      "equivalent": true,
+      "rejected": [
+        "node_missing",
+        "label_changed",
+        "direction_reversed",
+        "edge_missing",
+        "state_changed",
+        "membership_changed",
+        "edge_added"
+      ]
+    },
+    {
+      "fixture": "pair-diamond-then-linear",
+      "stage": "projected",
+      "core": "pair-diamond-then-linear-core-b",
+      "equivalent": true,
+      "rejected": [
+        "node_missing",
+        "label_changed",
+        "direction_reversed",
+        "edge_missing",
+        "state_changed",
+        "membership_changed",
+        "edge_added"
+      ]
+    },
+    {
+      "fixture": "pair-linear-then-cycle",
+      "stage": "assembled",
+      "core": "pair-linear-then-cycle-core-a",
+      "equivalent": true,
+      "rejected": [
+        "node_missing",
+        "label_changed",
+        "direction_reversed",
+        "edge_missing",
+        "state_changed",
+        "membership_changed",
+        "edge_added"
+      ]
+    },
+    {
+      "fixture": "pair-linear-then-cycle",
+      "stage": "assembled",
+      "core": "pair-linear-then-cycle-core-b",
+      "equivalent": true,
+      "rejected": [
+        "node_missing",
+        "label_changed",
+        "direction_reversed",
+        "edge_missing",
+        "state_changed",
+        "membership_changed",
+        "edge_added"
+      ]
+    },
+    {
+      "fixture": "pair-linear-then-cycle",
+      "stage": "projected",
+      "core": "pair-linear-then-cycle-core-a",
+      "equivalent": true,
+      "rejected": [
+        "node_missing",
+        "label_changed",
+        "direction_reversed",
+        "edge_missing",
+        "state_changed",
+        "membership_changed",
+        "edge_added"
+      ]
+    },
+    {
+      "fixture": "pair-linear-then-cycle",
+      "stage": "projected",
+      "core": "pair-linear-then-cycle-core-b",
+      "equivalent": true,
+      "rejected": [
+        "node_missing",
+        "label_changed",
+        "direction_reversed",
+        "edge_missing",
+        "state_changed",
+        "membership_changed",
+        "edge_added"
+      ]
+    },
+    {
+      "fixture": "pair-linear-then-diamond",
+      "stage": "assembled",
+      "core": "pair-linear-then-diamond-core-a",
+      "equivalent": true,
+      "rejected": [
+        "node_missing",
+        "label_changed",
+        "direction_reversed",
+        "edge_missing",
+        "state_changed",
+        "membership_changed",
+        "edge_added"
+      ]
+    },
+    {
+      "fixture": "pair-linear-then-diamond",
+      "stage": "assembled",
+      "core": "pair-linear-then-diamond-core-b",
+      "equivalent": true,
+      "rejected": [
+        "node_missing",
+        "label_changed",
+        "direction_reversed",
+        "edge_missing",
+        "state_changed",
+        "membership_changed",
+        "edge_added"
+      ]
+    },
+    {
+      "fixture": "pair-linear-then-diamond",
+      "stage": "projected",
+      "core": "pair-linear-then-diamond-core-a",
+      "equivalent": true,
+      "rejected": [
+        "node_missing",
+        "label_changed",
+        "direction_reversed",
+        "edge_missing",
+        "state_changed",
+        "membership_changed",
+        "edge_added"
+      ]
+    },
+    {
+      "fixture": "pair-linear-then-diamond",
+      "stage": "projected",
+      "core": "pair-linear-then-diamond-core-b",
+      "equivalent": true,
+      "rejected": [
+        "node_missing",
+        "label_changed",
+        "direction_reversed",
+        "edge_missing",
+        "state_changed",
+        "membership_changed",
+        "edge_added"
+      ]
+    },
+    {
+      "fixture": "pair-linear-then-linear",
+      "stage": "assembled",
+      "core": "pair-linear-then-linear-core-a",
+      "equivalent": true,
+      "rejected": [
+        "node_missing",
+        "label_changed",
+        "direction_reversed",
+        "edge_missing",
+        "state_changed",
+        "membership_changed",
+        "edge_added"
+      ]
+    },
+    {
+      "fixture": "pair-linear-then-linear",
+      "stage": "assembled",
+      "core": "pair-linear-then-linear-core-b",
+      "equivalent": true,
+      "rejected": [
+        "node_missing",
+        "label_changed",
+        "direction_reversed",
+        "edge_missing",
+        "state_changed",
+        "membership_changed",
+        "edge_added"
+      ]
+    },
+    {
+      "fixture": "pair-linear-then-linear",
+      "stage": "projected",
+      "core": "pair-linear-then-linear-core-a",
+      "equivalent": true,
+      "rejected": [
+        "node_missing",
+        "label_changed",
+        "direction_reversed",
+        "edge_missing",
+        "state_changed",
+        "membership_changed",
+        "edge_added"
+      ]
+    },
+    {
+      "fixture": "pair-linear-then-linear",
+      "stage": "projected",
+      "core": "pair-linear-then-linear-core-b",
+      "equivalent": true,
+      "rejected": [
+        "node_missing",
+        "label_changed",
+        "direction_reversed",
+        "edge_missing",
+        "state_changed",
+        "membership_changed",
+        "edge_added"
+      ]
+    }
+  ],
+  "passed": true,
+  "limitations": [
+    "Core E2E and identity metadata come from an explicit sidecar contract, not inferred from Full alone.",
+    "Only nodes, edges, flow, animation_states, partial membership and declared E2E are compared; not arbitrary unknown top-level extensions.",
+    "No HTML/DOM geometry or Human understanding claim."
+  ]
+}

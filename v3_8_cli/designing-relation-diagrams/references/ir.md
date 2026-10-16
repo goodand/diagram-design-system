@@ -1,5 +1,7 @@
 # IR 작성
 
+새 Workflow Unit은 좌표 없이 작성할 수 있다. `Function_Definition`, 두 Summary 타입, `Process_Core`, `Process_Full` 및 Independent Core의 배치는 Tool이 계산한다. 아래 `x`/`y`와 group 위치 설명은 기존 IR 호환 형식의 계약이다. 새 Unit에서 좌표를 제공해도 자동 생성 View의 위치를 고정하는 요청으로 취급하지 않는다.
+
 **읽는 때**: IR(JSON)을 쓰기 전. Agent가 쓰는 것은 IR(과 `decisions.json`)뿐이다. SVG·HTML·PNG는 `drd.mjs finalize`만 만든다.
 
 새 파이프라인은 [workflow-units.md](workflow-units.md)의 Workflow Unit IR을 사용한다. 실제 `diagram_type`과 파일 참조 계약은 [workflow-units.schema.json](workflow-units.schema.json)에 정의한다. 기존 `l0_summary/l1_partial/l1_full` typed IR은 [workflow.md](workflow.md)에 기록된 호환 형식이며, 새 Unit과 섞지 않는다. 아래 예제는 기존 IR 호환 형식이다.

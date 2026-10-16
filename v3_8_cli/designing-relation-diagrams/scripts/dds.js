@@ -29,6 +29,7 @@
     return n ? n.id : id;
   }
   function withAutoFolds(source) {
+    if (source && source.visible_layout_cache && source.visible_layout_signature !== layoutSignature(source)) throw new Error('Stale visible layout; regenerate with CLI finalize');
     if (!source || !source.diagram_type || source.diagram_type === 'l0_summary') return source;
     if (source.nodes.some(function (n) { return n.autoFold; })) return JSON.parse(JSON.stringify(source));
     var ir = JSON.parse(JSON.stringify(source));
@@ -57,6 +58,10 @@
       if (!g.children.size) return;
       var childNodes = ir.nodes.filter(function (n) { return g.children.has(n.id); });
       var roots = childNodes.filter(function (n) { return !n.parent || !g.children.has(n.parent); });
+      // A single unchanged leaf has no hidden detail to unfold.
+      if (childNodes.length === 1 && roots.length === 1 && roots[0].role === 'process' && roots[0].expandAt === undefined && roots[0].label === g.task.label) return;
+      // A sole linked implementation already supplies the same semantic fold.
+      if (roots.length === 1 && roots[0].linked_detail && roots[0].label === g.task.label) return;
       if (roots.some(function (n) { return n.parent && !g.children.has(n.parent); })) throw Error('L0 auto-fold conflicts with an existing parent group');
       var points = childNodes.map(function (n) { var p=n.pos && (n.pos[1] || n.pos[0]); return p && Number.isFinite(p[0]) && Number.isFinite(p[1]) ? p : (Number.isFinite(n.x) && Number.isFinite(n.y) ? [n.x,n.y] : null); }).filter(Boolean);
       var x = points.length ? points.reduce(function (sum,p) { return sum + p[0]; },0) / points.length : (Number.isFinite(g.task.x) ? g.task.x : 0);
@@ -67,11 +72,29 @@
         if (n && !n.parent) n.parent=id;
       });
     });
+    // Only this validated, deterministic augmentation may rebind the cache.
+    if (ir.visible_layout_cache) ir.visible_layout_signature = layoutSignature(ir);
     return ir;
+  }
+  // Conservative cache identity: source content and options, excluding generated caches.
+  // Revision also invalidates caches when the layout implementation changes.
+  function layoutSignature(ir) {
+    function canonical(value) {
+      if (Array.isArray(value)) return value.map(canonical);
+      if (value && typeof value === 'object') {
+        var out={}; Object.keys(value).sort().forEach(function(k){out[k]=canonical(value[k]);}); return out;
+      }
+      return value;
+    }
+    var source={}; Object.keys(ir).forEach(function(k){
+      if(k!=='visible_layout_cache' && k!=='visible_layout_signature' && k!=='routing_cache')source[k]=ir[k];
+    });
+    return JSON.stringify(['visible-layout-v1',canonical(source)]);
   }
   function view(ir, L, vopt) {
     VOPT = vopt || {};
     if (L === undefined || L === null) return ir;
+    if(ir.visible_layout_cache && ir.visible_layout_signature!==layoutSignature(ir))throw new Error('Stale visible layout; regenerate with CLI finalize');
     ir = withAutoFolds(ir);
     var m = byId(ir), nodes = [], groups = [], seen = {}, edges = [];
     ir.nodes.forEach(function (n) {
@@ -96,10 +119,16 @@
     ir.edges.forEach(function (e) {
       var f = liftTo(e.from, m, L), t = liftTo(e.to, m, L);
       if (f === t) return;
-      var k = f + '>' + t + (e.loop ? 'L' : '') + (ir.diagram_type && (f === e.from && t === e.to || m[f] && m[f].autoFold || m[t] && m[t].autoFold) ? ':' + e.id : '');
+      var k = f + '>' + t + (e.loop ? 'L' : '') + (f === e.from && t === e.to || ir.diagram_type && (m[f] && m[f].autoFold || m[t] && m[t].autoFold) ? ':' + e.id : '');
       if (seen[k]) return; seen[k] = 1;
       edges.push(Object.assign({}, e, { from: f, to: t }));
     });
+    if(ir.visible_layout_cache){
+      var layoutKey=JSON.stringify([nodes.map(function(n){return n.id;}).sort(),edges.map(function(e){return [e.id,e.from,e.to];}).sort(function(a,b){return JSON.stringify(a).localeCompare(JSON.stringify(b));})]);
+      var layout=ir.visible_layout_cache[layoutKey];
+      if(!layout)throw new Error('Missing visible layout; regenerate with CLI finalize');
+      nodes=nodes.map(function(n){var p=layout.positions && layout.positions[n.id];if(!Array.isArray(p)||p.length!==2||!p.every(Number.isFinite))throw new Error('Invalid visible layout position: '+n.id);return Object.assign({},n,{x:p[0],y:p[1]});});
+    }
     return Object.assign({}, ir, { nodes: nodes, groups: groups, edges: edges, level: L });
   }
 
@@ -139,6 +168,9 @@
     return { pts: [[sx, sy], [sx, my], [tx, my], [tx, ty]] };
   }
   function pathD(r) { return r.d || ('M' + r.pts.map(function (p) { return p.join(','); }).join(' L')); }
+  function routingKey(v) {
+    return JSON.stringify([v.nodes.map(function(n){var b=box(n);return [n.id,b.x,b.y,b.w,b.h];}),v.edges.map(function(e){var key=[e.id,e.from,e.to];if(e.fromSide!==undefined||e.toSide!==undefined)key.push(e.fromSide||null,e.toSide||null);return key;})]);
+  }
   function longestSeg(pts) {
     var best = 0, bi = 0;
     for (var i = 0; i < pts.length - 1; i++) { var l = Math.hypot(pts[i + 1][0] - pts[i][0], pts[i + 1][1] - pts[i][1]); if (l > best) { best = l; bi = i; } }
@@ -163,6 +195,19 @@
     opt = opt || {};
     var ir = view(irIn, opt.level === undefined ? 2 : opt.level, { expand: opt.expand, collapse: opt.collapse });
     var m = byId(ir), W = ir.w || 780, H = ir.h || 400, out = [];
+    var cached = ir.edge_routing === 'libavoid' && ir.routing_cache && ir.routing_cache[routingKey(ir)];
+    if (ir.edge_routing === 'libavoid' && !cached) throw new Error('Missing routing cache for visible state; regenerate with CLI finalize');
+    function edgeRoute(e,i) { return cached ? cached[i] : route(e,m); }
+    var routedLabels = [], occupiedLabels = [];
+    if (cached) ir.edges.forEach(function(e,i) {
+      if (!e.label) return;
+      var ls=longestSeg2(cached[i].pts,e.labelAt), tw=e.label.length*11+8;
+      var choices=ls.h ? [[ls.x-tw/2,ls.y-25],[ls.x-tw/2,ls.y+8]] : [[ls.x+8,ls.y-9],[ls.x-tw-8,ls.y-9]];
+      var obstacles=ir.nodes.map(box).concat(occupiedLabels);
+      function score(p) { return obstacles.reduce(function(sum,b){return sum+Math.max(0,Math.min(p[0]+tw,b.x+b.w)-Math.max(p[0],b.x))*Math.max(0,Math.min(p[1]+17,b.y+b.h)-Math.max(p[1],b.y));},0); }
+      choices.sort(function(a,b){return score(a)-score(b);});
+      var p=choices[0]; routedLabels[i]={x:p[0],y:p[1],w:tw,h:17}; occupiedLabels.push(routedLabels[i]);
+    });
     var vx = 0, vy = 0;
     if (opt.fit) { // bounding box of every drawn element + the same pad on all four sides (cf. Graphviz bb + pad)
       var pad = opt.pad === undefined ? 24 : opt.pad, X = [], Y = [];
@@ -175,8 +220,9 @@
         addBox(Math.min.apply(null, bs.map(function (q) { return q.x; })) - gp, Math.min.apply(null, bs.map(function (q) { return q.y; })) - gp - 20,
                Math.max.apply(null, bs.map(function (q) { return q.x + q.w; })) + gp, Math.max.apply(null, bs.map(function (q) { return q.y + q.h; })) + gp + (ir.regionExtra || 0));
       });
-      ir.edges.forEach(function (e) { var r = route(e, m); r.pts.forEach(function (q) { addBox(q[0] - 6, q[1] - 6, q[0] + 6, q[1] + 6); });
-        if (e.label) { var ls = longestSeg2(r.pts, e.labelAt), tw = e.label.length * 11 + 8; addBox(ls.x - tw / 2 - 10, ls.y - 24, ls.x + tw + 12, ls.y + 12); } });
+      ir.edges.forEach(function (e,i) { var r = edgeRoute(e,i); r.pts.forEach(function (q) { addBox(q[0] - 6, q[1] - 6, q[0] + 6, q[1] + 6); });
+        if (routedLabels[i]) { var lb=routedLabels[i]; addBox(lb.x,lb.y,lb.x+lb.w,lb.y+lb.h); }
+        else if (e.label) { var ls = longestSeg2(r.pts, e.labelAt), tw = e.label.length * 11 + 8; addBox(ls.x - tw / 2 - 10, ls.y - 24, ls.x + tw + 12, ls.y + 12); } });
       vx = Math.min.apply(null, X) - pad; vy = Math.min.apply(null, Y) - pad;
       W = Math.max.apply(null, X) + pad - vx; H = Math.max.apply(null, Y) + pad - vy;
     }
@@ -202,14 +248,15 @@
     var FR = opt.focus ? reach(ir, opt.focus) : null; // R18: static emphasis (one flow per sheet)
     function dimAttr(on) { return FR && !on ? ' opacity="0.16"' : ''; }
     ir.edges.forEach(function (e, i) {
-      var r = route(e, m), c = e.color || 'black';
+      var r = edgeRoute(e,i), c = e.color || 'black';
       var mk = e.arrow === false ? '' : ' marker-end="url(#ah-' + c + (opt.uid || '') + ')"';
       out.push('<g class="dds-edge' + (e.loop ? ' is-loop' : '') + '" data-from="' + e.from + '" data-to="' + e.to + '" data-i="' + i + '"' + dimAttr(FR && FR.edges[i]) + '>' +
         '<path d="' + pathD(r) + '" fill="none" stroke="' + col(c) + '" stroke-width="' + (e.width || 1.6) + '"' + dash(e.certainty) + mk + '/>');
       if (ir.diagram_type) out.push('<path d="' + pathD(r) + '" fill="none" stroke="transparent" stroke-width="12" pointer-events="stroke"/>');
       if (e.label) { // placed beside the line so certainty dashes stay visible
         var ls = longestSeg2(r.pts, e.labelAt), tw = e.label.length * 11 + 8;
-        if (ls.h) out.push('<rect x="' + (ls.x - tw / 2) + '" y="' + (ls.y - 21) + '" width="' + tw + '" height="17" fill="#fff"/>' +
+        if (routedLabels[i]) { var lb=routedLabels[i]; out.push('<rect x="'+lb.x+'" y="'+lb.y+'" width="'+lb.w+'" height="17" fill="#fff"/><text x="'+(lb.x+4)+'" y="'+(lb.y+13)+'" class="dds-edge-label">'+esc(e.label)+'</text>'); }
+        else if (ls.h) out.push('<rect x="' + (ls.x - tw / 2) + '" y="' + (ls.y - 21) + '" width="' + tw + '" height="17" fill="#fff"/>' +
           '<text x="' + ls.x + '" y="' + (ls.y - 8) + '" text-anchor="middle" class="dds-edge-label">' + esc(e.label) + '</text>');
         else out.push('<rect x="' + (ls.x + 5) + '" y="' + (ls.y - 9) + '" width="' + tw + '" height="17" fill="#fff"/>' +
           '<text x="' + (ls.x + 9) + '" y="' + (ls.y + 4) + '" class="dds-edge-label">' + esc(e.label) + '</text>');
@@ -364,5 +411,5 @@
     var r = reach(v, id), on = Object.keys(r.nodes).length;
     return { main: on, dimmed: v.nodes.length - on, total: v.nodes.length };
   }
-  global.DDS = { PALETTE: PALETTE, render: render, view: view, withAutoFolds: withAutoFolds, reach: reach, focusStats: focusStats, attachHover: attachHover, animate: animate, validate: validate };
+  global.DDS = { PALETTE: PALETTE, layoutSignature:layoutSignature, box:box, routingKey:routingKey, render: render, view: view, withAutoFolds: withAutoFolds, reach: reach, focusStats: focusStats, attachHover: attachHover, animate: animate, validate: validate };
 })(typeof window !== 'undefined' ? window : globalThis);
