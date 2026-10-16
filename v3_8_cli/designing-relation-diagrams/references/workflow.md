@@ -44,7 +44,9 @@ The snippet illustrates the reference fields; replace `snapshot` with real L0 JS
 
 Full diagrams derive these links from the approved partial files. Partials referencing the same `node_id` collapse together to one Task; conflicting Task definitions are rejected. This is a view transformation, not a rewrite of approved content. Older inputs without `l0_ref` keep their previous behavior; add the reference in a new draft version and obtain its approval instead of editing approved bytes.
 
-For `l1_full`, `approved_partials` contains `{id, version, path, sha256, decision_ref}`. Paths resolve relative to the full IR. Keep the approved partial JSON files available for revalidation. A `partial_approval` decision in the separate decisions file must have `subject: "Human"`, `status: "decided"`, a nonempty `answer`, `answered_at` and the snapshot's `ir_sha256`. Never synthesize Human responses outside test fixtures.
+For `l1_full`, `approved_partials` contains `{id, version, path, sha256, decision_ref}`. Paths resolve relative to the full IR. Keep the approved partial JSON files available for revalidation. A `partial_approval` decision in the separate decisions file must have `subject: "Human"`, `status: "decided"`, `outcome: "approved"`, a nonempty `answer`, `answered_at` and the snapshot's `ir_sha256`. Never synthesize Human responses outside test fixtures.
+
+Approval requires an explicit `outcome: "approved"`; rejected, deferred, or missing outcomes do not authorize a transition. Preserve answer text. Existing records require explicit outcome review rather than automatic migration.
 
 `assembly_decision_ref` references a Human `assemble_full` decision with `partial_sha256` selecting precisely the approved snapshot hashes. File hashes bind exact approved bytes; copied content is compared by normalized JSON ignoring key order and geometry.
 
@@ -56,7 +58,7 @@ New connections must join the approved output of one partial to the approved inp
 
 ## Interaction
 
-Focus interactions apply to `l1_partial` and `l1_full`. Playback applies only to `l1_full`. L0 is static; neither L0 nor `l1_partial` has animation or replay/Stop controls. Partial folding and Hover focus remain available.
+Hover/focus Dimming and token playback apply only to `l1_full`. L0 is static. `l1_partial` retains folding controls without node/edge Hover emphasis or token animation. Keyboard focus on folding controls remains available.
 
 The initial full view has no extra Dimming. Hovering a unique node/edge activates its partial; hovering a shared node/edge activates the union of its partials. Reachability from the selected scope's boundaries identifies related E2E input/output endpoints. Those endpoints are emphasized, but intervening Tasks belonging to other partials stay dimmed. Otherwise a linear pipeline would always highlight everything.
 

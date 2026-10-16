@@ -29,6 +29,7 @@
     return n ? n.id : id;
   }
   function withAutoFolds(source) {
+    if (source && source.visible_layout_cache && source.visible_layout_signature !== layoutSignature(source)) throw new Error('Stale visible layout; regenerate with CLI finalize');
     if (!source || !source.diagram_type || source.diagram_type === 'l0_summary') return source;
     if (source.nodes.some(function (n) { return n.autoFold; })) return JSON.parse(JSON.stringify(source));
     var ir = JSON.parse(JSON.stringify(source));
@@ -71,11 +72,29 @@
         if (n && !n.parent) n.parent=id;
       });
     });
+    // Only this validated, deterministic augmentation may rebind the cache.
+    if (ir.visible_layout_cache) ir.visible_layout_signature = layoutSignature(ir);
     return ir;
+  }
+  // Conservative cache identity: source content and options, excluding generated caches.
+  // Revision also invalidates caches when the layout implementation changes.
+  function layoutSignature(ir) {
+    function canonical(value) {
+      if (Array.isArray(value)) return value.map(canonical);
+      if (value && typeof value === 'object') {
+        var out={}; Object.keys(value).sort().forEach(function(k){out[k]=canonical(value[k]);}); return out;
+      }
+      return value;
+    }
+    var source={}; Object.keys(ir).forEach(function(k){
+      if(k!=='visible_layout_cache' && k!=='visible_layout_signature' && k!=='routing_cache')source[k]=ir[k];
+    });
+    return JSON.stringify(['visible-layout-v1',canonical(source)]);
   }
   function view(ir, L, vopt) {
     VOPT = vopt || {};
     if (L === undefined || L === null) return ir;
+    if(ir.visible_layout_cache && ir.visible_layout_signature!==layoutSignature(ir))throw new Error('Stale visible layout; regenerate with CLI finalize');
     ir = withAutoFolds(ir);
     var m = byId(ir), nodes = [], groups = [], seen = {}, edges = [];
     ir.nodes.forEach(function (n) {
@@ -100,10 +119,16 @@
     ir.edges.forEach(function (e) {
       var f = liftTo(e.from, m, L), t = liftTo(e.to, m, L);
       if (f === t) return;
-      var k = f + '>' + t + (e.loop ? 'L' : '') + (ir.diagram_type && (f === e.from && t === e.to || m[f] && m[f].autoFold || m[t] && m[t].autoFold) ? ':' + e.id : '');
+      var k = f + '>' + t + (e.loop ? 'L' : '') + (f === e.from && t === e.to || ir.diagram_type && (m[f] && m[f].autoFold || m[t] && m[t].autoFold) ? ':' + e.id : '');
       if (seen[k]) return; seen[k] = 1;
       edges.push(Object.assign({}, e, { from: f, to: t }));
     });
+    if(ir.visible_layout_cache){
+      var layoutKey=JSON.stringify([nodes.map(function(n){return n.id;}).sort(),edges.map(function(e){return [e.id,e.from,e.to];}).sort(function(a,b){return JSON.stringify(a).localeCompare(JSON.stringify(b));})]);
+      var layout=ir.visible_layout_cache[layoutKey];
+      if(!layout)throw new Error('Missing visible layout; regenerate with CLI finalize');
+      nodes=nodes.map(function(n){var p=layout.positions && layout.positions[n.id];if(!Array.isArray(p)||p.length!==2||!p.every(Number.isFinite))throw new Error('Invalid visible layout position: '+n.id);return Object.assign({},n,{x:p[0],y:p[1]});});
+    }
     return Object.assign({}, ir, { nodes: nodes, groups: groups, edges: edges, level: L });
   }
 
@@ -386,5 +411,5 @@
     var r = reach(v, id), on = Object.keys(r.nodes).length;
     return { main: on, dimmed: v.nodes.length - on, total: v.nodes.length };
   }
-  global.DDS = { PALETTE: PALETTE, box:box, routingKey:routingKey, render: render, view: view, withAutoFolds: withAutoFolds, reach: reach, focusStats: focusStats, attachHover: attachHover, animate: animate, validate: validate };
+  global.DDS = { PALETTE: PALETTE, layoutSignature:layoutSignature, box:box, routingKey:routingKey, render: render, view: view, withAutoFolds: withAutoFolds, reach: reach, focusStats: focusStats, attachHover: attachHover, animate: animate, validate: validate };
 })(typeof window !== 'undefined' ? window : globalThis);

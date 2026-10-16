@@ -11,6 +11,7 @@ import { toPng } from './lib/png.mjs';
 import { context, schema, workflowState } from './lib/workflow.mjs';
 import { runtimeIr, runtimeType } from './lib/workflow-units.mjs';
 import { routingCache } from './lib/routing-cache.mjs';
+import { buildViewLayouts } from './lib/auto-layout.mjs';
 import { composeLinkedDiagrams } from './lib/linked-diagrams.mjs';
 import { viewStem, viewOutputNames } from './lib/view-names.mjs';
 const VERSION = 'v3.95-cli';
@@ -35,7 +36,7 @@ function loadDecisions(irPath) {
   if (!j || !Array.isArray(j.decisions)) return { bad: 'decisions file must have a "decisions" array' };
   return { decs: j.decisions, sha: sha(buf), decisions_source:p };
 }
-function prepare(irPath) {
+async function prepare(irPath) {
   if (!irPath || !existsSync(irPath)) bad(`cannot read IR: ${irPath}`);
   const text = readFileSync(irPath, 'utf8'), L = loadIr(text, A);
   if (L.bad) bad(L.bad);
@@ -46,6 +47,15 @@ function prepare(irPath) {
     ...(runtimeType(L.ir.diagram_type) === 'l1_partial' ? {l0_ref:workflow.l0_refs[0]} : {}) } : L.ir;
   if (L.ir.linked_diagrams !== undefined) {
     try { presentation = composeLinkedDiagrams(L.ir,path.dirname(path.resolve(irPath)),D.decs); } catch(e) { bad(e.message); }
+  }
+  if (['Function_Definition','Process_Summary_Linear','Process_Summary_Router','Process_Core','Process_Full'].includes(L.ir.diagram_type)) {
+    if(workflow?.errors.length)bad('workflow validation failed: '+workflow.errors.join('; '));
+    try {
+      presentation=runtimeIr(presentation);
+      presentation.edge_routing='libavoid';
+      const {states,...cache}=await buildViewLayouts(DDS,presentation,A.level);
+      presentation={...presentation,...cache};
+    } catch(e){bad('automatic layout failed: '+e.message);}
   }
   let view; try { view = DDS.view(runtimeIr(presentation), A.level, {expand:A.expand,collapse:A.collapse}); } catch(e) { bad(e.message); }
   const g = gates(L.ir, view, D.decs, A);
@@ -58,12 +68,12 @@ if (cmd === 'version' || cmd === '--version') {
 } else if (cmd === 'context' || cmd === 'schema') {
   try { console.log(JSON.stringify((cmd === 'schema' ? schema : context)(A.pos[0]),null,2)); } catch(e) { bad(e.message); }
 } else if (cmd === 'workflow') {
-  const P = prepare(A.pos[0]); console.log(JSON.stringify(P.workflow || {stage:'legacy',next_actions:['author_l0_summary']},null,2)); process.exit(P.g.exit);
+  const P = await prepare(A.pos[0]); console.log(JSON.stringify(P.workflow || {stage:'legacy',next_actions:['author_l0_summary']},null,2)); process.exit(P.g.exit);
 } else if (cmd === 'independent-core') {
   const out=val(outIdx);
   if (!A.pos[0] || !out) bad('independent-core <Core.json> --out <new-directory>');
   if (existsSync(out)) bad('independent-core requires a new output directory to preserve earlier artifacts');
-  const P=prepare(A.pos[0]);
+  const P=await prepare(A.pos[0]);
   if(P.g.exit) done([`STATUS ${P.g.status}`,...rejLines(P.g)],P.g.exit);
   let svg;try {svg=await renderIndependentCoreSvg(P.ir);}catch(e){bad(e.message);}
   mkdirSync(out,{recursive:true});
@@ -83,12 +93,12 @@ if (cmd === 'version' || cmd === '--version') {
   let outAbs = path.resolve(out);
   try { if (process.platform === 'darwin' && outAbs.startsWith('/private/')) { let q = outAbs; while (!existsSync(q.slice(8))) q = path.dirname(q); if (realpathSync(q.slice(8)) === q) outAbs = outAbs.slice(8); } } catch {}
   rmSync(path.join(out, 'candidates'), { recursive: true, force: true });
-  const P = prepare(irPath), g = P.g;
+  const P = await prepare(irPath), g = P.g;
   if (g.exit) {
     done([`STATUS ${g.status}`, ...rejLines(g)], g.exit);
   }
   mkdirSync(out, { recursive: true });
-  if (P.ir.edge_routing === 'libavoid') {
+  if (P.ir.edge_routing === 'libavoid' && !P.presentation.routing_cache) {
     try { P.presentation.routing_cache = await routingCache(runtimeIr(P.presentation),DDS,A.level); }
     catch(e) { bad(`edge routing failed: ${e.message}`); }
   }
@@ -106,7 +116,7 @@ if (cmd === 'version' || cmd === '--version') {
   done([`STATUS ${g.status}`, ...g.checks.map(c => `${c.code} ${c.state}: ${c.evidence}`), ...C.lines, ...(P.workflow?.summary_guidance ? [`GUIDE ${P.workflow.summary_guidance}`] : []), `wrote ${out}`], 0);
 } else if (cmd === 'check') {
   if (!A.pos[0]) { console.error(usage); process.exit(2); }
-  const P = prepare(A.pos[0]), g = P.g;
+  const P = await prepare(A.pos[0]), g = P.g;
   const lines = g.results.map(x => `${x.ok ? 'PASS' : x.level === 'warn' ? 'WARN' : 'FAIL'} ${x.code}: ${x.evidence}${x.ok ? '' : ' -> ' + x.fix}`);
   if (g.focus) lines.push(`FOCUS ${g.focus.id}: ${g.focus.verdict} (Main ${g.focus.main}, dimmed ${g.focus.dimmed})`);
   if (P.workflow?.summary_guidance) lines.push(`GUIDE ${P.workflow.summary_guidance}`);
@@ -117,6 +127,7 @@ if (cmd === 'version' || cmd === '--version') {
   let rc; try { rc = JSON.parse(readFileSync(rp, 'utf8')); } catch (e) { console.error(`bad receipt: ${e.message}`); process.exit(2); }
   const L = [], put = (c, s, e) => L.push(`${c} ${s}: ${e}`);
   const bads = [], miss = [];
+  for(const key of ['ir','svg','html']) if(!rc.outputs?.[key]?.path||!rc.outputs[key].sha256) miss.push(`receipt.outputs.${key}`);
   for (const [k, o] of Object.entries(rc.outputs || {})) { if (!o) continue; const p = path.join(dir, o.path); if (!existsSync(p)) miss.push(o.path); else if (sha(readFileSync(p)) !== o.sha256) bads.push(o.path); }
   put('S6', bads.length || miss.length ? 'INCONSISTENT' : 'CONSISTENT', bads.length || miss.length ? `sha mismatch [${bads}] missing [${miss}] -> rerun finalize` : 'every receipt output exists and sha256 matches');
   const sp = path.join(dir, rc.outputs?.svg?.path || 'diagram.svg'), hp = path.join(dir, rc.outputs?.html?.path || 'diagram.html');

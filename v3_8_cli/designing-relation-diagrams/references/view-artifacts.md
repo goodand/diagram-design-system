@@ -4,6 +4,8 @@
 
 `human`은 Human용 표현, `agent`는 Tool Use Agent 독립 검토용 표현, `common`은 공유 표현이다. 실제 열람자가 바뀌어도 이름은 바뀌지 않는다. 형식은 확장자, 표시 상태는 별도 접미사로 구분한다.
 
+상호작용 범위: Core Human View는 접기·펼치기를 제공한다. 노드·연결선 Hover 강조, Dimming 및 상태 토큰 애니메이션은 Full Human View에만 적용한다. Independent Core는 상호작용 없는 이미지이며 Function·Summary도 정적 표현이다.
+
 | 생성 경로 | View 파일 |
 |---|---|
 | Function finalize | function.common.svg / .png / .html |

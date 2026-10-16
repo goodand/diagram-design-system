@@ -95,7 +95,8 @@
     }
     function bind() {
       svg = host.querySelector('svg'); rendered = global.DDS.view(ir,level,{expand:expanded,collapse:collapsed});
-      svg.querySelectorAll('.dds-node,.dds-edge').forEach(function (el) {
+      // Core retains folding controls; focus scope and tokens belong to Full.
+      if (ir.diagram_type === 'l1_full') svg.querySelectorAll('.dds-node,.dds-edge').forEach(function (el) {
         var node = el.classList.contains('dds-node'), edge = node ? null : rendered.edges[Number(el.dataset.i)];
         var id = node ? el.dataset.id : ir.edges.filter(function (e) { return project(e.from) === edge.from && project(e.to) === edge.to; }).map(function (e) { return e.id; });
         el.setAttribute('tabindex','0');

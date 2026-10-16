@@ -262,6 +262,7 @@
             "partials": { "type": "array", "minItems": 2, "maxItems": 3, "items": { "$ref": "#/$defs/partial" } },
             "approved_partials": { "type": "array", "minItems": 2, "maxItems": 3, "items": { "$ref": "#/$defs/approvedPartial" } },
             "assembly_decision_ref": { "$ref": "#/$defs/id" },
+            "connections": { "type": "array", "uniqueItems": true, "items": { "$ref": "#/$defs/id" }, "description": "Direct Entity-to-Entity identity handoffs between approved Cores. Each listed edge declares continuity of the same carried Entity; Tool projection merges isolated one-to-one pairs automatically. Fan-in/out, chains, semantic edge annotations, loops, conflicting Entity semantics, or a newly introduced unmarked cycle fail closed. Source IRs remain unchanged." },
             "linked_diagrams": { "type": "array", "items": { "$ref": "#/$defs/linkedDiagram" } }
           }
         }

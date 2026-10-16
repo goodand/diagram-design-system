@@ -3,7 +3,7 @@ import { readFileSync } from 'node:fs';
 import { DDS, DDS_PATH } from './engine.mjs';
 import { fileURLToPath } from 'node:url';
 import { runtimeIr } from './workflow-units.mjs';
-import { routingCache } from './routing-cache.mjs';
+import { buildViewLayouts } from './auto-layout.mjs';
 const STYLE = '<style>text{font-family:"Noto Sans CJK KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif}.dds-label{font-size:14px;font-weight:600}.dds-edge-label{font-size:11.5px}.dds-region-label{font-size:12px;font-weight:600}.m-explain,.m-example{display:none}</style>';
 export function renderSvg(ir, A) {
   ir = runtimeIr(ir);
@@ -20,8 +20,12 @@ export async function renderIndependentCoreSvg(source) {
   delete ir.l0_ref;
   delete ir.l0_refs;
   delete ir.routing_cache;
-  // No UI state is consulted; level selects the existing detailed coordinates only.
-  if (ir.edge_routing === 'libavoid') ir.routing_cache = await routingCache(ir,DDS,2);
+  delete ir.visible_layout_cache;
+  delete ir.visible_layout_signature;
+  ir.edge_routing = 'libavoid';
+  // Flat source has no Human fold states. Geometry is generated without source edits.
+  const {states,...cache} = await buildViewLayouts(DDS,ir,2);
+  Object.assign(ir,cache);
   return renderSvg(ir,{level:2,expand:[],collapse:[],pad:24,focus:null});
 }
 const safeJs = (s) => s.replace(/<\/(script)/gi, '<\\/$1').replace(/<!--/g, '<\\!--');

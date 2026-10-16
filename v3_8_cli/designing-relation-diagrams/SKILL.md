@@ -12,6 +12,8 @@ description: Draws node-link diagrams in the Version B visual language for four 
 
 Agent는 **IR(JSON)과 `decisions.json`만 쓴다.** SVG·HTML·PNG는 `node scripts/drd.mjs finalize` 또는 아래 `independent-core` 명령으로 만든다. 손으로 쓰거나 고치지 않는다.
 
+새 Workflow Unit 5종은 자동 배치를 사용한다. ToolUsingAgent는 의미·Graph Topology를 작성하고, Tool은 각 접힘 상태의 좌표와 연결 경로를 계산한다. `x`/`y`/`pos` 입력은 필수가 아니며, Independent Core도 자동 배치한다. 생성된 표현은 원본 IR·승인 해시를 변경하지 않는다. 이전 `l0_summary/l1_partial/l1_full` 입력은 기존 좌표 계약을 유지한다.
+
 ### ToolUsingAgent 전용 Independent Core View
 
 ### Core Human_View의 선택적 상태 이미지

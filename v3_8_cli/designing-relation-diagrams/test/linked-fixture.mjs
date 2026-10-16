@@ -38,8 +38,8 @@ function workflow(dir, prefix, functionLabel, inputLabel, middleLabel, outputLab
     const ref=save(dir,`${prefix}-core-${i}.json`,c);
     return {...ref,decision_ref:`${prefix}-approve-${i}`};
   });
-  const decisions=coreRefs.map(r=>({id:r.decision_ref,topic:'partial_approval',subject:'Human',status:'decided',answer:'approved',answered_at:'2026-10-13T00:00:00Z',ir_sha256:r.sha256}));
-  decisions.push({id:`${prefix}-assemble`,topic:'assemble_full',subject:'Human',status:'decided',answer:'assembled',answered_at:'2026-10-13T00:00:00Z',partial_sha256:coreRefs.map(r=>r.sha256)});
+  const decisions=coreRefs.map(r=>({id:r.decision_ref,topic:'partial_approval',subject:'Human',status:'decided',outcome:'approved',answer:'approved',answered_at:'2026-10-13T00:00:00Z',ir_sha256:r.sha256}));
+  decisions.push({id:`${prefix}-assemble`,topic:'assemble_full',subject:'Human',status:'decided',outcome:'approved',answer:'assembled',answered_at:'2026-10-13T00:00:00Z',partial_sha256:coreRefs.map(r=>r.sha256)});
   const full={id:`${prefix}-full`,version:'1',diagram_type:'Process_Full',summary_ref:sref,
     approved_partials:coreRefs,assembly_decision_ref:`${prefix}-assemble`,
     nodes:[...new Map(cores.flatMap(c=>c.nodes).map(n=>[n.id,n])).values()],
@@ -63,7 +63,7 @@ export function linkedFixture({simulation=false,internalTarget=false}={}) {
   const parentBytes=JSON.stringify(parentFull,null,2)+'\n';
   const parentPath=path.join(dir,'parent-full.json');writeFileSync(parentPath,parentBytes);
   const decisions=[...parent.decisions,...child.decisions,
-    {id:'link-approved',topic:'linked_diagram_approval',subject:'Human',status:'decided',answer:'approved',answered_at:'2026-10-13T00:00:00Z',ir_sha256:link.full_ref.sha256,parent_node_id:parent.targetNodeId}];
+    {id:'link-approved',topic:'linked_diagram_approval',subject:'Human',status:'decided',outcome:'approved',answer:'approved',answered_at:'2026-10-13T00:00:00Z',ir_sha256:link.full_ref.sha256,parent_node_id:parent.targetNodeId}];
   return {dir,parentFull,parentBytes,parentPath,parent,child,link,decisions,parentPartial};
 }
 

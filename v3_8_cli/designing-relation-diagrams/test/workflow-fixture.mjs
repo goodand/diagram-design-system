@@ -21,9 +21,9 @@ export function fixture(dir) {
     const bytes=JSON.stringify(p,null,2)+'\n', sha256=createHash('sha256').update(bytes).digest('hex');
     writeFileSync(path.join(dir,p.id+'.json'),bytes);
     refs.push({id:p.id,version:p.version,path:p.id+'.json',sha256,decision_ref:'approve-'+p.id});
-    decisions.push({id:'approve-'+p.id,topic:'partial_approval',subject:'Human',status:'decided',answer:'SYNTHETIC TEST APPROVAL',answered_at:'2026-10-12T00:00:00Z',ir_sha256:sha256});
+    decisions.push({id:'approve-'+p.id,topic:'partial_approval',subject:'Human',status:'decided',outcome:'approved',answer:'SYNTHETIC TEST APPROVAL',answered_at:'2026-10-12T00:00:00Z',ir_sha256:sha256});
   }
-  decisions.push({id:'assemble',topic:'assemble_full',subject:'Human',status:'decided',answer:'SYNTHETIC TEST ASSEMBLY',answered_at:'2026-10-12T00:00:00Z',partial_sha256:refs.map(r=>r.sha256)});
+  decisions.push({id:'assemble',topic:'assemble_full',subject:'Human',status:'decided',outcome:'approved',answer:'SYNTHETIC TEST ASSEMBLY',answered_at:'2026-10-12T00:00:00Z',partial_sha256:refs.map(r=>r.sha256)});
   const full={id:'full',version:'1',diagram_type:'l1_full',title:'Workflow interaction test',w:1100,h:950,
     nodes:[...new Map(parts.flatMap(p=>p.nodes).map(n=>[n.id,n])).values()],edges:[...new Map(parts.flatMap(p=>p.edges).map(e=>[e.id,e])).values()],
     e2e:{inputs:['input'],outputs:['aout','bout']},partials:parts.flatMap(p=>p.partials),flow:Object.assign({},...parts.map(p=>p.flow)),approved_partials:refs,assembly_decision_ref:'assemble'};

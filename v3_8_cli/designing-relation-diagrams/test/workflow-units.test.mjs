@@ -58,6 +58,14 @@ test('Process_Summary_Router requires explicit routing semantics and a branch',(
   const dead=summary(); dead.diagram_type='Process_Summary_Router'; dead.routing='parallel'; dead.nodes.push(node('p3','process')); dead.edges[1].to='p3'; dead.edges.push(edge('d','p1','p2')); dead.flow.d='d';
   assert.throws(()=>validateWorkflow(dead),/reach an E2E output/);
 });
+
+test('Linear Summary rejects routing fields as required by its published schema',()=>{
+ for(const routing of ['exclusive','parallel',null,false,'']){
+  const s=summary();s.routing=routing;
+  assert.throws(()=>validateWorkflow(s),/routing/);
+ }
+ assert.doesNotThrow(()=>validateWorkflow(summary()));
+});
 test('Summary and Core references bind exact parent bytes and Core maps to its Summary task',()=>{
   const dir=mkdtempSync(path.join(tmpdir(),'dds-units-'));
   const f=functionDefinition(), fbytes=JSON.stringify(f,null,2)+'\n'; writeFileSync(path.join(dir,'function.json'),fbytes);
@@ -66,6 +74,10 @@ test('Summary and Core references bind exact parent bytes and Core maps to its S
   const core={id:'core-a',version:'1',diagram_type:'Process_Core',summary_ref:{path:'summary.json',id:s.id,version:s.version,sha256:createHash('sha256').update(sbytes).digest('hex'),node_id:'p1'},nodes:[node('in','entity','in'),node('parse','process','추출'),node('out','entity','자료')],edges:[edge('x','in','parse'),edge('y','parse','out')],e2e:{inputs:['in'],outputs:['out']},flow:{x:'원문',y:'자료'},partials:[{id:'part-a',nodes:['in','parse','out'],edges:['x','y']}]};
   assert.deepEqual(workflowState(core,[],dir).errors,[]);
   const wrong=clone(core); wrong.summary_ref.sha256='f'.repeat(64); assert.ok(workflowState(wrong,[],dir).errors.some(e=>e.includes('SHA-256')));
+  for(const [field,value] of [['path','missing.json'],['id','wrong-id'],['version','wrong-version'],['node_id','missing-process']]) {
+    const invalid=clone(core); invalid.summary_ref[field]=value;
+    assert.ok(workflowState(invalid,[],dir).errors.length, `reject reference ${field}`);
+  }
   const wrongBoundary=clone(core); wrongBoundary.nodes[0].label='Something else'; assert.ok(workflowState(wrongBoundary,[],dir).errors.some(e=>e.includes('global Summary input')));
   writeFileSync(path.join(dir,'function.json'),fbytes+' ');assert.ok(workflowState(core,[],dir).errors.some(e=>e.includes('Function_Definition SHA-256 mismatch')));
 });
@@ -76,12 +88,17 @@ test('Router Summary accepts separately approved cores in Full and rejects seman
   const sbytes=JSON.stringify(s,null,2)+'\n';writeFileSync(path.join(dir,'summary.json'),sbytes);const summaryHash=createHash('sha256').update(sbytes).digest('hex');
   const cores=['alpha','beta'].map((task,index)=>({id:'core-'+task,version:'1',diagram_type:'Process_Core',summary_ref:{path:'summary.json',id:s.id,version:s.version,sha256:summaryHash,node_id:task},nodes:[node('in','entity','in',10,10),node(task,'process',task,10,30),node('out','entity','out',10,50)],edges:[edge(task+'-in','in',task),edge(task+'-out',task,'out')],e2e:{inputs:['in'],outputs:['out']},flow:{[task+'-in']:'source',[task+'-out']:'result'},animation_states:{[task+'-in']:'입력 확인',[task+'-out']:'결과 생성'},partials:[{id:'part-'+task,nodes:['in',task,'out'],edges:[task+'-in',task+'-out']}]}));
   const refs=cores.map((c,i)=>{const bytes=JSON.stringify(c,null,2)+'\n';writeFileSync(path.join(dir,`core${i}.json`),bytes);return{id:c.id,version:c.version,path:`core${i}.json`,sha256:createHash('sha256').update(bytes).digest('hex'),decision_ref:`approve${i}`};});
-  const decisions=refs.map((r,i)=>({id:r.decision_ref,topic:'partial_approval',subject:'Human',status:'decided',answer:'synthetic test approval',answered_at:'2026-10-13T00:00:00Z',ir_sha256:r.sha256,simulated:true}));
-  decisions.push({id:'assemble',topic:'assemble_full',subject:'Human',status:'decided',answer:'synthetic assembly',answered_at:'2026-10-13T00:00:00Z',partial_sha256:refs.map(r=>r.sha256),simulated:true});
+  const decisions=refs.map((r,i)=>({id:r.decision_ref,topic:'partial_approval',subject:'Human',status:'decided',outcome:'approved',answer:'synthetic test approval',answered_at:'2026-10-13T00:00:00Z',ir_sha256:r.sha256,simulated:true}));
+  decisions.push({id:'assemble',topic:'assemble_full',subject:'Human',status:'decided',outcome:'approved',answer:'synthetic assembly',answered_at:'2026-10-13T00:00:00Z',partial_sha256:refs.map(r=>r.sha256),simulated:true});
   const full={id:'full-route',version:'1',diagram_type:'Process_Full',simulation:true,summary_ref:{path:'summary.json',id:s.id,version:s.version,sha256:summaryHash},approved_partials:refs,assembly_decision_ref:'assemble',nodes:[...new Map(cores.flatMap(c=>c.nodes).map(n=>[n.id,n])).values()],edges:cores.flatMap(c=>c.edges),e2e:{inputs:['in'],outputs:['out']},flow:Object.assign({},...cores.map(c=>c.flow)),animation_states:Object.assign({},...cores.map(c=>c.animation_states)),partials:cores.flatMap(c=>c.partials),connections:[]};
   const good=workflowState(full,decisions,dir);assert.deepEqual(good.errors,[]);assert.equal(good.simulation,true);assert.equal(good.l0_refs.length,2);
   const indexed=decisions.slice(0,2).map((d,i)=>({...d,ir_path:`core${i}.json`}));
   const coreState=workflowState({...cores[0],simulation:true},indexed,dir,refs[0].sha256);assert.equal(coreState.current_version_approved,true);assert.equal(coreState.eligible_to_propose_full,true);assert.equal(coreState.approved_cores.length,2);
+  for(const outcome of ['rejected','deferred',undefined]) {
+    const refused=clone(indexed);refused.forEach(d=>d.outcome=outcome);
+    const state=workflowState({...cores[0],simulation:true},refused,dir,refs[0].sha256);
+    assert.equal(state.current_version_approved,false);assert.equal(state.approved_cores.length,0);assert.equal(state.eligible_to_propose_full,false);
+  }
   const changed=clone(full);changed.nodes.find(n=>n.id==='alpha').label='renamed';assert.ok(workflowState(changed,decisions,dir).errors.some(e=>e.includes('changed approved')));
   const driftFlow=clone(full);driftFlow.flow['alpha-in']='rewritten';assert.ok(workflowState(driftFlow,decisions,dir).errors.some(e=>e.includes('flow data')));
   const driftState=clone(full);driftState.animation_states['alpha-in']='다른 상태';assert.ok(workflowState(driftState,decisions,dir).errors.some(e=>e.includes('animation state')));
@@ -97,10 +114,22 @@ test('Linear Process_Full projects the Summary relation through a declared match
   const sbytes=JSON.stringify(s,null,2)+'\n';writeFileSync(path.join(dir,'summary.json'),sbytes);const summaryHash=createHash('sha256').update(sbytes).digest('hex');
   const cores=[{id:'core-a',task:'a',input:'in',inputLabel:'in',output:'to-b',outputLabel:'중간자료'},{id:'core-b',task:'b',input:'from-a',inputLabel:'중간자료',output:'out',outputLabel:'out'}].map((x,i)=>({id:x.id,version:'1',diagram_type:'Process_Core',summary_ref:{path:'summary.json',id:s.id,version:s.version,sha256:summaryHash,node_id:x.task},nodes:[node(x.input,'entity',x.inputLabel,10,10),node(x.task,'process',x.task,10,30),node(x.output,'entity',x.outputLabel,10,50)],edges:[edge(x.task+'-in',x.input,x.task),edge(x.task+'-out',x.task,x.output)],e2e:{inputs:[x.input],outputs:[x.output]},flow:{[x.task+'-in']:'input',[x.task+'-out']:'output'},partials:[{id:'part-'+x.task,nodes:[x.input,x.task,x.output],edges:[x.task+'-in',x.task+'-out']}]}));
   const refs=cores.map((c,i)=>{const bytes=JSON.stringify(c,null,2)+'\n';writeFileSync(path.join(dir,`core${i}.json`),bytes);return{id:c.id,version:c.version,path:`core${i}.json`,sha256:createHash('sha256').update(bytes).digest('hex'),decision_ref:`approve${i}`};});
-  const decisions=refs.map((r,i)=>({id:r.decision_ref,topic:'partial_approval',subject:'Human',status:'decided',answer:'approval',answered_at:'2026-10-13T00:00:00Z',ir_sha256:r.sha256}));decisions.push({id:'assemble',topic:'assemble_full',subject:'Human',status:'decided',answer:'assembly',answered_at:'2026-10-13T00:00:00Z',partial_sha256:refs.map(r=>r.sha256)});
+  const decisions=refs.map((r,i)=>({id:r.decision_ref,topic:'partial_approval',subject:'Human',status:'decided',outcome:'approved',answer:'approval',answered_at:'2026-10-13T00:00:00Z',ir_sha256:r.sha256}));decisions.push({id:'assemble',topic:'assemble_full',subject:'Human',status:'decided',outcome:'approved',answer:'assembly',answered_at:'2026-10-13T00:00:00Z',partial_sha256:refs.map(r=>r.sha256)});
   const connection=edge('join','to-b','from-a');
   const full={id:'full-linear',version:'1',diagram_type:'Process_Full',summary_ref:{path:'summary.json',id:s.id,version:s.version,sha256:summaryHash},approved_partials:refs,assembly_decision_ref:'assemble',nodes:[...new Map(cores.flatMap(c=>c.nodes).map(n=>[n.id,n])).values()],edges:[...cores.flatMap(c=>c.edges),connection],e2e:{inputs:['in'],outputs:['out']},flow:{...Object.assign({},...cores.map(c=>c.flow)),join:'중간자료'},partials:cores.flatMap(c=>c.partials),connections:['join']};
   assert.deepEqual(workflowState(full,decisions,dir).errors,[]);
+  // WF-04: a completed response is not necessarily an approval.
+  for (const answer of ['거절합니다', '보류합니다', '승인 필드 없음']) {
+    const declined=clone(decisions); declined[0].answer=answer; declined[0].outcome=answer==='거절합니다'?'rejected':answer==='보류합니다'?'deferred':undefined;
+    assert.ok(workflowState(full,declined,dir).errors.length, `must reject ${answer}`);
+  }
+  for(const outcome of ['rejected','deferred',undefined]) {
+    const declined=clone(decisions);declined.at(-1).outcome=outcome;
+    assert.ok(workflowState(full,declined,dir).errors.length,'assembly requires explicit approval');
+  }
+  assert.ok(workflowState(full,decisions.slice(0,-1),dir).errors.length,'missing assembly decision');
+  const ambiguous=clone(decisions);ambiguous.push({...ambiguous[0],outcome:'rejected'});
+  assert.ok(workflowState(full,ambiguous,dir).errors.length,'duplicate decision ID cannot resolve by array order');
   const displayStates=clone(full);displayStates.animation_states=Object.fromEntries(displayStates.edges.map(e=>[e.id,`상태: ${e.id}`]));assert.deepEqual(workflowState(displayStates,decisions,dir).errors,[]);
   const missing=clone(full);missing.connections=[];assert.ok(workflowState(missing,decisions,dir).errors.some(e=>e.includes('connections must list exactly')));
   const wrongProjection=clone(full);wrongProjection.edges.find(e=>e.id==='join').from='in';assert.ok(workflowState(wrongProjection,decisions,dir).errors.length);

@@ -1,0 +1,61 @@
+{
+  "schema": "dds-context-review/v1",
+  "reviewer": "Human",
+  "recordedAt": "2026-10-16T04:29:11.010Z",
+  "source": "file:///C:/Users/INTEC/Documents/Codex/2026-10-07/path-cwd-window-pc-github-repo/outputs/dds-pending-human-review-20261016/index.html?review=selected-four",
+  "viewport": {
+    "width": 1615,
+    "height": 884,
+    "devicePixelRatio": 1
+  },
+  "displayWidth": 0,
+  "cases": [
+    {
+      "id": "pair-diamond-then-diamond-expanded-live",
+      "title": "복잡 1 · Diamond + Diamond · 모두 펼침",
+      "kind": "live",
+      "url": "pair-diamond-then-diamond-expanded.html",
+      "source": "file:///C:/Users/INTEC/Documents/Codex/2026-10-07/path-cwd-window-pc-github-repo/outputs/dds-boundary-product-check-20261016/topology/pair-diamond-then-diamond/out/full.human.html",
+      "sha256": "2d3aafbf2545f8da7cea1e11142ea53b7f7fd751e12fc3a56a2e58ad174ff959",
+      "criterion": "두 분기·합류가 연속됩니다. 각 분기의 선·화살촉과 중간 경계를 구별할 수 있나요? 내부 노드와 공유 경계에 Hover해 강조 범위도 확인해 주세요.",
+      "verdict": "PASS",
+      "comment": "",
+      "displayMode": "original-size"
+    },
+    {
+      "id": "pair-cycle-then-cycle-expanded-live",
+      "title": "복잡 2 · Cycle + Cycle · 모두 펼침",
+      "kind": "live",
+      "url": "pair-cycle-then-cycle-expanded.html",
+      "source": "file:///C:/Users/INTEC/Documents/Codex/2026-10-07/path-cwd-window-pc-github-repo/outputs/dds-boundary-product-check-20261016/topology/pair-cycle-then-cycle/out/full.human.html",
+      "sha256": "7c4be6ac99dc717f9dbb66faaf40845a4a60afa3d89af4aaa2ecd58d2e600ac7",
+      "criterion": "두 반복선과 긴 세로 흐름이 함께 있습니다. 100%와 스크롤을 사용해 문구·반복 방향·화살촉을 읽을 수 있나요? 내부 노드와 경계에 Hover해 보세요.",
+      "verdict": "PASS",
+      "comment": "'100%' PASS, '전체 맞춤' 글씨가 작아서 안 보임, Hover는 정상 작동",
+      "displayMode": "original-size"
+    },
+    {
+      "id": "hover-pair-diamond-then-cycle-task-a",
+      "title": "애매 1 · Diamond 펼침 + Cycle 접힘",
+      "kind": "live",
+      "url": "pair-diamond-then-cycle-task-a.html",
+      "source": "file:///C:/Users/INTEC/Documents/Codex/2026-10-07/path-cwd-window-pc-github-repo/outputs/dds-boundary-product-check-20261016/topology/pair-diamond-then-cycle/out/full.human.html",
+      "sha256": "b87c0a2376078747774d92c84ab1430ac64978d2332c02b3ffa4e86b6642a0c4",
+      "criterion": "병합에 들어오는 측면 화살촉 앞 선이 짧게 보입니다. 방향을 구별하기 충분한가요? 공유 경계 Hover와 내부 노드 Hover의 강조 차이도 확인해 주세요.",
+      "verdict": "PASS",
+      "comment": "",
+      "displayMode": "original-size"
+    },
+    {
+      "id": "hover-pair-cycle-then-diamond-task-a",
+      "title": "애매 2 · Cycle 펼침 + Diamond 접힘",
+      "kind": "live",
+      "url": "pair-cycle-then-diamond-task-a.html",
+      "source": "file:///C:/Users/INTEC/Documents/Codex/2026-10-07/path-cwd-window-pc-github-repo/outputs/dds-boundary-product-check-20261016/topology/pair-cycle-then-diamond/out/full.human.html",
+      "sha256": "cf1ca7434e0b264c740b29f9446076603feea7a6894003565d8b67f7c520b44e",
+      "criterion": "생성 노드에 들어오는 반복선의 종단이 짧게 보입니다. 선과 화살촉이 구별되나요? 반복 내부와 공유 경계에 Hover했을 때 연결을 읽기 충분한가요.",
+      "verdict": "UNREVIEWED",
+      "comment": ""
+    }
+  ]
+}
